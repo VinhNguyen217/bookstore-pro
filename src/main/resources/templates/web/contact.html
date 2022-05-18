@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{web/_layout.html}"
+      xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Liên lạc </title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="container contact mt-2">
+        <section class="breadcrumbbar">
+            <ol class="breadcrumb mb-0 p-0 bg-transparent">
+                <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a>Liên hệ</a></li>
+            </ol>
+        </section>
+        <div class="d-flex">
+            <div class="support_desc">
+                <div class="title">Hỗ Trợ Trực Tuyến</div>
+                <p> Nơi tiếp nhận các cuộc gọi từ khách hàng về chất lượng dịch vụ, vấn đề về đơn hàng, giá thành sản
+                    phẩm cũng như chế độ hậu mãi, đóng góp ý kiến đến BookStore để BookStore không ngừng cải thiện, nâng
+                    cao chất lượng để phục vụ khách hàng một cách tốt nhất.</br>
+                    BookStore rất mong được phục vụ quý khách trong mọi hoàn cảnh, mọi ý kiến đóng góp xin vui lòng liên
+                    hệ theo các thông tin liên hệ bên dưới. Chúc quý khách sẽ có một trải nghiệm mua sắm trực tuyến
+                    tuyệt vời tại BookStore </p>
+            </div>
+            <img th:src="@{'/images/icon/contact.png'}"/>
+        </div>
+
+        <div class="contact-address mt-1">
+            <div class="title">Thông Tin Liên Hệ</div>
+            <p>Địa chỉ : 1080 Đ. Láng, Láng Thượng, Đống Đa, Hà Nội, Việt Nam
+            </p>
+            <p>Quốc gia : Việt Nam</p>
+            <p>Số điện thoại:(00) 222 666 444</p>
+            <p>Fax: (000) 000 00 00 0</p>
+            <p>Email: <span><a href="mailto:info@mycompany.com">bookstorevn217@gmail.com</a></span></p>
+        </div>
+
+        <div class="contact_info">
+            <div class="title">Vị Trí</div>
+            <div class="map">
+                <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4460.959240437233!2d105.79668431410485!3d21.023983774138042!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab44b4704775%3A0x77370272b2a98055!2zMTA4MCDEkC4gTMOhbmcsIFnDqm4gSG_DoCwgxJDhu5FuZyDEkGEsIEjDoCBO4buZaSwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1649687322839!5m2!1svi!2s"
+                        width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        sessionStorage.setItem('option', 'contact');
+    </script>
+</div>
+</body>
+</html>

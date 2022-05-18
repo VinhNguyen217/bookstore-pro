@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/_layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Admin</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid px-4">
+        <h4 class="mt-4">Quản Lý Sách</h4>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a class="nav_home link_home" th:href="@{/admin}"><i class="fas fa-home"></i> Trang Chủ</a></li>
+            <li class="breadcrumb-item active">Quản Lý Sách</li>
+        </ol>
+        <div th:if="${msg_success}" class="alert alert-success">
+            [[${msg_success}]] <i class="fas fa-times"></i>
+        </div>
+        <div th:if="${msg_error}" class="alert alert-danger">
+            [[${msg_error}]] <i class="fas fa-times"></i>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header">
+                <b>Quản Lý Sách</b>
+                <a class="btn btn-primary btn_add" th:href="@{/admin/book/add}"><i class="fas fa-plus"></i>
+                    Thêm mới</a>
+            </div>
+            <div class="card-body book-table">
+                <table id="datatablesSimple">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Ảnh</th>
+                        <th>Tên sách</th>
+                        <th>Danh mục</th>
+                        <th>Tác giả</th>
+                        <th>Giá bán</th>
+                        <th>SL Tồn</th>
+                        <th>NXB</th>
+                        <th style="text-align: center">Hành động</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="book : ${bookList}">
+                        <tr>
+                            <td>[[${book.id}]]</td>
+                            <td><img th:src="@{'/images/book/'+${book.photo}}"/></td>
+                            <td>[[${book.name}]]</td>
+                            <td>[[${categoryService.getById(book.category_id).name}]]</td>
+                            <td>[[${authorService.getById(book.author_id).name}]]</td>
+                            <td>[[${utility.formatPrice(book.price)}]]</td>
+                            <td>[[${book.quantity - book.sold}]]</td>
+                            <td>[[${book.publisher}]]</td>
+                            <td class="action">
+                                <a th:href="@{'/admin/book/'+${book.id}}"><i class="far fa-edit"></i></a>
+                                &nbsp;&nbsp
+                                <a th:href="@{'/admin/book/delete/'+${book.id}}"
+                                   onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này ?')"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

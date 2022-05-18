@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/_layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Admin</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <section class="d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 d-flex flex-column align-items-center justify-content-center form-login">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="pt-4">
+                                <h4 class="card-title text-center pb-0 fs-4">Login to Your Account</h4>
+                                <p class="sub-title text-center small">Enter your email & password to login</p>
+                            </div>
+                            <div class="form row">
+                                <div class="login-alert alert alert-danger">
+                                    <p></p>
+                                </div>
+                                <div class="input-group mt-3 ml-3 mr-3">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="far fa-envelope text-info"></i>
+                                            </span>
+                                        </div>
+                                        <input type="email" class="form-control login-email" placeholder="Email *"
+                                               required/>
+                                    </div>
+                                    <p class="msg-email"></p>
+                                </div>
+
+                                <div class="input-group mt-4 ml-3 mr-3">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-lock text-info"></i>
+                                    </span>
+                                        </div>
+                                        <input type="password" class="form-control login-password"
+                                               placeholder="Password *"
+                                               required/>
+                                    </div>
+                                    <p class="msg-password"></p>
+                                </div>
+                                <div class="col-12 mt-5">
+                                    <button disabled id="btn-login" class="btn btn-outline-primary w-100" type="submit">
+                                        Login
+                                    </button>
+                                </div>
+                                <div class="col-12 mt-3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

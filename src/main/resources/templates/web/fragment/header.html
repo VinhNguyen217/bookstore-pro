@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>Document</title>
+</head>
+<body>
+<div th:fragment="header">
+    <!-- header -->
+    <header class="navbar navbar-expand-md bg-white navbar-light">
+        <div class="container">
+            <!-- logo  -->
+            <a class="logo" th:href="@{/}">BookStore</a>
+
+            <!-- navbar-toggler  -->
+            <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse"
+                    data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+                    aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+
+            <div class="collapse navbar-collapse" id="collapsibleNavId">
+                <!-- form tìm kiếm  -->
+                <form class="form-inline ml-auto my-2 my-lg-0 mr-3">
+                    <div class="input-group" style="width: 520px;">
+                        <input type="text" class="form-control name-search" aria-label="Small"
+                               placeholder="Nhập sách cần tìm kiếm..." >
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-search">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+
+                <!-- ô đăng nhập đăng ký giỏ hàng trên header  -->
+                <ul class="navbar-nav ml-auto">
+                    <div sec:authorize="isAnonymous()" class="dropdown">
+                        <li class="nav-item account" type="button" data-toggle="dropdown">
+                            <a href="#" class="btn btn-secondary rounded-circle">
+                                <i class="fa fa-user"></i>
+                            </a>
+                            <a class="username nav-link text-dark text-uppercase" href="#" style="display:inline-block">Tài
+                                khoản</a>
+                        </li>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item text-center mb-2" th:href="@{/register}">Đăng ký</a>
+                            <a class="dropdown-item text-center" th:href="@{/login}">Đăng nhập</a>
+                        </div>
+                    </div>
+                    <li sec:authorize="isAnonymous()" class="nav-item giohang">
+                        <a class="btn btn-secondary rounded-circle">
+                            <i class="fa fa-shopping-cart"></i>
+                            <div class="cart-amount">0</div>
+                        </a>
+                        <a class="nav-link text-dark giohang text-uppercase" th:href="@{/cart}"
+                           style="display:inline-block">Giỏ Hàng</a>
+                    </li>
+
+                    <div sec:authorize="isAuthenticated()" class="dropdown">
+                        <li class="nav-item account" type="button" data-toggle="dropdown">
+                            <a href="#" class="btn btn-secondary rounded-circle">
+                                <i class="fa fa-user"></i>
+                            </a>
+                            <a class="username nav-link text-dark text-uppercase" href="#" style="display:inline-block">
+                                <p sec:authentication="principal.fullName"></p></a>
+                        </li>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item  mb-2 text-center" th:href="@{/customer/order}">Đơn hàng của tôi</a>
+                            <a class="dropdown-item  mb-2 text-center" th:href="@{/customer/favourite}">Sản phẩm yêu thích</a>
+                            <a class="dropdown-item  mb-2 text-center" th:href="@{/customer/account}">Tài khoản của tôi</a>
+                            <a class="dropdown-item text-center" th:href="@{/logout}">Đăng xuất</a>
+                        </div>
+                    </div>
+                    <li sec:authorize="isAuthenticated()" class="nav-item giohang">
+                        <a class="btn btn-secondary rounded-circle">
+                            <i class="fa fa-shopping-cart"></i>
+                            <div class="cart-amount">0</div>
+                        </a>
+                        <a class="nav-link text-dark giohang text-uppercase" th:href="@{/cart}" style="display:inline-block">Giỏ Hàng</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+</div>
+</body>
+</html>
+
+

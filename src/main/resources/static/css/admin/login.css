@@ -1,0 +1,50 @@
+body {
+    font-family: "Open Sans", sans-serif;
+    background: #f6f9ff;
+    color: #444444;
+}
+.login-alert{
+    width: 408px;
+    height: 40px;
+}
+.card {
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 0 30px rgb(1 41 112 / 10%);
+    overflow: hidden;
+}
+
+.title span {
+    font-size: 26px;
+    font-weight: 700;
+    color: #012970;
+    font-family: "Nunito", sans-serif;
+}
+
+.card-title {
+    padding: 20px 0 15px 0;
+    font-weight: 500;
+    color: #012970;
+    font-family: "Poppins", sans-serif;
+}
+.sub-title{
+    font-size: 15px;
+    font-family: system-ui;
+}
+.input-group p{
+    margin-top: 4px;
+    margin-bottom: 0px;
+    font-size: 13px;
+    color: red;
+}
+.form-login{
+    margin-top: 50px;
+    margin-right: 150px;
+}
+.form {
+    justify-content: center;
+}
+
+.form .alert p{
+    line-height: 14px;
+}

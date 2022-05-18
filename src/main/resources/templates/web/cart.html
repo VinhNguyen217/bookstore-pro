@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{web/_layout.html}"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Giỏ Hàng</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="blurred-bg">
+
+    </div>
+    <div class="dialog-delete-item rounded">
+        <p id="msg-danger">Bạn muốn xóa sản phẩm này ?</p>
+        <div class="option">
+            <button class="btn btn-outline-primary btn-no">Không</button>
+            <button class="btn btn-outline-danger btn-yes">Xóa</button>
+        </div>
+    </div>
+
+    <div class="dialog-alert rounded">
+        <p>Bạn vẫn chưa chọn sản phẩm nào để mua ?</p>
+        <div class="option">
+            <button class="btn btn-outline-primary btn-ok">OK, đã hiểu</button>
+        </div>
+    </div>
+
+    <section class="verify my-3">
+        <div class="container">
+            <h2 class="header-gio-hang">GIỎ HÀNG CỦA BẠN
+                <span th:if="${cartLists.size() == 0}">(0 sản phẩm)</span>
+                <span th:if="${cartLists.size() > 0}">([[${cartLists.size()}]] sản phẩm)</span>
+            </h2>
+            <div class="cart-page">
+                <div class="row">
+                    <div th:if="${cartLists.size() == 0}" class="col-12 bg-white rounded cart-empty">
+                        <!-- giao diện giỏ hàng khi không có item  -->
+                        <div class="py-3 pl-3">
+                            <div class="w-100 text-center justify-content-center">
+                                <img alt="shopping-cart-not-product" th:src="@{'/images/icon/cart-empty.png'}">
+                                <p>Không có sản phẩm nào trong giỏ hàng của bạn</p>
+                                <a th:href="@{'/'}" class="text-uppercase btn nutmuathem mb-3">Tiếp tục mua sắm</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div th:if="${cartLists.size() > 0}" class="col-12 bg-white rounded cart">
+                        <!-- giao diện giỏ hàng khi có item -->
+                        <div class="cart-content py-3 pl-3">
+                            <div class="cart-list-items">
+                                <table class="table table-borderless">
+                                    <thead class="rounded">
+                                    <tr>
+                                        <th>Lựa chọn</th>
+                                        <th style="width: 200px">Sản phẩm</th>
+                                        <th>Đơn giá</th>
+                                        <th>Số lượng</th>
+                                        <th>Thành tiền</th>
+                                        <th class="delete-item" th:onclick="'clearCart()'"><i
+                                                class="far fa-trash-alt"></i></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <th:block th:each="item : ${cartLists}">
+                                        <tr>
+                                            <td th:if="${item.selected} == true">
+                                                <input type="checkbox"
+                                                       th:id="${'select-'+item.id}"
+                                                       th:onclick="'selectCartItem('+${item.id}+')'"
+                                                       style="margin-left: 25px"
+                                                       checked>
+                                            </td>
+                                            <td th:if="${item.selected} == false">
+                                                <input type="checkbox"
+                                                       th:id="${'select-'+item.id}"
+                                                       th:onclick="'selectCartItem('+${item.id}+')'"
+                                                       style="margin-left: 25px">
+                                            </td>
+                                            <td>
+                                                <a th:href="@{'/book/' + ${item.bookId}}">
+                                                    <img th:src="@{'/images/book/'+${bookService.getById(item.bookId).photo}}"/></br>
+                                                    [[${bookService.getById(item.bookId).name}]]
+                                                </a>
+
+                                            </td>
+                                            <td th:id="${'unit-price-'+item.id}"
+                                                th:data-price="${bookService.getById(item.bookId).price}">
+                                                [[${utility.formatPrice(bookService.getById(item.bookId).price)}]]
+                                            </td>
+                                            <td>
+                                                <div class="input-number input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text btn-spin"
+                                                              th:onclick="'decCartItem('+${item.id}+')'">-</span>
+                                                    </div>
+
+                                                    <input type="text" th:value="${item.quantity}"
+                                                           class="soluongsp text-center"
+                                                           th:id="${'qty-'+ item.id}">
+
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text btn-spin"
+                                                              th:onclick="'incCartItem('+${item.id}+')'">+</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td th:id="${'final-prices-'+item.id}">
+                                                [[${utility.formatPrice(item.quantity *
+                                                bookService.getById(item.bookId).price)}]]
+                                            </td>
+                                            <td class="delete-item" th:onclick="'deleteCartItem('+${item.id}+')'"><i
+                                                    class="far fa-trash-alt"></i></td>
+                                        </tr>
+                                    </th:block>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div th:if="${cartLists.size() > 0}" class="col-12 bg-white rounded mt-3">
+                        <div class="row">
+                            <div class="bg-white rounded tonggiatien col-8">
+                                <span class="text-uppercase">Tổng thanh toán : </span>
+                                <p class="total-prices"></p>
+                            </div>
+                            <div class="col-4" style="padding-top: 9px">
+                                <button class="btn-payment form-control btn-outline-success">Mua Hàng</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        $(document).ready(function () {
+            sessionStorage.clear();
+            displayTotalPrices();
+
+            $('.btn-no').click(function () {
+                $('.dialog-delete-item').removeClass('appear')
+                $('.blurred-bg').removeClass('appear');
+            })
+
+            $('.btn-payment').click(function () {
+                let text = $('.total-prices').text();
+                if (text == 'Vui lòng chọn sản phẩm') {
+                    $('.dialog-alert').addClass('appear');
+                    $('.blurred-bg').addClass('appear');
+                } else {
+                    window.location = "http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/payment";
+                }
+            })
+
+            $('.btn-ok').click(function () {
+                $('.dialog-alert').removeClass('appear');
+                $('.blurred-bg').removeClass('appear');
+            })
+        })
+
+        function incCartItem(itemId) {
+            const input = document.getElementById(`qty-${itemId}`);
+            const qtyUpdate = parseInt(input.value) + 1;
+            input.setAttribute('value', qtyUpdate.toString());
+            updateCartItem(itemId, qtyUpdate);
+        }
+
+        function decCartItem(itemId) {
+            const input = document.getElementById(`qty-${itemId}`);
+            const qtyUpdate = parseInt(input.value) - 1;
+            if (qtyUpdate < 1) {
+                input.setAttribute('value', '1');
+                updateCartItem(itemId, 1);
+            } else {
+                input.setAttribute('value', qtyUpdate.toString());
+                updateCartItem(itemId, qtyUpdate);
+            }
+        }
+
+        function updateCartItem(itemId, qty) {
+            $.ajax({
+                url: 'http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/cart/item/update',
+                type: "PUT",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    "itemId": itemId,
+                    "quantity": qty,
+                }),
+                processData: false,
+                success: function (res) {
+                    let unitPrice = document.getElementById(`unit-price-${itemId}`).getAttribute('data-price');
+                    let finalPrices = qty * unitPrice;
+                    const finalPricesElement = document.getElementById(`final-prices-${itemId}`);
+                    finalPricesElement.innerHTML = finalPrices.toLocaleString('vi-VN', {
+                        style: 'currency', currency: 'VND'
+                    });
+                    displayTotalPrices();
+                }, error: function (err) {
+                    console.log(err);
+                }
+            })
+        }
+
+        function selectCartItem(itemId) {
+            const cbElement = document.getElementById(`select-${itemId}`);
+            if (cbElement.checked) {
+                updateCartItemSelected(itemId, true);
+            } else {
+                updateCartItemSelected(itemId, false);
+            }
+        }
+
+        function updateCartItemSelected(itemId, val) {
+            $.ajax({
+                url: 'http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/cart/item/selectOrUnSelect',
+                type: "PUT",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    "itemId": itemId,
+                    "select": val,
+                }),
+                processData: false,
+                success: function () {
+                    displayTotalPrices();
+                }, error: function (err) {
+                    console.log(err);
+                }
+            })
+        }
+
+        function displayTotalPrices() {
+            $.getJSON('http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/cart/total', function (res) {
+                if (parseInt(res.data) == 0) {
+                    $('.total-prices').html('Vui lòng chọn sản phẩm');
+                } else {
+                    $('.total-prices').text(parseInt(res.data).toLocaleString('vi-VN', {
+                        style: 'currency', currency: 'VND'
+                    }))
+                }
+            });
+        }
+
+        function deleteCartItem(itemId) {
+            $('.dialog-delete-item').addClass('appear')
+            $('.blurred-bg').addClass('appear');
+            $('.btn-yes').click(function () {
+                let url = "http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/cart/item/" + itemId;
+                $.ajax({
+                    type: "DELETE",
+                    contentType: "application/json; charset=utf-8",
+                    url: url,
+                    cache: false,
+                    success: function () {
+                        window.location = "http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/cart";
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            })
+        }
+
+        function clearCart() {
+            $('#msg-danger').text('Bạn có muốn xóa toàn bộ sản phẩm trong giỏ hàng ?')
+            $('.dialog-delete-item').addClass('appear')
+            $('.blurred-bg').addClass('appear');
+            $('.btn-yes').click(function () {
+                let url = "http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/cart/clear";
+                $.ajax({
+                    type: "DELETE",
+                    contentType: "application/json; charset=utf-8",
+                    url: url,
+                    cache: false,
+                    success: function () {
+                        window.location = "http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/cart";
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            })
+        }
+    </script>
+</div>
+
+</body>
+</html>

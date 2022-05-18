@@ -1,0 +1,213 @@
+main, footer, #layoutSidenav_content {
+    background: #F0EFF6;
+}
+.nav a{
+    font-size: 15px;
+}
+
+h4 {
+    font-family: var(--bs-font-sans-serif);
+    color: #3E5569;
+}
+
+.logout {
+    cursor: pointer;
+}
+
+.link_home {
+    text-decoration: none;
+    color: black
+}
+
+.divide {
+    height: 20px;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+.btn_add {
+}
+
+img {
+    width: 100px;
+    height: 100px;
+}
+
+.fa-edit {
+    font-size: 25px;
+}
+
+.fa-times {
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.fa-trash-alt {
+    font-size: 25px;
+    color: #0A58CA;
+    cursor: pointer
+}
+
+.action {
+    text-align: center;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between
+}
+
+.card-header b {
+    padding-top: 5px;
+}
+
+.alert-success, .alert-danger {
+    display: flex;
+    justify-content: space-between
+}
+
+#datatablesSimple tbody tr td {
+    vertical-align: middle;
+}
+
+.card-body button {
+    width: 120px;
+}
+
+.card-body .order-thead th {
+    text-align: center;
+}
+
+.card-body .order-tbody td {
+    text-align: center;
+}
+
+.info-customer h1, .order-list h1 {
+    text-transform: capitalize;
+    color: rgba(0, 0, 0, .8);
+    font-size: 20px;
+    line-height: 24px;
+}
+
+.info-customer .element {
+    display: flex;
+}
+
+.info-customer .element span {
+    width: 200px;
+    margin-left: 20px;
+}
+
+.table-info {
+    margin-left: 20px;
+}
+
+.table-info td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table-info th {
+    text-align: center;
+}
+
+.total-order .element {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.total-order .element span {
+    color: rgba(0, 0, 0, .54);
+}
+
+.total-order .element p {
+    width: 200px;
+    text-align: right;
+}
+
+.total-order .element #t {
+    color: #ee4d2d;
+    font-size: 25px;
+}
+
+.status-order .element {
+    display: flex;
+}
+
+.status-order .element span {
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+.status-order .update-order {
+    margin-left: 20px;
+}
+
+.status-order button {
+    margin-left: 20px;
+}
+
+.card-footer a {
+    text-decoration: none;
+}
+
+.account-page .fa-check {
+    font-size: 17px;
+    color: green;
+}
+
+.account-page .fa-times {
+    font-size: 17px;
+    color: red;
+}
+
+.account-detail .d-flex b {
+    width: 160px;
+    margin-left: 20px;
+}
+
+.account-detail .fa-check {
+    font-size: 17px;
+    color: green;
+}
+
+.account-detail .fa-times {
+    font-size: 17px;
+    color: red;
+}
+
+.account-detail button {
+    width: 120px;
+}
+
+.book-table th, td {
+    font-size: 13px;
+}
+
+.table-statistic thead {
+    background: #decdcd;
+}
+
+.table-statistic tbody {
+    background: #aba2a2;
+}
+
+.table-statistic th, td {
+    padding: 8px 10px;
+}
+
+.table-bordered tr th {
+    text-align: center;
+}
+
+.table-bordered tr td {
+    vertical-align: middle;
+    text-align: center;
+}

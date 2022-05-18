@@ -1,0 +1,13 @@
+<!--Thanh navbar menu-->
+<nav class="navbar-menu" th:fragment="nav">
+    <div class="container">
+        <div class="row">
+            <ul>
+                <li class="active nav-home"><a th:href="@{/}">Trang chủ</a></li>
+                <li class="nav-cate" title="Hiển thị sách theo danh mục"><a th:href="@{/category/all?page=1}">Danh mục</a></li>
+                <li class="nav-author" title="Danh sách các tác giả"><a th:href="@{/author/all?page=1}">Tác giả</a></li>
+                <li class="nav-contact" title="Liên hệ"><a th:href="@{/contact}">Liên hệ</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

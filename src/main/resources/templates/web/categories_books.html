@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{web/_layout.html}"
+      xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Hiển thị sách theo danh mục </title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="container mt-2">
+        <section class="breadcrumbbar">
+            <ol class="breadcrumb mb-0 p-0 bg-transparent">
+                <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a>Danh mục</a></li>
+                <li class="breadcrumb-item"><a>Tất cả sản phẩm</a></li>
+            </ol>
+        </section>
+        <div class="row">
+            <!-- Hiển thị danh mục theo thứ tự bảng chữ cái từ thấp đến cao -->
+            <div class="col-md-3">
+                <div class="option-list">
+                    <div class="title text-uppercase font-weight-bold text-white">
+                        <i class="fa fa-bars"></i> <span>Danh mục sách</span>
+                    </div>
+                    <ul class="nav flex-column">
+                        <th:block th:each="category : ${categoryList}">
+                            <li class="text-uppercase ">
+                                <a class="nav-item-cate"
+                                   th:href="@{'/category/'+${category.id}+'?page=1'}">[[${category.name}]]
+                                </a>
+                            </li>
+                        </th:block>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Hiển thị các sách theo từng danh mục -->
+            <div class="col-md-9 book-list">
+                <div class="row">
+                    <th:block th:each="book : ${bookList}">
+                        <div class="col-md-3" style="margin-top:10px ">
+                            <div class="card-cat">
+                                <a th:href="@{'/book/'+ ${book.id}}" class="motsanpham" data-toggle="tooltip"
+                                   data-placement="bottom">
+                                    <img class="card-img-top anh" th:src="@{'/images/book/'+${book.photo}}">
+                                    <div class="card-body noidungsp mt-3">
+                                        <h3 class="card-title ten">[[${book.name}]]</h3>
+                                        <small class="tacgia text-muted">[[${authorService.getById(book.author_id).name}]]</small>
+                                        <div class="gia d-flex align-items-baseline">
+                                            <div class="giamoi">[[${utility.formatPrice(book.price)}]]</div>
+                                        </div>
+                                        <div class="eval mb-2 mt-1">
+                                            <div class="eval-fav">
+                                                <i class="fas fa-thumbs-up ic-like-b"></i>
+                                                <span class="qty-fav">[[${book.numberOfLike}]]</span>
+                                            </div>
+                                            <div class="eval-comm"><span class="qty-comm">[[${commentService.getQtyCommentByBookId(book.id)}]]</span>
+                                                nhận xét
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+
+            <!-- Phân trang -->
+            <div class="pagination-bar my-3 col-md-12">
+                <nav>
+                    <ul class="pagination justify-content-end" th:if="${numberOfPages} > 1">
+
+                        <th:block th:if="${page} == 1">
+                            <li class="page-item">
+                                <a style="background: #F5A623" th:href="@{'/category/all?page=1'}"
+                                   class="page-link">[[${page}]]</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{'/category/all?page='+${page+1}}"
+                                   aria-label="Next">
+                                    <span aria-hidden="true">&rsaquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </th:block>
+
+                        <th:block th:if="${page} > 1 and ${page} < ${numberOfPages}">
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{'/category/all?page='+${page-1}}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&lsaquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a style="background: #F5A623"
+                                   th:href="@{'/category/all'?page='+${page}}" class="page-link">[[${page}]]</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{'/category/all?page='+${page+1}}"
+                                   aria-label="Next">
+                                    <span aria-hidden="true">&rsaquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </th:block>
+
+                        <th:block th:if="${page} == ${numberOfPages}">
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{'/category/all?page='+${page-1}}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&lsaquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a style="background: #F5A623"
+                                   th:href="@{'/category/all?page='+${page}}" class="page-link">[[${page}]]</a>
+                            </li>
+                        </th:block>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <script>
+        sessionStorage.setItem('option', 'category');
+    </script>
+</div>
+</body>
+</html>

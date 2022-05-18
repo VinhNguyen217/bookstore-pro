@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      layout:decorate="~{web/_layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | [[${book.name}]]</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <!-- breadcrumb  -->
+    <section class="breadcrumbbar mt-1 mb-2">
+        <div class="container">
+            <ol class="breadcrumb mb-0 p-0 bg-transparent">
+                <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a th:href="@{'/category/' + ${book.category_id}+'?page=1'}">[[${categoryService.getById(book.category_id).name}]]</a>
+                </li>
+                <li class="breadcrumb-item active"><a th:href="@{'/book/'+${book.id}}">[[${book.name}]]</a></li>
+            </ol>
+        </div>
+    </section>
+    <section class="product-page mb-4">
+
+        <!-- Chi tiết sản phẩm -->
+        <div class="container">
+            <!-- chi tiết 1 sản phẩm -->
+            <div class="product-detail bg-white p-4 rounded">
+                <div class="row">
+                    <!-- ảnh  -->
+                    <div class="col-md-5 khoianh">
+                        <div class="anhto mb-4">
+                            <a class="active" data-fancybox="thumb-img">
+                                <img class="product-image" th:src="@{'/images/book/'+${book.photo}}"
+                                     th:alt="${book.photo}">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- thông tin sản phẩm: tên, giá bìa giá bán tiết kiệm, các khuyến mãi, nút chọn mua.... -->
+                    <div class="col-md-7 khoithongtin">
+                        <div class="row">
+                            <div class="col-md-12 header">
+                                <h4 class="ten">[[${book.name}]]</h4>
+                                <div class="rate">
+                                    <span th:id="${'qty-fav-'+book.id}" class="qty-fav">Số lượt thích : [[${book.numberOfLike}]]</span>
+                                    <span th:if="${book.sold > 0}"> | Đã bán : [[${book.sold}]]</span>
+                                </div>
+                                <hr>
+                            </div>
+                            <div class="col-md-12 d-flex">
+                                <div class="col-md-7">
+                                    <div class="giaban"> [[${utility.formatPrice(book.price)}]]</div>
+                                    <div class="uudai my-3">
+                                        <h6 class="header font-weight-bold">Khuyến mãi & Ưu đãi tại BookStore:</h6>
+                                        <ul>
+                                            <th:block th:each="promotion : ${promotionList}">
+                                                <li class="d-flex" th:utext="${promotion.content}"></li>
+                                            </th:block>
+                                        </ul>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="soluong d-flex">
+                                            <label class="font-weight-bold">Số lượng: </label>
+                                            <div class="input-number input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text btn-spin btn-dec">-</span>
+                                                </div>
+                                                <input type="text" value="1" class="soluongsp text-center">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text btn-spin btn-inc">+</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="like d-flex mt-2">
+                                            <th:block sec:authorize="isAnonymous()">
+                                                <i class="fas fa-thumbs-up ic-like"
+                                                   th:onclick="'likeOrUnLikeBook('+${book.id}+')'"></i>
+                                                <span class="msg-like">Thích</span>
+                                            </th:block>
+                                            <th:block sec:authorize="isAuthenticated()">
+                                                <th:block
+                                                        th:if="${favouriteService.checkFavouriteBookAndUser(book.id) == false}">
+                                                    <i class="fas fa-thumbs-up ic-like"
+                                                       th:onclick="'likeOrUnLikeBook('+${book.id}+')'"></i>
+                                                    <span class="msg-like">Thích</span>
+                                                </th:block>
+                                                <th:block
+                                                        th:if="${favouriteService.checkFavouriteBookAndUser(book.id) == true}">
+                                                    <i class="fas fa-thumbs-up ic-like ic-like-b"
+                                                       th:onclick="'likeOrUnLikeBook('+${book.id}+')'"></i>
+                                                    <span class="msg-like">Đã thích</span>
+                                                </th:block>
+                                            </th:block>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="nutmua btn w-100 text-uppercase mt-3"
+                                         th:onclick="'addToCart('+${book.id}+')'">Chọn mua
+                                    </div>
+                                </div>
+                                <!-- thông tin khác của sản phẩm:  tác giả, ngày xuất bản, kích thước ....  -->
+                                <div class="col-md-5">
+                                    <div class="thongtinsach">
+                                        <ul>
+                                            <li>Danh mục : <b>[[${categoryService.getById(book.category_id).name}]]</b>
+                                            </li>
+                                            <li>
+                                                Tác giả : <a th:href="@{'/author/'+${book.author_id}}" class="tacgia">[[${authorService.getById(book.author_id).name}]]</a>
+                                            </li>
+                                            <li>
+                                                Nhà xuất bản : [[${book.publisher}]]
+                                            </li>
+                                            <li class="qty-curr" th:data-qty="${book.quantity - book.sold}">Số lượng hiện có : <b
+                                                    style="color: red">[[${book.quantity - book.sold}]]</b></li>
+                                            <li>Ngày xuất bản : <b th:text="${#dates.format(book.datePublish, 'dd/MM/yyyy')}"></b></li>
+                                            <li>Kích thước : <b>20.5 x 13.5 cm</b></li>
+                                            <li>Hình thức bìa : <b>Bìa mềm</b></li>
+                                            <li>Số trang : <b>336</b></li>
+                                            <li>Cân nặng : <b>0</b></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mô tả sản phẩm và đánh giá độc giả  -->
+                    <div class="product-description col-md-9">
+                        <!-- 2 tab ở trên  -->
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <a class="nav-item nav-link active " id="nav-gioithieu-tab"
+                                   data-toggle="tab" href="#nav-gioithieu" role="tab" aria-controls="nav-gioithieu"
+                                   aria-selected="true">Mô Tả Sản Phẩm</a>
+                                <a class="nav-item nav-link" id="nav-danhgia-tab" data-toggle="tab"
+                                   href="#nav-danhgia" role="tab" aria-controls="nav-danhgia"
+                                   aria-selected="false">Đánh Giá Của Độc Giả</a>
+                            </div>
+                        </nav>
+                        <!-- nội dung của từng tab  -->
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active ml-3" id="nav-gioithieu" role="tabpanel"
+                                 aria-labelledby="nav-gioithieu-tab">
+                                <h6 class="tieude font-weight-bold">[[${book.name}]]</h6>
+                                <p style="margin-bottom: 0px" id="desc" th:utext="${book.description}"></p>
+                            </div>
+
+                            <div class="tab-pane fade" id="nav-danhgia" role="tabpanel"
+                                 aria-labelledby="nav-danhgia-tab">
+                                <div>
+                                    <th:block sec:authorize="isAnonymous()">
+                                        <div class="btn btn-outline-warning vietdanhgia mt-3"
+                                             th:onclick="'writeComment('+${book.id}+')'">Viết đánh giá của bạn
+                                        </div>
+                                    </th:block>
+
+                                    <th:block sec:authorize="isAuthenticated()">
+                                        <th:block th:if="${commentService.checkCommentBookAndUser(book.id) == false}">
+                                            <div class="btn btn-outline-warning vietdanhgia mt-3"
+                                                 th:onclick="'writeComment('+${book.id}+')'">Viết đánh giá của bạn
+                                            </div>
+                                        </th:block>
+                                    </th:block>
+
+                                    <!-- nội dung của form đánh giá  -->
+                                    <div class="formdanhgia col-md-12">
+                                        <h4 class="title mt-3 mb-2">Đánh giá của bạn về sản phẩm này</h4>
+                                        <textarea th:data-id="${book.id}" rows="5" placeholder="Viết đánh giá của bạn"
+                                                  class="form-control contentComment"></textarea>
+                                        <div class="btn btn-outline-warning nutguibl mt-3">Gửi Bình Luận</div>
+                                    </div>
+                                    <div class="list-comment mt-3" th:if="${commentList.size() > 0}">
+                                        <th:block th:each="comment : ${commentList}">
+                                            <div class="comment rounded mt-2">
+                                                <div class="d-flex justify-content-between">
+                                                    <b>[[${userService.getById(comment.userId).getUserName()}]]</b>
+                                                    <span>[[${utility.formatTime(comment.createdAt)}]]</span>
+                                                </div>
+                                                <p class="mt-1">[[${comment.content}]]</p>
+                                                <div style="text-align: right" sec:authorize="isAuthenticated()">
+                                                    <th:block th:if="${#authentication.principal.user.getId() == comment.userId}">
+                                                        <div class="btn-delete-comment btn btn-outline-danger"
+                                                             th:onclick="'deleteComment('+${comment.id}+')'">Xóa
+                                                        </div>
+                                                    </th:block>
+                                                </div>
+                                            </div>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- khối sản phẩm tương tự -->
+        <section class="_1khoi_title sachmoi">
+            <div class="container">
+                <div class="noidung bg-white" style=" width: 100%;">
+                    <div class="row">
+                        <!--header-->
+                        <div class="col-12 d-flex justify-content-between align-items-center pb-2 pt-4"
+                             style="background: #DADAE6">
+                            <div class="header">Sản phẩm tương tự</div>
+                        </div>
+                    </div>
+                    <div class="khoisanpham" style="padding-bottom: 2rem;">
+                        <th:block th:each="book : ${bookSimilar}">
+                            <div class="card rounded" style="border: none">
+                                <a th:href="@{'/book/'+ ${book.id}}" class="motsanpham"
+                                   style="text-decoration: none; color: black;" data-toggle="tooltip"
+                                   data-placement="bottom">
+                                    <img class="card-img-top anh" th:src="@{'/images/book/'+${book.photo}}">
+                                    <div class="card-body noidungsp mt-3">
+                                        <h3 class="card-title ten">[[${book.name}]]</h3>
+                                        <small class="tacgia text-muted">[[${authorService.getById(book.author_id).name}]]</small>
+                                        <div class="gia d-flex align-items-baseline">
+                                            <div class="giamoi">[[${utility.formatPrice(book.price)}]]</div>
+                                        </div>
+                                        <div class="eval mb-2 mt-1">
+                                            <div class="eval-fav">
+                                                <i class="fas fa-thumbs-up ic-like-b"></i>
+                                                <span class="qty-fav">[[${book.numberOfLike}]]</span>
+                                            </div>
+                                            <div class="eval-comm"><span class="qty-comm">[[${commentService.getQtyCommentByBookId(book.id)}]]</span>
+                                                nhận xét
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+    <script>
+        const ADD_CART_SUCCESS = 'Thêm vào giỏ hàng thành công';
+        const ALERT_EXCEEDING = 'Số lượng không được phép vượt quá số lượng sản phẩm hiện có';
+
+        function addToCart(id) {
+            let quantity = $('.soluongsp').val();
+            let qtyCurr = $('.qty-curr').data('qty');
+            if (quantity > qtyCurr) {
+                alert(ALERT_EXCEEDING);
+            } else {
+                $.ajax({
+                    url: 'http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/cart/add',
+                    dataType: 'json',
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        "bookId": id,
+                        "quantity": quantity,
+                    }),
+                    processData: false,
+                    success: function () {
+                        displayNumberOfCart();
+                        alert(ADD_CART_SUCCESS);
+                    },
+                    error: function (err) {
+                        let resErr = err.responseJSON;
+                        if (resErr.status == 403) {
+                            alert(resErr.message);
+                        }
+                        if (resErr.status == 400) {
+                            alert(resErr.message);
+                        }
+                    }
+                });
+            }
+        }
+
+        function displayNumberOfCart() {
+            $.getJSON('http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/cart/qty', function (res) {
+                $('.cart-amount').html(res.data);
+            }).fail(function (err) {
+                console.log(err);
+            });
+        }
+
+        function likeOrUnLikeBook(bookId) {
+            let url = 'http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/favourite/check?id=' + bookId;
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: url,
+                cache: false,
+                success: function (result) {
+                    if (result.data == true) {
+                        unlikeBook(bookId);
+                    } else {
+                        likeBook(bookId);
+                    }
+                },
+                error: function (err) {
+                    let resErr = err.responseJSON;
+                    if (resErr.status = 403) {
+                        alert(resErr.message);
+                    }
+                }
+            })
+        }
+
+        function likeBook(bookId) {
+            $.ajax({
+                url: 'http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/favourite/like-book',
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    "bookId": bookId,
+                }),
+                processData: false,
+                success: function (res) {
+                    console.log(res)
+                    $('.ic-like').addClass('ic-like-b');
+                    $('.msg-like').text('Đã thích');
+                    updateQtyFavBook(bookId);
+                },
+                error: function (err) {
+                    let resErr = err.responseJSON;
+                    if (resErr.status = 403) {
+                        alert(resErr.message);
+                    }
+                }
+            });
+        }
+
+        function unlikeBook(bookId) {
+            let url = 'http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/favourite/unlike-book?id=' + bookId;
+            $.ajax({
+                type: "DELETE",
+                contentType: "application/json; charset=utf-8",
+                url: url,
+                cache: false,
+                success: function (res) {
+                    $('.ic-like').removeClass('ic-like-b');
+                    $('.msg-like').text('Thích');
+                    updateQtyFavBook(bookId)
+                },
+                error: function (err) {
+                    let resErr = err.responseJSON;
+                    if (resErr.status = 403) {
+                        alert(resErr.message);
+                    }
+                }
+            });
+        }
+
+        function updateQtyFavBook(bookId) {
+            let url = 'http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/favourite/qty?id=' + bookId;
+            $.getJSON(url, function (result) {
+                const qtyFavElement = document.getElementById(`qty-fav-${bookId}`);
+                qtyFavElement.innerHTML = 'Số lượt thích : ' + result.data;
+            });
+        }
+
+        function writeComment(bookId) {
+            let url = 'http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/comment/check?id=' + bookId;
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: url,
+                cache: false,
+                success: function (result) {
+                    if (result.data == false) {
+                        $('.formdanhgia').show();
+                        $('.vietdanhgia').hide();
+                    }
+                },
+                error: function (err) {
+                    let resErr = err.responseJSON;
+                    if (resErr.status = 403) {
+                        alert(resErr.message);
+                    }
+                }
+            });
+        }
+
+        $('.nutguibl').click(function () {
+            let content = $('.contentComment').val();
+            if (content.trim() == '') {
+                alert('Bạn chưa viết đánh giá');
+            } else {
+                let id = $('.contentComment').data('id');
+                $.ajax({
+                    url: 'http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/comment/create',
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        "bookId": id,
+                        "content": content
+                    }),
+                    processData: false,
+                    success: function (res) {
+                        alert('Gửi đánh giá thành công');
+                        location.reload();
+                    },
+                    error: function (err) {
+                        let resErr = err.responseJSON;
+                        if (resErr.status = 403) {
+                            alert(resErr.message);
+                            window.location = "http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/login";
+                        }
+                    }
+                });
+            }
+        });
+
+        function deleteComment(commentId) {
+            let url = 'http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/comment/' + commentId;
+            $.ajax({
+                type: "DELETE",
+                contentType: "application/json; charset=utf-8",
+                url: url,
+                cache: false,
+                success: function (result) {
+                    alert('Xóa đánh giá thành công');
+                    location.reload();
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+    </script>
+</div>
+</body>
+
+</html>

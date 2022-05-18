@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/_layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Admin</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid px-4">
+        <h4 class="mt-4">Thống Kê Doanh Thu</h4>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a class="link_home nav_home" th:href="@{/admin}"><i class="fas fa-home"></i> Trang Chủ</a></li>
+            <li class="breadcrumb-item active">Thống kê doanh thu</li>
+        </ol>
+        <div class="card mb-4">
+            <div class="card-header"><b style="padding: 0px">Thống kê doanh thu</b></div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead class="order-thead">
+                    <tr>
+                        <th>Id</th>
+                        <th>Tên sách</th>
+                        <th>Giá nhập</th>
+                        <th>Giá bán</th>
+                        <th>Đơn vị tính</th>
+                        <th>SL nhập vào</th>
+                        <th>SL bán ra</th>
+                        <th>SL Tồn</th>
+                        <th>TT nhập vào</th>
+                        <th>TT bán ra</th>
+                        <th>Doanh thu</th>
+                    </tr>
+                    </thead>
+                    <tbody class="order-tbody">
+                    <th:block th:each="book : ${bookList}">
+                        <tr>
+                            <td>[[${book.id}]]</td>
+                            <td>[[${book.name}]]</td>
+                            <td>[[${utility.formatPrice(book.priceImport)}]]</td>
+                            <td>[[${utility.formatPrice(book.price)}]]</td>
+                            <td>quyển</td>
+                            <td>[[${book.quantity}]]</td>
+                            <td>[[${book.sold}]]</td>
+                            <td>[[${book.quantity - book.sold}]]</td>
+                            <td>[[${utility.formatPrice(book.quantity * book.priceImport)}]]</td>
+                            <td>[[${utility.formatPrice(statisticService.getRevenueFromBookId(book.id))}]]</td>
+                            <td>[[${utility.formatPrice(statisticService.getRevenueFromBookId(book.id) - book.quantity * book.priceImport)}]]</td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <h4 class="mb-3">Kết Quả Tổng Hợp</h4>
+            <table class="table-bordered table-statistic">
+                <thead>
+                <tr>
+                    <th>Tổng số sản phẩm nhập vào</th>
+                    <th>Tổng số sản phẩm bán ra</th>
+                    <th>Tổng số tiền nhập vào</th>
+                    <th>Tổng số tiền bán ra</th>
+                    <th>Tổng số doanh thu</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>[[${amountInput}]]</td>
+                    <td>[[${amountSold}]]</td>
+                    <td>[[${utility.formatPrice(totalInput)}]]</td>
+                    <td>[[${utility.formatPrice(totalSold)}]]</td>
+                    <td>[[${utility.formatPrice(totalSold - totalInput)}]]</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

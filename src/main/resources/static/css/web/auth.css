@@ -1,0 +1,27 @@
+.register {
+    min-height: 520px;
+}
+.register h3{
+    color: #28A745;
+}
+.login h3{
+    color: #17A2B8;
+}
+
+.register .form-label-group {
+    margin-bottom: 0px;
+}
+
+.msg-err {
+    color: rgb(255, 66, 78);
+    font-size: 12px;
+    margin-top: 4px;
+    text-align: left;
+}
+
+.hint-msg-regis-pw {
+    color: rgb(56, 56, 61);
+    font-size: 12px;
+    margin-top: 4px;
+    text-align: left;
+}

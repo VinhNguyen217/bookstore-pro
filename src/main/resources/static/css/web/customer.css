@@ -1,0 +1,355 @@
+.customer-shared .heading {
+    font-size: 19px;
+    line-height: 21px;
+    font-weight: 300;
+    margin: 20px 0px 15px;
+}
+
+.customer-shared img {
+    width: 100px;
+    height: 100px;
+}
+
+.customer-shared .empty {
+    min-height: 450px;
+}
+
+.customer-option img {
+    width: 45px;
+    margin: 0px 12px 12px 12px;
+    border-radius: 50%;
+}
+
+.customer-option p {
+    margin: 0px;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.customer-option strong {
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: 400;
+    display: block;
+    margin: 4px 0px 0px;
+}
+
+.customer-option ul li {
+    padding: 8px 0px;
+}
+
+.customer-option ul li:hover {
+    background: #BBBBBB;
+}
+
+.customer-option ul li .icon {
+    width: 20px;
+    height: 20px;
+    margin: 0px 22px 0px 10px;
+    font-size: 20px;
+    color: rgb(155, 155, 155);
+}
+
+.customer-option ul li a {
+    text-decoration: none;
+    color: rgb(74, 74, 74);
+    font-size: 14px;
+    font-weight: 400;
+}
+
+
+.customer-order ul {
+    display: flex;
+    justify-content: space-around;
+}
+
+.customer-order ul li {
+    padding: 12px 0px;
+}
+
+.customer-order ul li a {
+    text-decoration: none;
+    color: rgb(128, 128, 137);
+}
+
+.customer-order ul li a:hover {
+    color: #0D5CB6;
+}
+
+.customer-order .empty-order {
+    height: 350px;
+}
+
+.customer-order .order .status {
+    display: flex;
+    justify-content: space-between;
+}
+
+.customer-order .order .status p {
+    color: rgb(128, 128, 137);
+    margin: 0px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    padding-top: 5px;
+    padding-left: 10px;
+}
+
+.customer-order .order .status a {
+    text-decoration: none;
+    cursor: pointer;
+    margin-top: auto;
+    margin-right: 15px;
+    color: rgb(155, 155, 155);
+}
+
+.customer-order .order .status a:hover {
+    color: #CF111A;
+}
+
+.customer-order .order .total {
+    display: flex;
+    justify-content: end;
+}
+
+.customer-order .order .total span {
+    font-weight: 300;
+    color: rgb(128, 128, 137);
+    margin-right: 8px;
+}
+
+.customer-order .order .total p {
+    margin-right: 10px;
+    font-weight: 400;
+    color: rgb(56, 56, 61);
+}
+
+.customer-order .order-detail {
+    display: flex;
+    justify-content: space-between;
+}
+
+.customer-order .order-detail img {
+    width: 80px;
+    height: 80px;
+}
+
+.customer-order .order-detail .name {
+    font-size: 13px;
+}
+
+.customer-order .order-detail .quantity {
+    font-size: 10px;
+    color: rgb(128, 128, 137);
+}
+
+.customer-order .order-detail .price {
+    margin-right: 20px;
+}
+
+.line {
+    margin: 10px 0px;
+}
+
+.customer-detail-order h1 {
+    font-size: 19px;
+    font-weight: 300;
+}
+.customer-detail-order a{
+    text-decoration: none;
+    font-size: 19px;
+    font-weight: 300;
+    color: black;
+}
+
+.customer-detail-order h3 {
+    font-size: 15px;
+    text-transform: uppercase;
+    margin: 0px 0px 15px;
+    color: rgb(36, 36, 36);
+}
+
+.customer-detail-order .customer-info {
+    padding: 20px 0px;
+}
+
+.customer-detail-order .customer-info .element {
+    display: flex;
+}
+
+.customer-detail-order .customer-info .element span {
+    width: 200px;
+    margin-left: 20px;
+}
+
+.customer-total-order {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.customer-total-order span {
+    color: rgba(0, 0, 0, .54);
+}
+
+.customer-total-order #t {
+    color: #ee4d2d;
+    font-size: 25px;
+}
+
+.customer-detail-order .customer-process-order {
+    padding: 20px 0px;
+}
+
+.customer-detail-order .customer-process-order .element {
+    display: flex;
+}
+
+.customer-detail-order .customer-process-order .element span {
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+.customer-account h3 {
+    margin-left: 10px;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+    color: rgb(100, 100, 109);
+}
+
+.customer-account form .element {
+    display: flex;
+}
+
+.customer-account form .element span {
+    width: 150px;
+    margin: 10px 0px 10px 10px;
+}
+
+.customer-account form button {
+    width: 164px;
+}
+
+.customer-account .fa-times:hover {
+    cursor: pointer;
+}
+
+.customer-account .col-md-5 {
+    margin: 10px 0px;
+    border-left: 1px solid #BBBBBB;
+}
+
+.customer-account .customer-password {
+    display: flex;
+    justify-content: space-between;
+}
+
+.customer-password span {
+    font-size: 15px;
+    line-height: 20px;
+    margin: 0px 0px 0px 6px;
+    color: rgb(56, 56, 61);
+}
+
+.customer-password .fa-lock {
+    width: 20px;
+    height: 20px;
+    color: #A6A6B0;
+    margin-right: 10px;
+}
+
+.customer-password .btn-primary {
+    font-size: 15px;
+    margin-right: 10px;
+    line-height: 15px;
+}
+
+.customer-update-password .rounded {
+    display: flex;
+    justify-content: center;
+}
+
+.customer-update-password .form {
+    width: 400px;
+    padding: 16px;
+    border: 1px solid rgb(235, 235, 240);
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+.customer-update-password .form label {
+    margin-bottom: 4px;
+}
+.customer-update-password input{
+    border:none;
+}
+.customer-update-password input:focus{
+    outline: none;
+}
+
+.customer-update-password .form .hint-msg-pw {
+    color: rgb(56, 56, 61);
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.customer-update-password .form #msg-cfpw, #msg-pw, #msg-opw {
+    color: rgb(255, 66, 78);
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.dialog-udpw {
+    background: #E7F8F1;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.6s;
+}
+
+.dialog-udpw p {
+    margin: 20px;
+}
+
+.dialog-udpw button {
+    width: 120px;
+}
+
+.appear {
+    opacity: 1;
+    visibility: visible;
+    transition: 0.6s;
+}
+
+/* css cho customer-favourite */
+.customer-favourite .empty img {
+    width: 250px;
+    height: 250px;
+}
+
+.customer-favourite .empty p {
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.customer-favourite .empty a:hover {
+    color: #3e4144;
+}
+
+.customer-favourite p {
+    font-size: 14px;
+    margin: 0px;
+}
+
+.customer-favourite .hint {
+    font-size: 13px;
+    color: rgb(102, 102, 102);
+}
+
+.customer-favourite .ic-delete {
+    font-size: 25px;
+    color: #999999;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+/* hết css cho customer-favourite */

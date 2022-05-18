@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{web/_layout.html}"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Thanh Toán</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="container">
+        <div class="payment-page my-3">
+            <div class="payment-title text-uppercase">
+                <h2>Thanh toán</h2>
+            </div>
+
+            <div>
+                <div class="payment-alert rounded">
+                    <h3>Thanh toán thất bại</h3>
+                    <p class="mt-3">Quý khách đã hủy phương thức thanh toán trực tuyến bằng PayPal</p>
+                    <div style="text-align: center">
+                        <button class="btn btn-outline-danger">
+                            <a th:href="@{'/payment'}">Quay về trang thanh toán</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

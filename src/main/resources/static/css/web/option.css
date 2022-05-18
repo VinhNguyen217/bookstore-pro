@@ -1,0 +1,50 @@
+.option-list {
+    margin-top: 10px;
+    padding: 0;
+    box-sizing: border-box;
+    background: white;
+}
+
+.option-list .title {
+    padding: 8px 10px;
+    background-color: #AA1318;
+    margin: 0;
+}
+
+.option-list .title span {
+    margin-left: 5px;
+}
+
+.option-list ul li {
+    height: 35px;
+    border-bottom: 1px solid #f8e1e1;
+    border-left: 1px solid #b4b2b2;
+    line-height: 35px;
+    padding-left: 16px;
+    font-weight: 400;
+    font-size: 13px;
+}
+
+.option-list a {
+    text-decoration: none;
+    color: black;
+}
+
+.card-cat {
+    width: 206px;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+}
+
+.card-cat .motsanpham {
+    text-decoration: none;
+    color: black
+}
+
+.pagination-bar {
+    padding-right: 0px;
+}
+
+.active-cat {
+    background: #F5A623;
+}

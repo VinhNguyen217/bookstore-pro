@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{web/_layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Mua sách trực tuyến giá rẻ nhất</title>
+</head>
+<body>
+
+<div layout:fragment="content" class="my-3">
+
+    <!--Banner-->
+    <nav class="banner">
+        <div class="container">
+            <div class="row">
+                <div id="carouselId" class="carousel slide rounded" data-ride="carousel">
+                    <ol class="nutcarousel carousel-indicators rounded-circle">
+                        <li data-target="#carouselId" data-slide-to="0" class="active"></li>
+                        <li data-target="#carouselId" data-slide-to="1"></li>
+                        <li data-target="#carouselId" data-slide-to="2"></li>
+                        <li data-target="#carouselId" data-slide-to="3"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <a href="#"><img th:src="@{'/images/banner/banner1.png'}" class="img-fluid" alt="First slide"></a>
+                        </div>
+                        <div class="carousel-item">
+                            <a href="#"><img th:src="@{'/images/banner/banner2.png'}" class="img-fluid" alt="Second slide"></a>
+                        </div>
+                        <div class="carousel-item">
+                            <a href="#"><img th:src="@{'/images/banner/banner3.png'}" class="img-fluid" alt="Third slide"></a>
+                        </div>
+                        <div class="carousel-item">
+                            <a href="#"><img th:src="@{'/images/banner/banner4.png'}" class="img-fluid" alt="Four slide"></a>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselId" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselId" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!--Sách mới nhất-->
+    <section class="_1khoi combohot mt-4">
+        <div class="container">
+            <div class="noidung bg-white" style=" width: 100%;">
+                <div class="row">
+                    <!--header -->
+                    <div class="col-12 d-flex justify-content-between align-items-center pb-2 _1khoi_title">
+                        <div class="header">Sách Mới Nhất</div>
+                    </div>
+                </div>
+                <div class="khoisanpham">
+                    <th:block th:each="book : ${bookService.getByNew()}">
+                        <div class="card rounded">
+                            <a th:href="@{'/book/'+ ${book.id}}" class="motsanpham" data-toggle="tooltip"
+                               data-placement="bottom">
+                                <img class="card-img-top anh" th:src="@{'/images/book/'+${book.photo}}">
+                                <div class="card-body noidungsp mt-3">
+                                    <h3 class="card-title ten">[[${book.name}]]</h3>
+                                    <small class="tacgia text-muted">[[${authorService.getById(book.author_id).name}]]</small>
+                                    <div class="gia d-flex align-items-baseline">
+                                        <div class="giamoi">[[${utility.formatPrice(book.price)}]]</div>
+                                    </div>
+                                    <div class="eval mb-2 mt-1">
+                                        <div class="eval-fav">
+                                            <i class="fas fa-thumbs-up ic-like-b"></i>
+                                            <span class="qty-fav">[[${book.numberOfLike}]]</span>
+                                        </div>
+                                        <div class="eval-comm"><span class="qty-comm">[[${commentService.getQtyCommentByBookId(book.id)}]]</span>
+                                            nhận xét
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Sách bán chạy nhất-->
+    <section class="_1khoi combohot mt-4">
+        <div class="container">
+            <div class="noidung bg-white" style=" width: 100%;">
+                <div class="row">
+                    <!--header -->
+                    <div class="col-12 d-flex justify-content-between align-items-center pb-2 _1khoi_title">
+                        <div class="header">Sách Bán Chạy Nhất</div>
+                    </div>
+                </div>
+                <div class="khoisanpham">
+                    <th:block th:each="book : ${bookService.getBySold()}">
+                        <div class="card rounded">
+                            <a th:href="@{'/book/'+ ${book.id}}" class="motsanpham" data-toggle="tooltip"
+                               data-placement="bottom">
+                                <img class="card-img-top anh" th:src="@{'/images/book/'+${book.photo}}">
+                                <div class="card-body noidungsp mt-3">
+                                    <h3 class="card-title ten">[[${book.name}]]</h3>
+                                    <small class="tacgia text-muted">[[${authorService.getById(book.author_id).name}]]</small>
+                                    <div class="gia d-flex align-items-baseline">
+                                        <div class="giamoi">[[${utility.formatPrice(book.price)}]]</div>
+                                    </div>
+                                    <div class="eval mb-2 mt-1">
+                                        <div class="eval-fav">
+                                            <i class="fas fa-thumbs-up ic-like-b"></i>
+                                            <span class="qty-fav">[[${book.numberOfLike}]]</span>
+                                        </div>
+                                        <div class="eval-comm"><span class="qty-comm">[[${commentService.getQtyCommentByBookId(book.id)}]]</span>
+                                            nhận xét
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Sách được độc giả yêu thích nhất-->
+    <section class="_1khoi combohot mt-4">
+        <div class="container">
+            <div class="noidung bg-white" style=" width: 100%;">
+                <div class="row">
+                    <!--header -->
+                    <div class="col-12 d-flex justify-content-between align-items-center pb-2 _1khoi_title">
+                        <div class="header">Sách Được Độc Giả Yêu Thích</div>
+                    </div>
+                </div>
+                <div class="khoisanpham">
+                    <th:block th:each="book : ${bookService.getByLike()}">
+                        <div class="card rounded">
+                            <a th:href="@{'/book/'+ ${book.id}}" class="motsanpham" data-toggle="tooltip"
+                               data-placement="bottom">
+                                <img class="card-img-top anh" th:src="@{'/images/book/'+${book.photo}}">
+                                <div class="card-body noidungsp mt-3">
+                                    <h3 class="card-title ten">[[${book.name}]]</h3>
+                                    <small class="tacgia text-muted">[[${authorService.getById(book.author_id).name}]]</small>
+                                    <div class="gia d-flex align-items-baseline">
+                                        <div class="giamoi">[[${utility.formatPrice(book.price)}]]</div>
+                                    </div>
+                                    <div class="eval mb-2 mt-1">
+                                        <div class="eval-fav">
+                                            <i class="fas fa-thumbs-up ic-like-b"></i>
+                                            <span class="qty-fav">[[${book.numberOfLike}]]</span>
+                                        </div>
+                                        <div class="eval-comm"><span class="qty-comm">[[${commentService.getQtyCommentByBookId(book.id)}]]</span>
+                                            nhận xét
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        sessionStorage.setItem('option','home');
+    </script>
+</div>
+</body>
+</html>

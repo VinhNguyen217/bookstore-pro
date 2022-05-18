@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/_layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Admin</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid px-4">
+        <h4 class="mt-4">Quản Lý Tác Giả</h4>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a class="nav_home link_home" th:href="@{/admin}"><i class="fas fa-home"></i> Trang Chủ</a></li>
+            <li class="breadcrumb-item active">Quản Lý Tác Giả</li>
+        </ol>
+        <div th:if="${msg_success}" class="alert alert-success">
+            [[${msg_success}]] <i class="fas fa-times"></i>
+        </div>
+        <div th:if="${msg_error}" class="alert alert-danger">
+            [[${msg_error}]] <i class="fas fa-times"></i>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header">
+                <b>Quản Lý Tác Giả</b>
+                <a class="btn btn-primary btn_add" th:href="@{/admin/author/add}"><i
+                        class="fas fa-plus"></i> Thêm mới</a>
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th class="text-center">Ảnh</th>
+                        <th class="text-center">Tên tác giả</th>
+                        <th style="text-align: center">Hành động</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="author : ${authorList}">
+                        <tr>
+                            <td>[[${author.id}]]</td>
+                            <td class="text-center"><img th:src="@{'/images/author/'+${author.photo}}"/></td>
+                            <td class="text-center" style="text-transform: capitalize">[[${author.name}]]</td>
+                            <td class="action">
+                                <a th:href="@{'/admin/author/'+${author.id}}"><i class="far fa-edit"></i></a> &nbsp;&nbsp;
+                                <a th:href="@{'/admin/author/delete/'+${author.id}}"
+                                   onclick="return confirm('Bạn có chắc chắn muốn xóa tác giả này ?')"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

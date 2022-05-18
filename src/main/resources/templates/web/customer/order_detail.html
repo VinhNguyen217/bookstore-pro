@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{web/_layout.html}"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Mua sách trực tuyến giá rẻ nhất</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<div layout:fragment="content">
+    <style>
+        .card {
+            z-index: 0;
+            padding-bottom: 20px;
+            border-radius: 10px
+        }
+
+        .order-progress span {
+            font-size: .75rem;
+            color: rgba(0, 0, 0, .26);
+            height: 0.875rem;
+        }
+
+        #progressbar {
+            margin-bottom: 30px;
+            overflow: hidden;
+            color: #455A64;
+            padding-left: 0px;
+            margin-top: 30px;
+            width: 940px;
+            margin-left: -70px;
+        }
+
+        #progressbar li {
+            list-style-type: none;
+            font-size: 13px;
+            width: 25%;
+            float: left;
+            position: relative;
+            font-weight: 400
+        }
+
+        #progressbar .step0:before {
+            font-family: FontAwesome;
+            content: "\f10c";
+            color: green;
+        }
+
+        #progressbar li:before {
+            width: 40px;
+            height: 40px;
+            line-height: 45px;
+            display: block;
+            font-size: 20px;
+            background: #C5CAE9;
+            border-radius: 50%;
+            margin: auto;
+            padding: 0px
+        }
+
+        #progressbar li:after {
+            content: '';
+            width: 100%;
+            height: 12px;
+            background: #C5CAE9;
+            position: absolute;
+            left: 0;
+            top: 16px;
+            z-index: -1
+        }
+
+        #progressbar li:last-child:after {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            position: absolute;
+            left: -50%
+        }
+
+        #progressbar li:nth-child(2):after,
+        #progressbar li:nth-child(3):after {
+            left: -50%
+        }
+
+        #progressbar li:first-child:after {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            position: absolute;
+            left: 50%
+        }
+
+        #progressbar li:last-child:after {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px
+        }
+
+        #progressbar li:first-child:after {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px
+        }
+
+        #progressbar li.active:before,
+        #progressbar li.active:after {
+            background: #7e84dd
+        }
+
+        #progressbar li.active:before {
+            font-family: FontAwesome;
+            content: "\f00c"
+        }
+
+        .icon {
+            width: 60px;
+            height: 60px;
+            margin-right: 15px
+        }
+
+        .icon-content {
+            padding-bottom: 20px;
+            padding-left: 10px;
+        }
+
+        .icon-content p {
+            margin-bottom: 0px;
+        }
+
+        .icon-content span {
+            font-size: 13px;
+            color: rgba(0, 0, 0, .26);
+            height: 0.875rem;
+        }
+
+        @media screen and (max-width: 992px) {
+            .icon-content {
+                width: 50%
+            }
+        }
+    </style>
+    <div class="container">
+        <ol class="breadcrumb mb-0 p-0 bg-transparent">
+            <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+            <li class="breadcrumb-item active"><a>Đơn hàng của tôi</a>
+            </li>
+        </ol>
+        <div class="customer-page mt-3">
+            <div class="row">
+                <div class="col-md-3 customer-option">
+                    <div class="row">
+                        <img th:src="@{'/images/icon/avatar.png'}"/>
+                        <div class="info">
+                            <p>Tài khoản của</p>
+                            <strong sec:authentication="principal.fullName"></strong>
+                        </div>
+                    </div>
+                    <div>
+                        <ul class="nav flex-column">
+                            <li><i class="fas fa-user icon"></i> <a th:href="@{/customer/account}">Thông tin
+                                tài khoản</a></li>
+                            <li th:if="${pageCurrent == 'order'}" style="background:#BBBBBB"><i
+                                    class="fas fa-file-invoice icon"></i><a th:href="@{/customer/order}">Quản
+                                lý đơn hàng</a></li>
+                            <li><i class="fas fa-heart icon"></i><a th:href="@{/customer/favourite}">Sản phẩm
+                                yêu thích</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-9 customer-detail-order">
+
+                    <div class="d-flex justify-content-between">
+                        <h1><a th:href="@{'/customer/order'}" style="font-size: 19px;font-weight: 300"><i
+                                class="fas fa-angle-left"></i> TRỞ LẠI</a></h1>
+                        <h1>Chi tiết đơn hàng #[[${bill.id}]] - <b>[[${utility.formatStatus(bill.status)}]]</b></h1>
+                    </div>
+                    <hr class="line"/>
+
+                    <!--Quá trình xử lý đơn hàng-->
+                    <h3 class="mt-5">Quá trình xử lý đơn hàng</h3>
+                    <div class="rounded bg-white">
+                        <th:block th:if="${bill.status.toString().equals('CANCELLED') == false}">
+                            <div class="card">
+                                <div>
+                                    <ul id="progressbar" class="text-center">
+                                        <li class="active step0"></li>
+                                        <th:block th:if="${bill.status.toString().equals('WAIT_CONFIRM')}">
+                                            <li class="step0"></li>
+                                            <li class="step0"></li>
+                                            <li class="step0"></li>
+                                        </th:block>
+                                        <th:block th:if="${bill.status.toString().equals('DELIVERY')}">
+                                            <li class="active step0"></li>
+                                            <li class="active step0"></li>
+                                            <li class="step0"></li>
+                                        </th:block>
+                                        <th:block th:if="${bill.status.toString().equals('DELIVERED')}">
+                                            <li class="active step0"></li>
+                                            <li class="active step0"></li>
+                                            <li class="active step0"></li>
+                                        </th:block>
+                                    </ul>
+                                </div>
+                                <div class="row justify-content-between top">
+                                    <div class="icon-content text-center">
+                                        <img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+                                        <p>Đơn hàng đã đặt</p>
+                                        <span>[[${utility.formatTime(bill.createdAt)}]]</span>
+                                    </div>
+
+                                    <div class="icon-content text-center">
+                                        <img class="icon" src="https://i.imgur.com/u1AzR7w.png">
+                                        <p>Xác nhận đơn hàng</p>
+                                        <span th:if="${bill.confirmAt != null}">[[${utility.formatTime(bill.confirmAt)}]]</span>
+                                    </div>
+
+                                    <div class="icon-content text-center">
+                                        <img class="icon" src="https://i.imgur.com/TkPm63y.png">
+                                        <p>Đang giao hàng</p>
+                                    </div>
+
+                                    <div class="icon-content text-center" style="padding-right: 10px">
+                                        <img class="icon" src="https://i.imgur.com/HdsziHP.png">
+                                        <p>Đơn hàng đã nhận</p>
+                                        <span th:if="${bill.status.toString().equals('DELIVERED')}">[[${utility.formatTime(bill.updatedAt)}]]</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+
+                        <th:block th:if="${bill.status.toString().equals('CANCELLED') == true}">
+                            <div class="card">
+                                <div>
+                                    <ul id="progressbar" class="text-center">
+                                        <li style="width: 50%" class="active step0"></li>
+                                        <li style="width: 50%" class="active step0"></li>
+                                    </ul>
+                                </div>
+                                <div class="row justify-content-around top">
+                                    <div class="icon-content text-center" style="padding-right: 60px">
+                                        <img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+                                        <p>Đơn hàng đã đặt</p>
+                                        <span>[[${utility.formatTime(bill.createdAt)}]]</span>
+                                    </div>
+
+                                    <div class="icon-content text-center" style="padding-left: 50px">
+                                        <img class="icon"
+                                             src="https://thumbs.dreamstime.com/b/bill-icon-simple-vector-illustration-black-white-dollar-sign-background-122371158.jpg">
+                                        <p>Đơn hàng đã bị hủy</p>
+                                        <span th:if="${bill.status.toString().equals('CANCELLED')}">[[${utility.formatTime(bill.updatedAt)}]]</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+
+                    <!--Thông tin khách hàng-->
+                    <h3 class="mt-5">Thông tin khách hàng</h3>
+                    <div class="rounded bg-white customer-info">
+                        <div class="element">
+                            <span>Tên khách hàng :</span>
+                            <p> [[${bill.receiver}]]</p>
+                        </div>
+                        <div class="element">
+                            <span>Địa chỉ email :</span>
+                            <p> [[${bill.email}]]</p>
+                        </div>
+                        <div class="element">
+                            <span>Số điện thoại :</span>
+                            <p>[[${bill.phone}]]</p>
+                        </div>
+                        <div class="element">
+                            <span>Phương thức thanh toán :</span>
+                            <p>[[${utility.formatPayment(bill.payment.toString())}]]</p>
+                        </div>
+                        <div class="element">
+                            <span>Địa chỉ :</span>
+                            <p>[[${bill.address}]]</p>
+                        </div>
+                        <div th:if="${bill.note.trim() != ''}" class="element">
+                            <span>Ghi chú :</span>
+                            <p>[[${bill.note}]]</p>
+                        </div>
+                    </div>
+
+                    <!--Thông tin đơn hàng-->
+                    <h3 class="mt-5">Thông tin đơn hàng</h3>
+                    <div class="rounded bg-white customer-product">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th>Giá</th>
+                                <th>Số lượng</th>
+                                <th>Thành tiền</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="item : ${billDetailList}">
+                                <tr>
+                                    <td style="display: flex">
+                                        <img style="width: 80px;height: 80px"
+                                             th:src="@{'/images/book/'+${bookService.getById(item.bookId).photo}}"/>
+                                        <p style="margin-top: 25px">[[${bookService.getById(item.bookId).name}]]</p>
+                                    </td>
+                                    <td style="vertical-align: middle">
+                                        [[${utility.formatPrice(item.unitPrice)}]]
+                                    </td>
+                                    <td style="vertical-align: middle">[[${item.quantity}]]</td>
+                                    <td style="vertical-align: middle">[[${utility.formatPrice(item.quantity *
+                                        item.unitPrice)}]]
+                                    </td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="customer-total-order mt-1">
+                        <span style="line-height: 40px">Tổng số tiền :</span>
+                        <span class="ml-3" id="t">[[${utility.formatPrice(bill.total)}]]</span>
+                    </div>
+                    <div style="text-align: right"
+                         th:if="${bill.status.toString().equals('WAIT_CONFIRM') || bill.status.toString().equals('DELIVERY')}">
+                        <button class="btn btn-outline-danger" type="submit" th:onclick="'cancelOrder('+${bill.id}+')'">
+                            Hủy Đơn Hàng
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function cancelOrder(orderId) {
+            let isExecuted = confirm("Bạn có chắc chắn muốn hủy đơn hàng này ?");
+            if (isExecuted) {
+                $.ajax({
+                    url: "http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/payment/updateStatus",
+                    type: "PUT",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        "orderId": orderId,
+                        "status": 'CANCELLED',
+                    }),
+                    processData: false,
+                    success: function (res) {
+                        if (res.data.payment == 'PAYPAL') {
+                            alert('Hủy đơn hàng thành công.Quý khách sẽ được hoàn trả lại số tiền đã thanh toán');
+                            window.location.reload();
+                        } else {
+                            alert('Hủy đơn hàng thành công.')
+                            window.location.reload();
+                        }
+                    }, error: function (err) {
+                        console.log(err);
+                    }
+                })
+            }
+        }
+    </script>
+</div>
+</body>
+</html>

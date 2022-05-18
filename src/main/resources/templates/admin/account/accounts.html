@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/_layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Admin</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid px-4 account-page">
+        <h4 class="mt-4">Quản Lý Tài Khoản</h4>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a class="nav_home link_home" th:href="@{/admin}"><i class="fas fa-home"></i> Trang Chủ</a></li>
+            <li class="breadcrumb-item active">Quản Lý Tài Khoản</li>
+        </ol>
+        <div th:if="${msg_success}" class="alert alert-success">
+            [[${msg_success}]] <i class="fas fa-times"></i>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header"><b style="padding: 0px">Quản Lý Tài Khoản</b></div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th class="text-center">FirstName</th>
+                        <th class="text-center">LastName</th>
+                        <th class="text-center">Email</th>
+                        <th class="text-center">Role</th>
+                        <th class="text-center">Kích hoạt</th>
+                        <th style="text-align: center">Hành động</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="account : ${accountList}">
+                        <tr>
+                            <td>[[${account.id}]]</td>
+                            <td class="text-center">[[${account.firstName}]]</td>
+                            <td class="text-center">[[${account.lastName}]]</td>
+                            <td class="text-center">[[${account.email}]]</td>
+                            <td class="text-center">[[${account.role}]]</td>
+                            <td th:if="${account.isEnabled == true}" class="text-center"><i class="fas fa-check"></i></td>
+                            <td th:if="${account.isEnabled == false}" class="text-center"> <i class="fas fa-times"></i></td>
+                            <td title="Thông tin tài khoản" class="action">
+                                <a th:href="@{'/admin/account/'+${account.id}}"><i class="far fa-edit"></i></a> &nbsp;&nbsp;
+                                <a th:if="${account.isEnabled == false}" th:href="@{'/admin/account/delete/'+${account.id}}"
+                                   onclick="return confirm('Bạn có chắc chắn muốn xóa tài khoản này ?')"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

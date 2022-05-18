@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{web/_layout.html}"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Mua sách trực tuyến giá rẻ nhất</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="container">
+        <ol class="breadcrumb mb-0 p-0 bg-transparent">
+            <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+            <li class="breadcrumb-item active"><a>Đơn hàng của tôi</a>
+            </li>
+        </ol>
+        <div class="customer-page mt-3">
+            <div class="row">
+                <div class="col-md-3 customer-option">
+                    <div class="row">
+                        <img th:src="@{'/images/icon/avatar.png'}"/>
+                        <div class="info">
+                            <p>Tài khoản của</p>
+                            <strong sec:authentication="principal.fullName"></strong>
+                        </div>
+                    </div>
+                    <div>
+                        <ul class="nav flex-column">
+                            <li><i class="fas fa-user icon"></i> <a th:href="@{/customer/account}">Thông tin tài khoản</a></li>
+                            <li th:if="${pageCurrent == 'order'}" style="background:#BBBBBB"><i class="fas fa-file-invoice icon"></i><a th:href="@{/customer/order}">Quản lý đơn hàng</a></li>
+                            <li><i class="fas fa-heart icon"></i><a th:href="@{/customer/favourite}">Sản phẩm yêu thích</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-9 customer-shared customer-order">
+                    <div class="heading">Đơn hàng của tôi</div>
+                    <ul class="nav nav-tabs bg-white rounded">
+                        <li class="active"><a data-toggle="tab" href="#all">Tất cả đơn</a></li>
+                        <li><a data-toggle="tab" href="#wait-confirm">Chưa xác nhận</a></li>
+                        <li><a data-toggle="tab" href="#delivery">Đang giao</a></li>
+                        <li><a data-toggle="tab" href="#delivered">Đã giao</a></li>
+                        <li><a data-toggle="tab" href="#cancelled">Đã hủy</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <!--Tất cả đơn hàng-->
+                        <div id="all" class="tab-pane fade in active mt-3">
+                            <div th:if="${billAllList.size() > 0}">
+                                <th:block th:each="bill : ${billAllList}">
+                                    <div class="bg-white rounded order mt-3">
+                                        <div class="status">
+                                            <p>[[${utility.formatStatus(bill.status)}]]</p>
+                                            <a title="Xem chi tiết"
+                                               th:href="@{'/customer/order/view/'+${bill.id}}"><i
+                                                    class="fas fa-eye"></i></a>
+                                        </div>
+                                        <hr class="line"/>
+                                        <div>
+                                            <th:block th:each="item : ${billDetailService.getAllByBillId(bill.id)}">
+                                                <div class="order-detail mt-2">
+                                                    <div style="display: flex">
+                                                        <img th:src="@{'/images/book/'+${bookService.getById(item.bookId).photo}}"/>
+                                                        <div class="info">
+                                                            <p class="name">
+                                                                [[${bookService.getById(item.bookId).name}]]</p>
+                                                            <p class="quantity">X [[${item.quantity}]]</p>
+                                                        </div>
+                                                    </div>
+                                                    <p class="price">[[${utility.formatPrice(item.unitPrice)}]]</p>
+                                                </div>
+                                            </th:block>
+                                        </div>
+                                        <hr class="line"/>
+                                        <div class="total">
+                                            <span>Tổng tiền: </span>
+                                            <p>[[${utility.formatPrice(bill.total)}]]</p>
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </div>
+                            <div th:if="${billAllList.size() == 0}" class="bg-white rounded text-center empty-order">
+                                <img th:src="@{'/images/icon/empty-order.png'}" width="200px" height="200px"
+                                     class="mt-3"/>
+                                <p class="text-center mb-3" style="margin: 0px">Chưa có đơn hàng</p>
+                            </div>
+                        </div>
+
+                        <!--Đơn hàng chưa xác nhận-->
+                        <div id="wait-confirm" class="tab-pane fade mt-3">
+                            <div th:if="${billWaitConfirmList.size() > 0}">
+                                <th:block th:each="bill : ${billWaitConfirmList}">
+                                    <div class="bg-white rounded order mt-3">
+                                        <div class="status">
+                                            <p>[[${utility.formatStatus(bill.status)}]]</p>
+                                            <a title="Xem chi tiết"
+                                               th:href="@{'/customer/order/view/'+${bill.id}}"><i
+                                                    class="fas fa-eye"></i></a>
+                                        </div>
+                                        <hr class="line"/>
+                                        <div>
+                                            <th:block th:each="item : ${billDetailService.getAllByBillId(bill.id)}">
+                                                <div class="order-detail mt-2">
+                                                    <div style="display: flex">
+                                                        <img th:src="@{'/images/book/'+${bookService.getById(item.bookId).photo}}"/>
+                                                        <div class="info">
+                                                            <p class="name">
+                                                                [[${bookService.getById(item.bookId).name}]]</p>
+                                                            <p class="quantity">X [[${item.quantity}]]</p>
+                                                        </div>
+                                                    </div>
+                                                    <p class="price">[[${utility.formatPrice(item.unitPrice)}]]</p>
+                                                </div>
+                                            </th:block>
+                                        </div>
+                                        <hr class="line"/>
+                                        <div class="total">
+                                            <span>Tổng tiền: </span>
+                                            <p>[[${utility.formatPrice(bill.total)}]]</p>
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </div>
+                            <div th:if="${billWaitConfirmList.size() == 0}"
+                                 class="bg-white rounded text-center empty-order">
+                                <img th:src="@{'/images/icon/empty-order.png'}" width="200px" height="200px"
+                                     class="mt-3"/>
+                                <p class="text-center mb-3" style="margin: 0px">Chưa có đơn hàng</p>
+                            </div>
+                        </div>
+
+                        <!--Đơn hàng đang giao-->
+                        <div id="delivery" class="tab-pane fade mt-3">
+                            <div th:if="${billDeliveryList.size() > 0}">
+                                <th:block th:each="bill : ${billDeliveryList}">
+                                    <div class="bg-white rounded order mt-3">
+                                        <div class="status">
+                                            <p>[[${utility.formatStatus(bill.status)}]]</p>
+                                            <a title="Xem chi tiết"
+                                               th:href="@{'/customer/order/view/'+${bill.id}}"><i
+                                                    class="fas fa-eye"></i></a>
+                                        </div>
+                                        <hr class="line"/>
+                                        <div>
+                                            <th:block th:each="item : ${billDetailService.getAllByBillId(bill.id)}">
+                                                <div class="order-detail mt-2">
+                                                    <div style="display: flex">
+                                                        <img th:src="@{'/images/book/'+${bookService.getById(item.bookId).photo}}"/>
+                                                        <div class="info">
+                                                            <p class="name">
+                                                                [[${bookService.getById(item.bookId).name}]]</p>
+                                                            <p class="quantity">X [[${item.quantity}]]</p>
+                                                        </div>
+                                                    </div>
+                                                    <p class="price">[[${utility.formatPrice(item.unitPrice)}]]</p>
+                                                </div>
+                                            </th:block>
+                                        </div>
+                                        <hr class="line"/>
+                                        <div class="total">
+                                            <span>Tổng tiền: </span>
+                                            <p>[[${utility.formatPrice(bill.total)}]]</p>
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </div>
+                            <div th:if="${billDeliveryList.size() == 0}"
+                                 class="bg-white rounded text-center empty-order">
+                                <img th:src="@{'/images/icon/empty-order.png'}" width="200px" height="200px"
+                                     class="mt-3"/>
+                                <p class="text-center mb-3" style="margin: 0px">Chưa có đơn hàng</p>
+                            </div>
+                        </div>
+
+                        <!--Đơn hàng đã giao-->
+                        <div id="delivered" class="tab-pane fade mt-3">
+                            <div th:if="${billDeliveredList.size() > 0}">
+                                <th:block th:each="bill : ${billDeliveredList}">
+                                    <div class="bg-white rounded order mt-3">
+                                        <div class="status">
+                                            <p>[[${utility.formatStatus(bill.status)}]]</p>
+                                            <a title="Xem chi tiết"
+                                               th:href="@{'/customer/order/view/'+${bill.id}}"><i
+                                                    class="fas fa-eye"></i></a>
+                                        </div>
+                                        <hr class="line"/>
+                                        <div>
+                                            <th:block th:each="item : ${billDetailService.getAllByBillId(bill.id)}">
+                                                <div class="order-detail mt-2">
+                                                    <div style="display: flex">
+                                                        <img th:src="@{'/images/book/'+${bookService.getById(item.bookId).photo}}"/>
+                                                        <div class="info">
+                                                            <p class="name">
+                                                                [[${bookService.getById(item.bookId).name}]]</p>
+                                                            <p class="quantity">X [[${item.quantity}]]</p>
+                                                        </div>
+                                                    </div>
+                                                    <p class="price">[[${utility.formatPrice(item.unitPrice)}]]</p>
+                                                </div>
+                                            </th:block>
+                                        </div>
+                                        <hr class="line"/>
+                                        <div class="total">
+                                            <span>Tổng tiền: </span>
+                                            <p>[[${utility.formatPrice(bill.total)}]]</p>
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </div>
+                            <div th:if="${billDeliveredList.size() == 0}"
+                                 class="bg-white rounded text-center empty-order">
+                                <img th:src="@{'/images/icon/empty-order.png'}" width="200px" height="200px"
+                                     class="mt-3"/>
+                                <p class="text-center mb-3" style="margin: 0px">Chưa có đơn hàng</p>
+                            </div>
+                        </div>
+
+                        <!--Đơn hàng đã hủy-->
+                        <div id="cancelled" class="tab-pane fade mt-3">
+                            <div th:if="${billCancelledList.size() > 0}">
+                                <th:block th:each="bill : ${billCancelledList}">
+                                    <div class="bg-white rounded order mt-3">
+                                        <div class="status">
+                                            <p>[[${utility.formatStatus(bill.status)}]]</p>
+                                            <a title="Xem chi tiết"
+                                               th:href="@{'/customer/order/view/'+${bill.id}}"><i
+                                                    class="fas fa-eye"></i></a>
+                                        </div>
+                                        <hr class="line"/>
+                                        <div>
+                                            <th:block th:each="item : ${billDetailService.getAllByBillId(bill.id)}">
+                                                <div class="order-detail mt-2">
+                                                    <div style="display: flex">
+                                                        <img th:src="@{'/images/book/'+${bookService.getById(item.bookId).photo}}"/>
+                                                        <div class="info">
+                                                            <p class="name">
+                                                                [[${bookService.getById(item.bookId).name}]]</p>
+                                                            <p class="quantity">X [[${item.quantity}]]</p>
+                                                        </div>
+                                                    </div>
+                                                    <p class="price">[[${utility.formatPrice(item.unitPrice)}]]</p>
+                                                </div>
+                                            </th:block>
+                                        </div>
+                                        <hr class="line"/>
+                                        <div class="total">
+                                            <span>Tổng tiền: </span>
+                                            <p>[[${utility.formatPrice(bill.total)}]]</p>
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </div>
+                            <div th:if="${billCancelledList.size() == 0}"
+                                 class="bg-white rounded text-center empty-order">
+                                <img th:src="@{'/images/icon/empty-order.png'}" width="200px" height="200px"
+                                     class="mt-3"/>
+                                <p class="text-center mb-3" style="margin: 0px">Chưa có đơn hàng</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

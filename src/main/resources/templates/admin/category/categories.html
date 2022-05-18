@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/_layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Admin</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid px-4">
+        <h4 class="mt-4">Quản Lý Danh Mục</h4>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a class="nav_home link_home" th:href="@{/admin}"><i class="fas fa-home"></i> Trang Chủ</a></li>
+            <li class="breadcrumb-item active">Quản Lý Danh Mục</li>
+        </ol>
+
+        <div th:if="${msg_success}" class="alert alert-success">
+            [[${msg_success}]] <i class="fas fa-times"></i>
+        </div>
+        <div th:if="${msg_error}" class="alert alert-danger">
+            [[${msg_error}]] <i class="fas fa-times"></i>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header">
+                <b>Quản Lý Danh Mục</b>
+                <a class="btn btn-primary btn_add" th:href="@{/admin/category/add}"><i class="fas fa-plus"></i> Thêm mới</a>
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Tên danh mục</th>
+                        <th style="text-align: center">Hành động</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="category : ${categoryList}">
+                        <tr>
+                            <td>[[${category.id}]]</td>
+                            <td style="text-transform: capitalize">[[${category.name}]]</td>
+                            <td class="action">
+                                <a th:href="@{'/admin/category/'+${category.id}}"><i
+                                        class="far fa-edit"></i></a> &nbsp;&nbsp;
+                                <a th:href="@{'/admin/category/delete/'+${category.id}}"
+                                   onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này?')"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

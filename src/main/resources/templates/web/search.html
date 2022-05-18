@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{web/_layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Kết quả tìm kiếm</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="container search-book my-3">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="title-sm">Kết quả tìm kiếm cho `[[${name}]]`</h1>
+            </div>
+            <div class="col-md-12">
+                <div class="row result-search">
+                    <th:block th:if="${bookList.size() > 0}">
+                        <th:block th:each="book : ${bookList}">
+                            <div class="card-cat mt-3 mr-3">
+                                <a th:href="@{'/book/'+ ${book.id}}" class="motsanpham"
+                                   style="text-decoration: none;color: black"
+                                   data-toggle="tooltip"
+                                   data-placement="bottom">
+                                    <img class="card-img-top anh" th:src="@{'/images/book/'+${book.photo}}">
+                                    <div class="card-body noidungsp mt-3">
+                                        <h3 class="card-title ten">[[${book.name}]]</h3>
+                                        <small class="tacgia text-muted">[[${authorService.getById(book.author_id).name}]]</small>
+                                        <div class="gia d-flex align-items-baseline">
+                                            <div class="giamoi">[[${utility.formatPrice(book.price)}]]</div>
+                                        </div>
+                                        <div class="eval mb-2 mt-1">
+                                            <div class="eval-fav">
+                                                <i class="fas fa-thumbs-up ic-like-b"></i>
+                                                <span class="qty-fav">[[${favouriteService.getQtyFavouriteByBookId(book.id)}]]</span>
+                                            </div>
+                                            <div class="eval-comm"><span class="qty-comm">10</span> nhận xét</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </th:block>
+                    </th:block>
+                </div>
+
+            </div>
+            <div class="col-md-12 not-found rounded">
+                <th:block th:if="${bookList.size() == 0}">
+                    <div class="py-3 pl-3">
+                        <div class="w-100 text-center justify-content-center">
+                            <img style="width: 190px;height: 160px" alt="not-found-product"
+                                 th:src="@{'/images/icon/not-found.png'}">
+                            <p>Rất tiếc , không tìm thấy sản phẩm mà bạn yêu cầu !!!</p>
+                            <a th:href="@{'/'}" class="text-uppercase btn nutmuathem mb-3">Quay lại trang chủ</a>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

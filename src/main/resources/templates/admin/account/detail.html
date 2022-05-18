@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/_layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Admin</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid px-4 account-detail">
+        <h4 class="mt-4 title">[[${title}]]</h4>
+        <div class="card mb-4 col-md-8">
+            <div class="card-header">Thông tin tài khoản</div>
+            <div class="d-flex mt-3">
+                <b>Id : </b>
+                <p>[[${account.id}]]</p>
+            </div>
+            <div class="d-flex">
+                <b>First name : </b>
+                <p>[[${account.firstName}]]</p>
+            </div>
+            <div class="d-flex">
+                <b>Last name : </b>
+                <p>[[${account.lastName}]]</p>
+            </div>
+            <div class="d-flex">
+                <b>Email : </b>
+                <p>[[${account.email}]]</p>
+            </div>
+            <div class="d-flex">
+                <b>Mật khẩu : </b>
+                <p>[[${account.password}]]</p>
+            </div>
+            <div class="d-flex">
+                <b>Chức vụ : </b>
+                <p>[[${account.role}]]</p>
+            </div>
+            <div class="d-flex">
+                <b>Kích hoạt : </b>
+                <p th:if="${account.isEnabled == true}"><i class="fas fa-check"></i></p>
+                <p th:if="${account.isEnabled == false}"><i class="fas fa-times"></i></p>
+            </div>
+            <div class="d-flex">
+                <b>Mã xác nhận : </b>
+                <p>[[${account.verifyCode}]]</p>
+            </div>
+            <div class="d-flex">
+                <b>Thời gian tạo : </b>
+                <p>[[${utility.formatTime(account.createdAt)}]]</p>
+            </div>
+            <div class="d-flex">
+                <b>Thời gian xác nhận : </b>
+                <p th:if="${account.verifiedAt} != null">[[${utility.formatTime(account.verifiedAt)}]]</p>
+                <p th:if="${account.verifiedAt} == null">Null</p>
+            </div>
+        </div>
+        <button type="button" class="btn-outline-secondary btn" onclick="cancelForm()">
+            <i class="fas fa-undo"></i> Trở Về
+        </button>
+    </div>
+    <script type="text/javascript" th:inline="javascript">
+        function cancelForm() {
+            window.location = "/book-store/admin/account";
+        }
+    </script>
+</div>
+</body>
+</html>

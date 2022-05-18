@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/_layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Admin</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid px-4">
+        <h4 class="mt-4 title">[[${title}]]</h4>
+        <div class="card mb-4 col-md-4">
+            <div class="card-header">Thông tin danh mục</div>
+            <div class="card-body">
+                <form th:action="@{/admin/category/save}"
+                      method="post"
+                      th:object="${category}">
+                    <div class="form-group ">
+                        <input type="hidden" th:field="*{id}"/>
+                        <label>Tên danh mục</label>
+                        <input type="text" th:field="*{name}" class="form-control" required/>
+                    </div>
+                    <button type="submit" class="btn-outline-success btn">Save</button>
+                    <button type="button" class="btn-outline-secondary btn m-2" onclick="cancelForm()">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" th:inline="javascript">
+        function cancelForm() {
+            window.location = "/book-store/admin/category";
+        }
+    </script>
+</div>
+</body>
+</html>

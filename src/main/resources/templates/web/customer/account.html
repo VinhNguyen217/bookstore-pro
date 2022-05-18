@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{web/_layout.html}"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Mua sách trực tuyến giá rẻ nhất</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="container">
+        <ol class="breadcrumb mb-0 p-0 bg-transparent">
+            <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+            <li class="breadcrumb-item active"><a>Tài khoản của tôi</a>
+            </li>
+        </ol>
+        <div class="customer-page mt-3">
+            <div class="row">
+                <div class="col-md-3 customer-option">
+                    <div class="row">
+                        <img th:src="@{'/images/icon/avatar.png'}"/>
+                        <div class="info">
+                            <p>Tài khoản của</p>
+                            <strong sec:authentication="principal.fullName"></strong>
+                        </div>
+                    </div>
+                    <div>
+                        <ul class="nav flex-column">
+                            <li th:if="${pageCurrent == 'account'}" style="background:#BBBBBB"><i class="fas fa-user icon"></i> <a th:href="@{/customer/account}">Thông tin tài khoản</a></li>
+                            <li><i class="fas fa-file-invoice icon"></i><a th:href="@{/customer/order}">Quản lý đơn hàng</a></li>
+                            <li><i class="fas fa-heart icon"></i><a th:href="@{/customer/favourite}">Sản phẩm yêu thích</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-9 customer-shared customer-account">
+                    <div class="heading">Thông tin tài khoản</div>
+                    <div class="rounded bg-white ">
+                        <div class="row" style="height: 450px">
+                            <div class="col-md-7">
+                                <h3 class="mt-4">Thông tin cá nhân</h3>
+                                <div class="alert alert-success text-center ml-3" th:if="${msg_update_account}">
+                                    [[${msg_update_account}]]
+                                </div>
+                                <form th:action="@{/customer/account/update}"
+                                      method="post"
+                                      th:object="${user}">
+                                    <input hidden th:field="*{id}">
+                                    <div class="element mt-4">
+                                        <span>First Name</span>
+                                        <input type="text"
+                                               th:field="*{firstName}"
+                                               placeholder="First name"
+                                               class="form-control col-md-8"
+                                               required>
+                                    </div>
+                                    <div class="element mt-4">
+                                        <span>Last Name</span>
+                                        <input type="text"
+                                               th:field="*{lastName}"
+                                               placeholder="Last Name"
+                                               class="form-control col-md-8"
+                                               required>
+                                    </div>
+                                    <div class="element mt-4 mb-4">
+                                        <span>Email</span>
+                                        <input type="text"
+                                               readonly
+                                               th:field="*{email}"
+                                               placeholder="Địa chỉ email"
+                                               class="form-control col-md-8"
+                                               required>
+                                    </div>
+                                    <div class="text-center">
+                                        <button class="btn btn-primary" type="submit">Cập nhật</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-5">
+                                <h3 class="mt-2" style="margin-left: 0px">Bảo mật</h3>
+                                <div class="mt-3 customer-password">
+                                    <span><i class="fas fa-lock"></i>Đổi mật khẩu</span>
+                                    <a class="btn btn-primary"
+                                       th:href="@{/customer/account/update-password}">Cập nhật</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        localStorage.clear();
+    </script>
+</div>
+</body>
+</html>

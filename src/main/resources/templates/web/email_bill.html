@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<h2 th:text="'Xin chào ' + ${bill.receiver}"></h2>
+<p>Bạn đã đặt hàng trên hệ thống của chúng tôi, vui lòng kiểm tra lại thông tin đơn hàng của bạn.</p>
+<div style="width: 600px;margin: 0 auto;padding: 20px;background-color: #d8c0c0">
+    <div style="text-align: center">
+        <h2 style="color: red">Cửa hàng BookStore</h2>
+        <h2>Thông Tin Đơn Hàng</h2>
+    </div>
+    <h3>Người đặt hàng</h3>
+    <table border="1" cellspacing="0" cellpadding="10" style="width: 100%">
+        <tr>
+            <th>Họ và tên</th>
+            <td>[[${bill.receiver}]]</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>[[${bill.email}]]</td>
+        </tr>
+        <tr>
+            <th>Số điện thoại</th>
+            <td>[[${bill.phone}]]</td>
+        </tr>
+        <tr>
+            <th>Địa chỉ</th>
+            <td>[[${bill.address}]]</td>
+        </tr>
+        <tr>
+            <th>Phương thức thanh toán</th>
+            <td>[[${utility.formatPayment(bill.getPayment().toString())}]]</td>
+        </tr>
+        <tr>
+            <th>Ghi chú</th>
+            <td>[[${bill.note}]]</td>
+        </tr>
+    </table>
+    <h3>Đơn hàng</h3>
+    <table border="1" cellspacing="0" cellpadding="10" style="width: 100%">
+        <tr>
+            <th>Sách</th>
+            <th>Số lượng</th>
+            <th>Đơn giá</th>
+        </tr>
+        <th:block th:each="item : ${itemList}">
+            <tr>
+                <td th:text="${bookService.getById(item.bookId).getName()}"></td>
+                <td th:text="${item.quantity}"></td>
+                <td th:text="${utility.formatPrice(bookService.getById(item.bookId).getPrice())}"></td>
+            </tr>
+        </th:block>
+    </table>
+    <div style="display: flex;justify-content: flex-start">
+        <p style="font-weight: 700">Tổng tiền : </p>
+        <span style="color: red;font-size: 24px;line-height: 45px;margin-left: 10px">
+            [[${utility.formatPrice(bill.total)}]]
+        </span>
+    </div>
+    <p>Thời gian tạo đơn hàng : [[${utility.formatTime(bill.getCreatedAt())}]]</p>
+</div>
+</body>
+</html>

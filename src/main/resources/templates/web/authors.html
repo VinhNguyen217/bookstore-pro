@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{web/_layout.html}"
+      xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Danh sách các tác giả </title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="author-list container mt-2">
+        <section class="breadcrumbbar mt-1 mb-2">
+            <ol class="breadcrumb mb-0 p-0 bg-transparent">
+                <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a>Tác Giả</a></li>
+            </ol>
+        </section>
+        <h1 class="text-center">Các tác giả</h1>
+        <hr/>
+        <!-- Hiển thị các tác giả -->
+        <div class="row mt-5 pl-5">
+            <th:block th:each="author : ${authorList}">
+                <a th:href="@{'/author/'+${author.id}}" class="author-item text-center m-3">
+                    <img th:src="@{'/images/author/'+${author.photo}}"/>
+                    <p>[[${author.name}]]</p>
+                </a>
+            </th:block>
+        </div>
+
+        <!-- Phân trang -->
+        <div class="pagination-bar my-3 col-md-12 pr-5">
+            <nav>
+                <ul class="pagination justify-content-end" th:if="${numberOfPages} > 1">
+
+                    <th:block th:if="${page} == 1">
+                        <li class="page-item">
+                            <a style="background: #F5A623" th:href="@{'/author/all?page=1'}"
+                               class="page-link">[[${page}]]</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" th:href="@{'/author/all?page='+${page+1}}"
+                               aria-label="Next">
+                                <span aria-hidden="true">&rsaquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </th:block>
+
+                    <th:block th:if="${page} > 1 and ${page} < ${numberOfPages}">
+                        <li class="page-item">
+                            <a class="page-link" th:href="@{'/author/all?page='+${page-1}}"
+                               aria-label="Previous">
+                                <span aria-hidden="true">&lsaquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a style="background: #F5A623"
+                               th:href="@{'/author/all'?page='+${page}}" class="page-link">[[${page}]]</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" th:href="@{'/author/all?page='+${page+1}}"
+                               aria-label="Next">
+                                <span aria-hidden="true">&rsaquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </th:block>
+
+                    <th:block th:if="${page} == ${numberOfPages}">
+                        <li class="page-item">
+                            <a class="page-link" th:href="@{'/author/all?page='+${page-1}}"
+                               aria-label="Previous">
+                                <span aria-hidden="true">&lsaquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a style="background: #F5A623"
+                               th:href="@{'/author/all?page='+${page}}" class="page-link">[[${page}]]</a>
+                        </li>
+                    </th:block>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <script>
+        sessionStorage.setItem('option', 'author');
+    </script>
+</div>
+</body>
+</html>

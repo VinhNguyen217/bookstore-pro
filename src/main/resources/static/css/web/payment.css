@@ -1,0 +1,119 @@
+.payment-page .space{
+    height: 200px;
+}
+.payment-title h2 {
+    font-size: 20px;
+    font-weight: 500;
+    color: #CF111A;
+}
+
+.payment-alert {
+    width: 50%;
+    height: 50%;
+    background-color: #e06262;
+    margin: auto;
+    padding: 30px;
+}
+
+.payment-alert h3 {
+    text-align: center;
+    font-weight: 400;
+}
+.payment-alert button{
+    background-color: #CF111A;
+}
+.payment-alert button a{
+    text-decoration: none;
+    color: white;
+}
+
+.payment-product {
+    padding-bottom: 5px;
+}
+
+.payment-product #sp {
+    font-size: 18px;
+    color: #222;
+    padding-left: 25px;
+    text-align: left;
+}
+
+.payment-product #spdt {
+    text-align: left;
+}
+
+.payment-product th {
+    text-align: center;
+    color: #4f4f70e0;
+    font-weight: 300;
+}
+
+.payment-product td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.payment-info .row {
+    justify-content: space-between;
+}
+
+.payment-info .title {
+    font-size: 20px;
+    font-weight: 500;
+    color: #CF111A;
+    padding-left: 25px;
+    text-align: left;
+}
+
+.payment-info .input-info {
+    width: 810px;
+}
+
+.payment-info .item-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.item-info label {
+    margin-left: 30px;
+    font-weight: 700;
+}
+
+.item-info input, textarea {
+    margin-right: 10px;
+}
+
+.payment-amount {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.payment-amount .edit {
+    display: flex;
+    justify-content: space-between;
+}
+
+.payment-amount .edit p {
+    margin-left: 10px;
+    font-size: 14px;
+    color: rgba(0, 0, 0, .54);
+}
+
+.payment-amount .edit span {
+    margin-right: 10px;
+}
+
+.payment-tongtien {
+    color: rgb(254, 56, 52);
+    font-size: 24px;
+    font-weight: 400;
+    text-align: right;
+    line-height: 25px;
+    margin-left: 10px;
+}
+
+.payment-amount button {
+    width: 230px;
+}
+
+

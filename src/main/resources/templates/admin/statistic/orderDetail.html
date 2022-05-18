@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/_layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Admin</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <style>
+        .table-bordered thead tr th {
+            border: 1px solid black;
+        }
+
+        .table-bordered tbody tr td {
+            border: 1px solid black;
+        }
+    </style>
+    <div class="container-fluid px-4">
+        <h4 class="mt-4 title">Chi Tiết Đơn Hàng</h4>
+        <hr/>
+        <div class="container">
+            <div class="info-customer">
+                <h1 class="mb-3">Thông Tin Khách Hàng</h1>
+                <div class="element">
+                    <span>Tên khách hàng :</span>
+                    <p> [[${bill.receiver}]]</p>
+                </div>
+                <div class="element">
+                    <span>Địa chỉ email :</span>
+                    <p> [[${bill.email}]]</p>
+                </div>
+                <div class="element">
+                    <span>Số điện thoại :</span>
+                    <p>[[${bill.phone}]]</p>
+                </div>
+                <div class="element">
+                    <span>Địa chỉ :</span>
+                    <p>[[${bill.address}]]</p>
+                </div>
+                <div class="element">
+                    <span>Phương thức thanh toán :</span>
+                    <p>[[${utility.formatPayment(bill.getPayment().toString())}]]</p>
+                </div>
+                <div th:if="${bill.note.trim() != ''}" class="element">
+                    <span>Ghi chú :</span>
+                    <p>[[${bill.note}]]</p>
+                </div>
+            </div>
+            <div class="order-list">
+                <h1 class="mt-3 mb-3">Danh Sách Đơn Hàng</h1>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Tên sách</th>
+                        <th>Ảnh</th>
+                        <th>Số lượng</th>
+                        <th>Giá</th>
+                        <th>Thành tiền</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="item : ${billDetailList}">
+                        <tr>
+                            <td>[[${bookService.getById(item.bookId).name}]]</td>
+                            <td><img style="width: 100px;height: 100px"
+                                     th:src="@{'/images/book/'+${bookService.getById(item.bookId).photo}}"/>
+                            </td>
+                            <td>[[${item.quantity}]]</td>
+                            <td>[[${utility.formatPrice(item.unitPrice)}]]</td>
+                            <td>[[${utility.formatPrice(item.quantity * item.unitPrice)}]]</td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr/>
+        <div class="total-order">
+            <div class="element">
+                <span>Tổng tiền hàng :</span>
+                <p>[[${utility.formatPrice(bill.total)}]]</p>
+            </div>
+            <div class="element">
+                <span>Phí vận chuyển :</span>
+                <p>[[${utility.formatPrice(0)}]]</p>
+            </div>
+            <div class="element">
+                <span style="line-height: 40px">Tổng số tiền :</span>
+                <p id="t">[[${utility.formatPrice(bill.total)}]]</p>
+            </div>
+        </div>
+        <hr/>
+        <div class="status-order">
+            <div class="element">
+                <span>Thời gian tạo đơn hàng :</span>
+                <p>[[${utility.formatTime(bill.createdAt)}]]</p>
+            </div>
+            <div class="element" th:if="${bill.confirmAt} != null">
+                <span>Thời gian xác nhận đơn hàng :</span>
+                <p>[[${utility.formatTime(bill.confirmAt)}]]</p>
+            </div>
+            <div class="element" th:if="${bill.updatedAt} != null and ${bill.status.toString().equals('DELIVERED')}">
+                <span>Giao hàng thành công :</span>
+                <p>[[${utility.formatTime(bill.updatedAt)}]]</p>
+            </div>
+            <div class="element" th:if="${bill.updatedAt} != null and ${bill.status.toString().equals('CANCELLED')}">
+                <span>Thời gian hủy đơn hàng :</span>
+                <p>[[${utility.formatTime(bill.updatedAt)}]]</p>
+            </div>
+            <div class="element">
+                <span style="margin-right: 10px">Trạng thái đơn hàng : </span>
+                <b th:if="${bill.status.toString().equals('WAIT_CONFIRM')}" style="color: #efe712;font-size: 18px">[[${utility.formatStatus(bill.status.toString())}]]</b>
+                <b th:if="${bill.status.toString().equals('DELIVERY')}" style="color: orangered;font-size: 18px">[[${utility.formatStatus(bill.status.toString())}]]</b>
+                <b th:if="${bill.status.toString().equals('DELIVERED')}" style="color: green;font-size: 18px">[[${utility.formatStatus(bill.status.toString())}]]</b>
+                <b th:if="${bill.status.toString().equals('CANCELLED')}" style="color: red;font-size: 18px">[[${utility.formatStatus(bill.status.toString())}]]</b>
+            </div>
+
+            <div th:if="${bill.status.toString().equals('WAIT_CONFIRM')}" class="element mt-3 mb-3">
+                <button type="button" class="btn-outline-secondary btn" onclick="cancelForm()"><i
+                        class="fas fa-undo"></i> Trở Về
+                </button>
+                <button class="btn btn-outline-success update-order" th:onclick="'confirmOrder('+${bill.id}+')'">Xác nhận đơn hàng
+                </button>
+            </div>
+
+            <div th:if="${bill.status.toString().equals('DELIVERY')}" class="element mt-3 mb-3">
+                <button type="button" class="btn-outline-secondary btn" onclick="cancelForm()"><i
+                        class="fas fa-undo"></i> Trở Về
+                </button>
+                <button class="btn btn-outline-success update-order" th:onclick="'updateDelivered('+${bill.id}+')'">Cập
+                    nhật đơn hàng chuyển
+                    sang trạng thái đã giao hàng
+                </button>
+            </div>
+
+            <div th:if="${bill.status.toString().equals('DELIVERED') || bill.status.toString().equals('CANCELLED')}" class="mt-3 mb-3 element">
+                <button type="button" class="btn-outline-secondary btn" onclick="cancelForm()"><i
+                        class="fas fa-undo"></i> Trở Về
+                </button>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" th:inline="javascript">
+        function cancelForm() {
+            window.location = "/book-store/admin/statistic/order";
+        }
+
+        function confirmOrder(orderId){
+            $.ajax({
+                url: "http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/payment/updateStatus",
+                type: "PUT",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    "orderId": orderId,
+                    "status": 'DELIVERY',
+                }),
+                processData: false,
+                success: function () {
+                    alert('Xác nhận đơn hàng thành công');
+                    window.location.href = "http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/admin/statistic/order/" + orderId;
+                }, error: function (err) {
+                    console.log(err);
+                }
+            })
+        }
+
+        function updateDelivered(orderId) {
+            $.ajax({
+                url: "http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/payment/updateStatus",
+                type: "PUT",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    "orderId": orderId,
+                    "status": 'DELIVERED',
+                }),
+                processData: false,
+                success: function () {
+                    alert('Cập nhật đơn hàng thành công');
+                    window.location.href = "http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/admin/statistic/order/" + orderId;
+                }, error: function (err) {
+                    console.log(err);
+                }
+            })
+        }
+    </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+.contact .title{
+    font-family: GT Super Bold, serif;
+    color: #2B0F42;
+    font-size: 28px;
+    letter-spacing: -0.6px;
+}
+.support_desc p{
+    font-size: 15px;
+    color: #777;
+    line-height: 1.8em;
+}
+.contact-address p{
+    font-size: 14px;
+    color: #777;
+    line-height: 1.8em;
+}

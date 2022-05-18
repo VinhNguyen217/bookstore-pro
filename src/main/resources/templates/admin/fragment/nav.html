@@ -1,0 +1,58 @@
+<nav th:fragment="nav">
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <a id="nav_home" class="nav-link nav_home" th:href="@{/admin}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
+                        Trang chủ
+                    </a>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
+                       aria-expanded="false" aria-controls="collapsePages">
+                        <div class="sb-nav-link-icon"><i class="fas fa-table me-1"></i></div>
+                        Admin Management
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div id="collapsePages" aria-labelledby="headingTwo"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                            <a id="nav_category" class="nav-link nav_category" th:href="@{/admin/category}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-list"></i></div>
+                                Quản Lý Danh Mục
+                            </a>
+                            <a id="nav_author" class="nav-link nav_author" th:href="@{/admin/author}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                                Quản Lý Tác Giả
+                            </a>
+                            <a id="nav_book" class="nav-link nav_book" th:href="@{/admin/book}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>
+                                Quản Lý Sách
+                            </a>
+                            <a id="nav_promotion" class="nav-link" th:href="@{/admin/promotion}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-ad"></i></div>
+                                Quản Lý Khuyến Mãi
+                            </a>
+                            <a id="nav_account" class="nav-link" th:href="@{/admin/account}">
+                                <div class="sb-nav-link-icon"><i class="far fa-user"></i></div>
+                                Quản Lý Tài Khoản
+                            </a>
+                            <a id="nav_report" class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-bar"></i></div>Báo cáo
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a id="nav_order" class="nav-link nav_order" th:href="@{/admin/statistic/order}">Thống kê đơn hàng</a>
+                                    <a id="nav_revenue" class="nav-link" th:href="@{/admin/statistic/revenue}">Thống kê doanh thu</a>
+                                </nav>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="sb-sidenav-footer">
+                <div class="small">Copyright &copy; Your Website 2022</div>
+            </div>
+        </nav>
+    </div>
+</nav>

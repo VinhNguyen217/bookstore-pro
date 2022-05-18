@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/_layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Admin</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid px-4">
+        <h4 class="mt-4">Thống Kê Đơn Hàng</h4>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a class="nav_home link_home" th:href="@{/admin}">Trang Chủ</a></li>
+            <li class="breadcrumb-item active">Thống Kê Đơn Hàng</li>
+        </ol>
+        <div class="card mb-4">
+            <div class="card-header">
+                <b style="padding: 0px">Danh Sách Đơn Hàng</b>
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead class="order-thead">
+                    <tr>
+                        <th>Id</th>
+                        <th>Khách hàng</th>
+                        <th>Tổng tiền</th>
+                        <th>Thời gian tạo</th>
+                        <th>Trạng thái</th>
+                        <th>Chi tiết đơn hàng</th>
+                    </tr>
+                    </thead>
+                    <tbody class="order-tbody">
+                    <th:block th:each="bill : ${billList}">
+                        <tr>
+                            <td>[[${bill.id}]]</td>
+                            <td>[[${bill.receiver}]]</td>
+                            <td>[[${utility.formatPrice(bill.total)}]]</td>
+                            <td>[[${utility.formatTime(bill.createdAt)}]]</td>
+                            <td th:if="${bill.status.toString().equals('WAIT_CONFIRM')}"
+                                style="color: #efe712;font-size: 18px"><b>[[${utility.formatStatus(bill.status.toString())}]]</b></td>
+                            <td th:if="${bill.status.toString().equals('DELIVERY')}"
+                                style="color: orangered;font-size: 18px"><b>[[${utility.formatStatus(bill.status.toString())}]]</b></td>
+                            <td th:if="${bill.status.toString().equals('DELIVERED')}"
+                                style="color: green;font-size: 18px"><b>[[${utility.formatStatus(bill.status.toString())}]]</b></td>
+                            <td th:if="${bill.status.toString().equals('CANCELLED')}"
+                                style="color: red;font-size: 18px"><b>[[${utility.formatStatus(bill.status.toString())}]]</b></td>
+                            <td class="action">
+                                <a th:href="@{'/admin/statistic/order/'+${bill.id}}"><i class="far fa-edit"></i></a>
+                                &nbsp;&nbsp
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+
+        <div class="col-md-8">
+            <h4 class="mb-3">Kết Quả Tổng Hợp</h4>
+            <table class="table-bordered table-statistic">
+                <thead>
+                <tr>
+                    <th>Tổng số đơn hàng</th>
+                    <th>Số đơn hàng chưa xác nhận</th>
+                    <th>Số đơn hàng đang giao</th>
+                    <th>Số đơn hàng thành công</th>
+                    <th>Số đơn hàng bị hủy</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>[[${billList.size()}]]</td>
+                    <td>[[${countWaitConfirm}]]</td>
+                    <td>[[${countDelivery}]]</td>
+                    <td>[[${countDelivered}]]</td>
+                    <td>[[${countCancelled}]]</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/_layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Admin</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid px-4">
+        <h4 class="mt-4 title">[[${title}]]</h4>
+        <div class="card mb-4 col-md-8">
+            <div class="card-header">Thông tin tác giả</div>
+            <div class="card-body">
+                <form th:action="@{/admin/author/save}"
+                      method="post"
+                      enctype="multipart/form-data"
+                      th:object="${author}">
+                    <div class="form-group ">
+                        <input type="hidden" th:field="*{id}"/>
+                        <label>Tên tác giả</label></br>
+                        <input type="text" th:field="*{name}" class="form-control" required/>
+                    </div>
+                    <div class="divide"></div>
+
+                    <label style="margin-bottom: 0px">Ảnh</label></br>
+                    <th:block th:if="${author.photo} == null">
+                        <img id="thumbnail"/>
+                    </th:block>
+                    <th:block th:if="${author.photo} != null">
+                        <img id="thumbnail" th:src="@{'/images/author/'+${author.photo}}"/>
+                    </th:block>
+                    <input type="file" id="fileImage" name="fileImage" accept="image/png, image/jpeg">
+
+                    <div class="divide"></div>
+                    <label>Thông tin tác giả</label></br>
+                    <textarea th:field="*{description}" rows="10" class="form-control"></textarea></br>
+
+
+                    <button type="submit" class="btn-outline-success btn">Save</button>
+                    <button type="button" class="btn-outline-secondary btn m-2" onclick="cancelForm()">
+                        Cancel
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.tiny.cloud/1/fcxs651ayyon46xrkvum3d16qhqpdojlkc6d35b8e38bavm4/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+            toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table',
+            toolbar_mode: 'floating',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+        });
+    </script>
+    <script type="text/javascript" th:inline="javascript">
+        function cancelForm() {
+            window.location = "/book-store/admin/author";
+        }
+        $(document).ready(function () {
+            $('#fileImage').change(function () {
+                showImageThumbnail(this);
+            });
+        });
+
+        function showImageThumbnail(fileInput) {
+            file = fileInput.files[0];
+            reader = new FileReader();
+            reader.onload = function (e) {
+                $('#thumbnail').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+
+    </script>
+</div>
+</body>
+</html>

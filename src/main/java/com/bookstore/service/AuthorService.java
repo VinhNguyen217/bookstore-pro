@@ -23,13 +23,16 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 
+import static com.bookstore.utils.CommonStringUtil.PATH_IMAGE_AUTHOR;
+
 @Service
 public class AuthorService {
 
-    private static final String PATH_IMAGE_AUTHOR = "./src/main/resources/static/uploads/authors";
-
     //Quy định mỗi trang có 24 tác giả
     private static Integer PAGE_SIZE = 24;
+
+    @Autowired
+    private StorageService storageService;
 
     @Autowired
     private AuthorRepository authorRepository;
@@ -92,11 +95,15 @@ public class AuthorService {
         }
     }
 
-    public void delete(Integer id) {
+    public void delete(Integer id) throws IOException {
         Optional<Author> authorOptional = authorRepository.findById(id);
-        if (authorOptional.isPresent())
+        if (authorOptional.isPresent()) {
+            String fileImage = authorOptional.get().getPhoto();
             authorRepository.deleteById(id);
-        else throw new HttpClientErrorException(HttpStatus.NOT_FOUND, ResponseMessage.NOT_FOUND);
+            if (!"author.png".equals(fileImage)) {
+                storageService.deleteImage(fileImage, PATH_IMAGE_AUTHOR);
+            }
+        } else throw new HttpClientErrorException(HttpStatus.NOT_FOUND, ResponseMessage.NOT_FOUND);
     }
 
     public List<Author> findAllAndPaging(Integer page) {

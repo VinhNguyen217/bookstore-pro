@@ -94,6 +94,8 @@ public class BookController {
                 ra.addFlashAttribute("msg_success", ResponseMessage.DELETE_SUCCESS);
             } catch (DataIntegrityViolationException ex) {
                 ra.addFlashAttribute("msg_error", ResponseMessage.SQL_ERROR);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
             return "redirect:/admin/book";
         }

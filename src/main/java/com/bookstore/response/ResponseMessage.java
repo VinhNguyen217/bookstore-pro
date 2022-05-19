@@ -15,14 +15,11 @@ public class ResponseMessage {
     public static final String LOGOUT_SUCCESS = "Đăng xuất thành công";
 
     public static final String NOT_FOUND = "Không tìm thấy";
+    public static final String IMAGE_NOT_FOUND = "Không tìm thấy ảnh";
     public static final String CART_ITEM_EXIST = "Sản phẩm này đã có trong giỏ hàng";
     public static final String CART_ITEM_NOT_FOUND = "Không tìm thấy item này";
     public static final String CATEGORY_NOT_FOUND = "Không tìm thấy danh mục này";
     public static final String PAGE_ERROR = "Số trang phải lớn hơn 0";
-
-    public static final String VERIFY_BILL_SUCCESS = "Xác nhận đơn hàng thành công,đơn hàng sẽ được xử lý và gửi đến cho bạn.\nXin cảm ơn quý khách";
-    public static final String VERIFY_BILL_EXPIRED = "Rất tiếc,mã xác nhận đã hết hạn\nHệ thống sẽ hủy đơn hàng của bạn";
-    public static final String VERIFY_BILL_INVALID = "Mã xác nhận không hợp lệ";
 
     public static final String DELETE_SUCCESS = "Xóa thành công";
     public static final String UPDATE_SUCCESS = "Cập nhật thành công";

@@ -3,7 +3,7 @@ package com.bookstore.controller.web;
 import com.bookstore.model.Bill;
 import com.bookstore.model.request.PaypalModel;
 import com.bookstore.service.*;
-import com.bookstore.utils.ConstStringUtil;
+import com.bookstore.utils.CommonStringUtil;
 import com.bookstore.utils.Utility;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
@@ -63,9 +63,9 @@ public class WebPaymentController {
             billService.create(bill);
             ra.addFlashAttribute("createBill", true);
         } else {
-            request.getSession().setAttribute(ConstStringUtil.MY_SESSION_BILL, bill);
-            String cancelUrl = Utility.getBaseURL(request) + "/" + ConstStringUtil.URL_PAYPAL_CANCEL;
-            String successUrl = Utility.getBaseURL(request) + "/" + ConstStringUtil.URL_PAYPAL_SUCCESS;
+            request.getSession().setAttribute(CommonStringUtil.MY_SESSION_BILL, bill);
+            String cancelUrl = Utility.getBaseURL(request) + "/" + CommonStringUtil.URL_PAYPAL_CANCEL;
+            String successUrl = Utility.getBaseURL(request) + "/" + CommonStringUtil.URL_PAYPAL_SUCCESS;
             PaypalModel paypalModel = new PaypalModel();
             Integer totalPayment = cartService.getTotalPrices();
             paypalModel.setTotal(utility.calculateToUSD(totalPayment));

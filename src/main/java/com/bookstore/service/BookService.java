@@ -4,12 +4,9 @@ import com.bookstore.model.Book;
 import com.bookstore.model.Category;
 import com.bookstore.repository.BookRepository;
 import com.bookstore.repository.CategoryRepository;
-import com.bookstore.repository.custom.BookCustomRepository;
 import com.bookstore.response.ResponseMessage;
+import com.bookstore.utils.CommonStringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -24,9 +21,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
+
+import static com.bookstore.utils.CommonStringUtil.PATH_IMAGE_BOOK;
 
 @Service
 public class BookService {
@@ -34,7 +32,8 @@ public class BookService {
     //Quy định mỗi trang có 12 sản phẩm
     private static Integer PAGE_SIZE = 8;
 
-    private static final String PATH_IMAGE_BOOK = "./src/main/resources/static/uploads/books";
+    @Autowired
+    private StorageService storageService;
 
     @Autowired
     private BookRepository bookRepository;
@@ -106,10 +105,13 @@ public class BookService {
         }
     }
 
-    public void delete(Integer id) {
+    public void delete(Integer id) throws IOException {
         Optional<Book> bookOptional = bookRepository.findById(id);
-        if (bookOptional.isPresent())
+        if (bookOptional.isPresent()){
+            String fileImage = bookOptional.get().getPhoto();
             bookRepository.deleteById(id);
+            storageService.deleteImage(fileImage, CommonStringUtil.PATH_IMAGE_BOOK);
+        }
         else throw new HttpClientErrorException(HttpStatus.NOT_FOUND, ResponseMessage.NOT_FOUND);
     }
 

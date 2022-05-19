@@ -92,7 +92,7 @@ $(document).ready(function () {
 
     function updatePassword(oldPw, newPw) {
         $.ajax({
-            url: "http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/user/update-password",
+            url: "http://13.212.87.195:5000/book-store/api/user/update-password",
             type: "PUT",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify({

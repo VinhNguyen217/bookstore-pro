@@ -98,7 +98,7 @@ $(document).ready(function () {
         $('.nav-contact').css('background','#8e161a');
     }
 
-    $.getJSON('http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/cart/qty', function (res) {
+    $.getJSON('http://13.212.87.195:5000/book-store/api/cart/qty', function (res) {
         $('.cart-amount').html(res.data);
     }).fail(function (err) {
         console.log(err);
@@ -107,7 +107,7 @@ $(document).ready(function () {
     $('.btn-search').click(function () {
         let name = $('.name-search').val();
         if (name.trim() != '') {
-            window.location = "http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/search?q=" + name.trim();
+            window.location = "http://13.212.87.195:5000/book-store/search?q=" + name.trim();
         }
     })
 

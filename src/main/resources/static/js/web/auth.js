@@ -59,7 +59,7 @@ $(document).ready(function () {
 
     function createUser() {
         $.ajax({
-            url: 'http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/user/create',
+            url: 'http://13.212.87.195:5000/book-store/api/user/create',
             dataType: 'json',
             type: 'POST',
             contentType: 'application/json',
@@ -133,7 +133,7 @@ $(document).ready(function () {
 
     function login() {
         $.ajax({
-            url: 'http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/user/login',
+            url: 'http://13.212.87.195:5000/book-store/api/user/login',
             dataType: 'json',
             type: 'POST',
             contentType: 'application/json',
@@ -144,7 +144,7 @@ $(document).ready(function () {
             processData: false,
             success: function (res) {
                 alert(res.message);
-                window.location = 'http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/';
+                window.location = 'http://13.212.87.195:5000/book-store/';
             },
             error: function (err) {
                 $('.alert-login').show();

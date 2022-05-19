@@ -154,7 +154,7 @@
                     $('.dialog-alert').addClass('appear');
                     $('.blurred-bg').addClass('appear');
                 } else {
-                    window.location = "http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/payment";
+                    window.location = "http://13.212.87.195:5000/book-store/payment";
                 }
             })
 
@@ -185,7 +185,7 @@
 
         function updateCartItem(itemId, qty) {
             $.ajax({
-                url: 'http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/cart/item/update',
+                url: 'http://13.212.87.195:5000/book-store/api/cart/item/update',
                 type: "PUT",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify({
@@ -218,7 +218,7 @@
 
         function updateCartItemSelected(itemId, val) {
             $.ajax({
-                url: 'http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/cart/item/selectOrUnSelect',
+                url: 'http://13.212.87.195:5000/book-store/api/cart/item/selectOrUnSelect',
                 type: "PUT",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify({
@@ -235,7 +235,7 @@
         }
 
         function displayTotalPrices() {
-            $.getJSON('http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/cart/total', function (res) {
+            $.getJSON('http://13.212.87.195:5000/book-store/api/cart/total', function (res) {
                 if (parseInt(res.data) == 0) {
                     $('.total-prices').html('Vui lòng chọn sản phẩm');
                 } else {
@@ -250,14 +250,14 @@
             $('.dialog-delete-item').addClass('appear')
             $('.blurred-bg').addClass('appear');
             $('.btn-yes').click(function () {
-                let url = "http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/cart/item/" + itemId;
+                let url = "http://13.212.87.195:5000/book-store/api/cart/item/" + itemId;
                 $.ajax({
                     type: "DELETE",
                     contentType: "application/json; charset=utf-8",
                     url: url,
                     cache: false,
                     success: function () {
-                        window.location = "http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/cart";
+                        window.location = "http://13.212.87.195:5000/book-store/cart";
                     },
                     error: function (err) {
                         console.log(err);
@@ -271,14 +271,14 @@
             $('.dialog-delete-item').addClass('appear')
             $('.blurred-bg').addClass('appear');
             $('.btn-yes').click(function () {
-                let url = "http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/api/cart/clear";
+                let url = "http://13.212.87.195:5000/book-store/api/cart/clear";
                 $.ajax({
                     type: "DELETE",
                     contentType: "application/json; charset=utf-8",
                     url: url,
                     cache: false,
                     success: function () {
-                        window.location = "http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/cart";
+                        window.location = "http://13.212.87.195:5000/book-store/cart";
                     },
                     error: function (err) {
                         console.log(err);

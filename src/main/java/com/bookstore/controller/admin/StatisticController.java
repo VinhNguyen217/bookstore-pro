@@ -3,7 +3,6 @@ package com.bookstore.controller.admin;
 import com.bookstore.model.Bill;
 import com.bookstore.model.BillDetail;
 import com.bookstore.model.Book;
-import com.bookstore.security.SessionAdmin;
 import com.bookstore.service.*;
 import com.bookstore.utils.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -35,8 +35,8 @@ public class StatisticController {
     private Utility utility;
 
     @GetMapping("/revenue")
-    public String showFormRevenueStatistics(Model model) {
-        if (!SessionAdmin.getInstance().userList.isEmpty()) {
+    public String showFormRevenueStatistics(Model model, HttpSession session) {
+        if (session.getAttribute("admin") != null) {
             List<Book> bookList = bookService.getAll();
             model.addAttribute("bookList", bookList);
             model.addAttribute("utility", utility);
@@ -58,8 +58,8 @@ public class StatisticController {
     }
 
     @GetMapping("/order")
-    public String showFormOrder(Model model) {
-        if (!SessionAdmin.getInstance().userList.isEmpty()) {
+    public String showFormOrder(Model model, HttpSession session) {
+        if (session.getAttribute("admin") != null) {
             List<Bill> billList = billService.getAllDescId();
             model.addAttribute("billList", billList);
             model.addAttribute("utility", utility);
@@ -77,8 +77,8 @@ public class StatisticController {
     }
 
     @GetMapping("/order/{id}")
-    public String showOrderById(@PathVariable("id") Integer id, Model model) {
-        if (!SessionAdmin.getInstance().userList.isEmpty()) {
+    public String showOrderById(@PathVariable("id") Integer id, Model model, HttpSession session) {
+        if (session.getAttribute("admin") != null) {
             Bill bill = billService.getById(id);
             List<BillDetail> billDetailList = billDetailService.getAllByBillId(id);
             model.addAttribute("bill", bill);

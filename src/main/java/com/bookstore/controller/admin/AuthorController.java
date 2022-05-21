@@ -2,7 +2,6 @@ package com.bookstore.controller.admin;
 
 import com.bookstore.model.Author;
 import com.bookstore.response.ResponseMessage;
-import com.bookstore.security.SessionAdmin;
 import com.bookstore.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Controller
@@ -22,8 +22,8 @@ public class AuthorController {
     private AuthorService authorService;
 
     @GetMapping({"/", ""})
-    public String showAuthors(Model model) {
-        if (!SessionAdmin.getInstance().userList.isEmpty()) {
+    public String showAuthors(Model model, HttpSession session) {
+        if (session.getAttribute("admin") != null) {
             model.addAttribute("authorList", authorService.getAllDescId());
             return "admin/author/authors";
         }
@@ -31,8 +31,8 @@ public class AuthorController {
     }
 
     @GetMapping("/add")
-    public String showFormAdd(Model model) {
-        if (!SessionAdmin.getInstance().userList.isEmpty()) {
+    public String showFormAdd(Model model,HttpSession session) {
+        if (session.getAttribute("admin") != null) {
             model.addAttribute("author", new Author());
             model.addAttribute("title", "Thêm Mới");
             return "admin/author/addOrEdit";
@@ -41,8 +41,8 @@ public class AuthorController {
     }
 
     @GetMapping("/{id}")
-    public String showAuthorById(@PathVariable("id") Integer id, Model model) {
-        if (!SessionAdmin.getInstance().userList.isEmpty()) {
+    public String showAuthorById(@PathVariable("id") Integer id, Model model,HttpSession session) {
+        if (session.getAttribute("admin") != null) {
             Author author = authorService.getById(id);
             model.addAttribute("author", author);
             model.addAttribute("title", "Tác giả : " + author.getName());
@@ -68,8 +68,8 @@ public class AuthorController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Integer id, RedirectAttributes ra) {
-        if (!SessionAdmin.getInstance().userList.isEmpty()) {
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes ra,HttpSession session) {
+        if (session.getAttribute("admin") != null) {
             try {
                 authorService.delete(id);
                 ra.addFlashAttribute("msg_success", ResponseMessage.DELETE_SUCCESS);

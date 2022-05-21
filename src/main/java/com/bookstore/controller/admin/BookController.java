@@ -2,7 +2,6 @@ package com.bookstore.controller.admin;
 
 import com.bookstore.model.Book;
 import com.bookstore.response.ResponseMessage;
-import com.bookstore.security.SessionAdmin;
 import com.bookstore.service.*;
 import com.bookstore.utils.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Controller
@@ -32,8 +32,8 @@ public class BookController {
     private Utility utility;
 
     @GetMapping({"", "/"})
-    public String showBooks(Model model) {
-        if (!SessionAdmin.getInstance().userList.isEmpty()) {
+    public String showBooks(Model model, HttpSession session) {
+        if (session.getAttribute("admin") != null) {
             model.addAttribute("bookList", bookService.getAllDescId());
             model.addAttribute("categoryService", categoryService);
             model.addAttribute("authorService", authorService);
@@ -44,8 +44,8 @@ public class BookController {
     }
 
     @GetMapping("/add")
-    public String showFormAdd(Model model) {
-        if (!SessionAdmin.getInstance().userList.isEmpty()) {
+    public String showFormAdd(Model model, HttpSession session) {
+        if (session.getAttribute("admin") != null) {
             model.addAttribute("book", new Book());
             model.addAttribute("listCategories", categoryService.getAll());
             model.addAttribute("listAuthors", authorService.getAll());
@@ -56,8 +56,8 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public String showBookById(@PathVariable("id") Integer id, Model model) {
-        if (!SessionAdmin.getInstance().userList.isEmpty()) {
+    public String showBookById(@PathVariable("id") Integer id, Model model, HttpSession session) {
+        if (session.getAttribute("admin") != null) {
             Book book = bookService.getById(id);
             model.addAttribute("book", book);
             model.addAttribute("listCategories", categoryService.getAll());
@@ -87,8 +87,8 @@ public class BookController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Integer id, RedirectAttributes ra) {
-        if (!SessionAdmin.getInstance().userList.isEmpty()) {
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes ra, HttpSession session) {
+        if (session.getAttribute("admin") != null) {
             try {
                 bookService.delete(id);
                 ra.addFlashAttribute("msg_success", ResponseMessage.DELETE_SUCCESS);

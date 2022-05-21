@@ -2,7 +2,6 @@ package com.bookstore.controller.admin;
 
 import com.bookstore.model.Category;
 import com.bookstore.response.ResponseMessage;
-import com.bookstore.security.SessionAdmin;
 import com.bookstore.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/admin/category")
 public class CategoryController {
@@ -22,8 +23,8 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping({"/", ""})
-    public String showCategories(Model model) {
-        if (!SessionAdmin.getInstance().userList.isEmpty()) {
+    public String showCategories(Model model, HttpSession session) {
+        if (session.getAttribute("admin") != null) {
             model.addAttribute("categoryList", categoryService.getAllDescId());
             return "admin/category/categories";
         }
@@ -31,8 +32,8 @@ public class CategoryController {
     }
 
     @GetMapping({"/{id}"})
-    public String showCategoryById(@PathVariable Integer id, Model model) {
-        if (!SessionAdmin.getInstance().userList.isEmpty()) {
+    public String showCategoryById(@PathVariable Integer id, Model model, HttpSession session) {
+        if (session.getAttribute("admin") != null) {
             Category category = categoryService.getById(id);
             model.addAttribute("category", category);
             model.addAttribute("title", "Thể loại : " + category.getName());
@@ -42,8 +43,8 @@ public class CategoryController {
     }
 
     @GetMapping("/add")
-    public String showFormAdd(Model model) {
-        if (!SessionAdmin.getInstance().userList.isEmpty()) {
+    public String showFormAdd(Model model, HttpSession session) {
+        if (session.getAttribute("admin") != null) {
             model.addAttribute("category", new Category());
             model.addAttribute("title", "Thêm Mới");
             return "admin/category/addOrEdit";
@@ -59,8 +60,8 @@ public class CategoryController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Integer id, RedirectAttributes ra) {
-        if (!SessionAdmin.getInstance().userList.isEmpty()) {
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes ra, HttpSession session) {
+        if (session.getAttribute("admin") != null) {
             try {
                 categoryService.delete(id);
                 ra.addFlashAttribute("msg_success", ResponseMessage.DELETE_SUCCESS);

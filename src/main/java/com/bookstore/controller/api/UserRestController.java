@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 
 @RestController
@@ -40,19 +41,19 @@ public class UserRestController {
     }
 
     @PostMapping("/admin/login")
-    public ResponseEntity<?> loginAdmin(@RequestBody LoginRequest loginRequest) {
-        return ResponseObject.loginSuccess(authService.loginAdmin(loginRequest.getEmail(), loginRequest.getPassword()));
+    public ResponseEntity<?> loginAdmin(@RequestBody LoginRequest loginRequest, HttpSession session) {
+        return ResponseObject.loginSuccess(authService.loginAdmin(loginRequest.getEmail(), loginRequest.getPassword(),session));
     }
 
     @PostMapping("/admin/logout")
-    public ResponseEntity<?> logoutAdmin() {
-        authService.logoutAdmin();
+    public ResponseEntity<?> logoutAdmin(HttpSession session) {
+        authService.logoutAdmin(session);
         return ResponseObject.logoutSuccess();
     }
 
-    @GetMapping("/admin/checkAdminSession")
-    public ResponseEntity<?> checkAdminSession() {
-        return ResponseObject.success(authService.checkAdminSession());
+    @GetMapping("/admin/getUserName")
+    public ResponseEntity<?> checkAdminSession(HttpSession session) {
+        return ResponseObject.success(authService.getUserName(session));
     }
 
 }

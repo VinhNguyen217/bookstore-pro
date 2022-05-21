@@ -19,7 +19,6 @@ $(document).ready(function () {
 
     let email = $('.login-email').val();
     let password = $('.login-password').val();
-
     $('.login-alert').hide();
 
     $('.login-email').keyup(function () {
@@ -65,7 +64,7 @@ $(document).ready(function () {
             processData: false,
             success: function (res) {
                 window.localStorage.setItem('admin', res.data.userName);
-                sessionStorage.setItem('index','home');
+                sessionStorage.setItem('index', 'home');
                 alert(res.message);
                 window.location = 'http://13.212.87.195:5000/book-store/admin';
             },
@@ -78,21 +77,18 @@ $(document).ready(function () {
 })
 
 $(document).ready(function () {
-    $.getJSON("http://13.212.87.195:5000/book-store/api/admin/checkAdminSession",function (res) {
-        if(res.data == false){
+    $.getJSON("http://13.212.87.195:5000/book-store/api/admin/getUserName", function (res) {
+        if (res.data == null) {
             $('#sidenavAccordion').hide();
             $('#sidebarToggle').hide();
             $('#account').hide();
-        }else{
-
+        } else {
+            $('.admin-info').html(res.data);
         }
     }).fail(function (err) {
         console.log(err);
     })
 
-    if (window.localStorage.getItem('admin') != null) {
-        $('.admin-info').html(window.localStorage.getItem('admin'));
-    }
 
     $('.fa-times').click(function () {
         $('.alert-success').hide();
@@ -108,9 +104,8 @@ $(document).ready(function () {
             contentType: "application/json; charset=utf-8",
             url: 'http://13.212.87.195:5000/book-store/api/admin/logout',
             cache: false,
-            success: function (res) {
+            success: function () {
                 window.location.href = "http://13.212.87.195:5000/book-store/admin/login";
-                window.localStorage.clear();
                 sessionStorage.clear();
             }, error: function (err) {
                 console.log(err);
@@ -155,15 +150,15 @@ $(document).ready(function () {
         $('#nav_book').css('color', 'blue')
     if (sessionStorage.getItem('index') == 'account')
         $('#nav_account').css('color', 'blue')
-    if (sessionStorage.getItem('index') == 'order'){
+    if (sessionStorage.getItem('index') == 'order') {
         $('#nav_report').removeClass('collapsed');
-        $('#nav_report').attr("aria-expanded","true");
+        $('#nav_report').attr("aria-expanded", "true");
         $('#pagesCollapseAuth').addClass('show');
         $('#nav_order').css('color', 'blue')
     }
-    if (sessionStorage.getItem('index') == 'revenue'){
+    if (sessionStorage.getItem('index') == 'revenue') {
         $('#nav_report').removeClass('collapsed');
-        $('#nav_report').attr("aria-expanded","true");
+        $('#nav_report').attr("aria-expanded", "true");
         $('#pagesCollapseAuth').addClass('show');
         $('#nav_revenue').css('color', 'blue')
     }

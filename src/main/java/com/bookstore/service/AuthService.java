@@ -3,7 +3,6 @@ package com.bookstore.service;
 import com.bookstore.model.User;
 import com.bookstore.repository.UserRepository;
 import com.bookstore.response.ResponseMessage;
-import com.bookstore.security.SessionAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+
+import javax.servlet.http.HttpSession;
 
 @Service
 public class AuthService {
@@ -48,7 +49,7 @@ public class AuthService {
         }
     }
 
-    public User loginAdmin(String email, String password) {
+    public User loginAdmin(String email, String password, HttpSession session) {
         User userCheck = userRepository.findByEmail(email);
         if (userCheck == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, ResponseMessage.EMAIL_NOT_EXIST);
@@ -59,7 +60,7 @@ public class AuthService {
             else {
                 if (userCheck.isEnabled()) {
                     if (userCheck.getRole() == User.Role.ROLE_ADMIN) {
-                        SessionAdmin.getInstance().userList.add(userCheck);
+                        session.setAttribute("admin", userCheck.getUserName());
                         return userCheck;
                     } else {
                         throw new HttpClientErrorException(HttpStatus.FORBIDDEN, ResponseMessage.ACCESS_DENIED);
@@ -71,11 +72,11 @@ public class AuthService {
         }
     }
 
-    public void logoutAdmin() {
-        SessionAdmin.getInstance().userList.clear();
+    public void logoutAdmin(HttpSession session) {
+        session.removeAttribute("admin");
     }
 
-    public boolean checkAdminSession() {
-        return !SessionAdmin.getInstance().userList.isEmpty();
+    public String getUserName(HttpSession session) {
+        return (String) session.getAttribute("admin");
     }
 }

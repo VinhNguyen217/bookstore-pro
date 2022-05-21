@@ -1,9 +1,10 @@
 package com.bookstore.controller.admin;
 
-import com.bookstore.security.SessionAdmin;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpSession;
 
 
 @Controller
@@ -11,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AuthController {
 
     @GetMapping("/login")
-    public String showFormLogin() {
-        if (!SessionAdmin.getInstance().userList.isEmpty())
+    public String showFormLogin(HttpSession session) {
+        if (session.getAttribute("admin") != null)
             return "redirect:/admin";
         else
-            return "admin/auth/login";
+            return "/admin/login";
     }
 }

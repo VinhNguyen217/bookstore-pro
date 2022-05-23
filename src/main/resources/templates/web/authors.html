@@ -25,7 +25,7 @@
         </div>
         <hr/>
         <!-- Hiển thị các tác giả -->
-        <div class="row mt-5 pl-5">
+        <div class="row mt-5 pl-5 display-author">
             <th:block th:each="author : ${authorList}">
                 <a th:href="@{'/author/'+${author.id}}" class="author-item text-center m-3">
                     <img th:src="@{'/images/author/'+${author.photo}}"/>

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AuthorRepository extends JpaRepository<Author, Integer>, AuthorCustomRepository {
@@ -17,4 +18,7 @@ public interface AuthorRepository extends JpaRepository<Author, Integer>, Author
 
     @Query(value = "SELECT * FROM author ORDER BY id DESC", nativeQuery = true)
     List<Author> getAllDescId();
+
+    @Query(value = "SELECT * FROM author WHERE name = :name", nativeQuery = true)
+    Optional<Author> findByName(String name);
 }

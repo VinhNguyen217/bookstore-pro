@@ -5,7 +5,7 @@
 }
 
 body, html {
-        background-color: #dadae6e0;
+    background-color: #dadae6e0;
 }
 
 /*css cho header*/
@@ -25,13 +25,12 @@ a.logo {
     padding-top: 17px;
     font-weight: 400;
 }
-
 .btn-search {
     background-color: #CF111A;
     color: white;
 }
 .btn-search:hover{
-    color: yellow;
+    color: white;
 }
 
 li.nav-item a {
@@ -149,6 +148,7 @@ a.dropdown-item:hover {
     font-weight: bold;
     text-align: center;
 }
+
 /*Hết css cho thanh navbar menu*/
 
 /*css cho banner*/
@@ -328,7 +328,8 @@ h3.card-title.ten {
     padding: 10px 0px 2px 16px;
     font-size: 13px;
 }
-.khoithongtin .uudai p{
+
+.khoithongtin .uudai p {
     margin-bottom: 0px;
 }
 
@@ -473,9 +474,11 @@ h3.card-title.ten {
     font-weight: 400;
     margin-bottom: 0px;
 }
-.btn-delete-comment{
+
+.btn-delete-comment {
     font-size: 11px;
 }
+
 .progress {
     width: 80%;
     height: 10px;
@@ -681,56 +684,102 @@ footer .header {
 .active-cat {
     background: #F5A623;
 }
+
 /*Hết css cho phần hiển thị các option chọn sách*/
 
 /*css cho danh sách các tác giả*/
-.author-list h1{
+.author-list h1 {
     font-family: GT Super Bold, serif;
     color: #2B0F42;
     font-size: 25px;
     letter-spacing: -0.6px;
     line-height: 37px;
 }
-.author-list .row a{
+
+.author-list .row a {
     text-decoration: none;
 }
-.author-item{
+
+.author-list .box {
+    text-align: right;
+}
+
+.author-list .container-1 {
+    vertical-align: middle;
+    white-space: nowrap;
+}
+.author-list .container-1 input{
+    width: 250px;
+    height: 39px;
+    border: none;
+    font-size: 10pt;
+    color: black;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.author-list .container-1 input:focus{
+    outline: none;
+}
+.author-list .container-1 span{
+    background: #CF111A;
+    margin-left: -4px;
+    padding:10px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.author-list .container-1 .icon{
+    color: white;
+}
+.author-list .container-1 .icon:hover{
+    cursor: pointer;
+}
+
+.author-item {
     width: 100px;
 }
-.author-item :hover{
+
+.author-item :hover {
     color: #F5A623;
 }
-.author-item img{
+
+.author-item img {
     width: 100px;
     height: 100px;
     border-radius: 50px;
 }
-.author-item p{
+
+.author-item p {
     font-size: 14px;
     font-family: sans-serif;
     color: black;
 }
+
 /*Hết css cho danh sách các tác giả*/
 
 /*css cho chi tiết tác giả*/
-.author-detail .title{
+.author-detail .title {
     font-size: 25px;
     font-weight: 500;
     font-family: GT Super Bold, serif;
     color: #2B0F42;
     letter-spacing: -0.6px;
 }
-.author-info img{
+
+.author-info img {
     min-width: 200px;
-    width:200px;
+    width: 200px;
     height: 200px;
     border-radius: 50%
 }
-.author-name span{
+
+.author-name span {
     font-size: 14px;
     color: rgb(56, 56, 61);
 }
-.author-name p{
+
+.author-name p {
     font-size: 25px;
     font-weight: 500;
     line-height: 20px;
@@ -739,14 +788,17 @@ footer .header {
     color: #2B0F42;
     letter-spacing: -0.6px;
 }
-.author-desc span{
+
+.author-desc span {
     font-size: 18px;
     font-weight: 500;
     font-family: GT Super Bold, serif;
     color: #2B0F42;
     letter-spacing: 0.4px;
 }
-.author-desc p{
+
+.author-desc p {
     letter-spacing: 0.5px;
 }
+
 /*Hêt css cho chi tiết tác giả*/

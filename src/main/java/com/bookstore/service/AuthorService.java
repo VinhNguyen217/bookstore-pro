@@ -112,4 +112,11 @@ public class AuthorService {
         return authorRepository.findAllAndPaging(pageable);
     }
 
+    public Author findByName(String name){
+        Optional<Author> authorOptional = authorRepository.findByName(name);
+        if(authorOptional.isPresent())
+            return authorOptional.get();
+        else throw new HttpClientErrorException(HttpStatus.NOT_FOUND,ResponseMessage.NOT_FOUND);
+    }
+
 }

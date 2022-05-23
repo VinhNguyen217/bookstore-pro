@@ -251,7 +251,7 @@
                 alert(ALERT_EXCEEDING);
             } else {
                 $.ajax({
-                    url: 'http://13.212.87.195:5000/book-store/api/cart/add',
+                    url: 'http://13.127.11.84:8082/book-store/api/cart/add',
                     dataType: 'json',
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
@@ -278,7 +278,7 @@
         }
 
         function displayNumberOfCart() {
-            $.getJSON('http://13.212.87.195:5000/book-store/api/cart/qty', function (res) {
+            $.getJSON('http://13.127.11.84:8082/book-store/api/cart/qty', function (res) {
                 $('.cart-amount').html(res.data);
             }).fail(function (err) {
                 console.log(err);
@@ -286,7 +286,7 @@
         }
 
         function likeOrUnLikeBook(bookId) {
-            let url = 'http://13.212.87.195:5000/book-store/api/favourite/check?id=' + bookId;
+            let url = 'http://13.127.11.84:8082/book-store/api/favourite/check?id=' + bookId;
             $.ajax({
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
@@ -310,7 +310,7 @@
 
         function likeBook(bookId) {
             $.ajax({
-                url: 'http://13.212.87.195:5000/book-store/api/favourite/like-book',
+                url: 'http://13.127.11.84:8082/book-store/api/favourite/like-book',
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify({
@@ -333,7 +333,7 @@
         }
 
         function unlikeBook(bookId) {
-            let url = 'http://13.212.87.195:5000/book-store/api/favourite/unlike-book?id=' + bookId;
+            let url = 'http://13.127.11.84:8082/book-store/api/favourite/unlike-book?id=' + bookId;
             $.ajax({
                 type: "DELETE",
                 contentType: "application/json; charset=utf-8",
@@ -354,7 +354,7 @@
         }
 
         function updateQtyFavBook(bookId) {
-            let url = 'http://13.212.87.195:5000/book-store/api/favourite/qty?id=' + bookId;
+            let url = 'http://13.127.11.84:8082/book-store/api/favourite/qty?id=' + bookId;
             $.getJSON(url, function (result) {
                 const qtyFavElement = document.getElementById(`qty-fav-${bookId}`);
                 qtyFavElement.innerHTML = 'Số lượt thích : ' + result.data;
@@ -362,7 +362,7 @@
         }
 
         function writeComment(bookId) {
-            let url = 'http://13.212.87.195:5000/book-store/api/comment/check?id=' + bookId;
+            let url = 'http://13.127.11.84:8082/book-store/api/comment/check?id=' + bookId;
             $.ajax({
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
@@ -390,7 +390,7 @@
             } else {
                 let id = $('.contentComment').data('id');
                 $.ajax({
-                    url: 'http://13.212.87.195:5000/book-store/api/comment/create',
+                    url: 'http://13.127.11.84:8082/book-store/api/comment/create',
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify({
@@ -406,7 +406,7 @@
                         let resErr = err.responseJSON;
                         if (resErr.status = 403) {
                             alert(resErr.message);
-                            window.location = "http://13.212.87.195:5000/book-store/login";
+                            window.location = "http://13.127.11.84:8082/book-store/login";
                         }
                     }
                 });
@@ -414,7 +414,7 @@
         });
 
         function deleteComment(commentId) {
-            let url = 'http://13.212.87.195:5000/book-store/api/comment/' + commentId;
+            let url = 'http://13.127.11.84:8082/book-store/api/comment/' + commentId;
             $.ajax({
                 type: "DELETE",
                 contentType: "application/json; charset=utf-8",

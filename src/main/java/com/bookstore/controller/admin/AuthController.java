@@ -16,6 +16,6 @@ public class AuthController {
         if (session.getAttribute("admin") != null)
             return "redirect:/admin";
         else
-            return "/admin/login";
+            return "admin/auth/login";
     }
 }

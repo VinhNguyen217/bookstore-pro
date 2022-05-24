@@ -82,7 +82,7 @@ public class UserService {
         String senderName = "BookStore";
         String mailContent = "Dear " + user.getUserName();
         mailContent += "<p>Please click the link below to verify to your registration</p>";
-        String verifyURL = "http://thanh-nien-nghiem-tuc.herokuapp.com/book-store/register/verify?c=" + user.getVerifyCode();
+        String verifyURL = "http://13.127.11.84:8082/book-store/register/verify?c=" + user.getVerifyCode();
         mailContent += "<a href=\"" + verifyURL + "\">VERIFY</a>";
         mailContent += "<p>Thank you very much !!!</p>";
 

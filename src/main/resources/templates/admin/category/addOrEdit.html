@@ -18,9 +18,9 @@
                     <div class="form-group ">
                         <input type="hidden" th:field="*{id}"/>
                         <label>Tên danh mục</label>
-                        <input type="text" th:field="*{name}" class="form-control" required/>
+                        <input type="text" th:field="*{name}" class="form-control name-category" required/>
                     </div>
-                    <button type="submit" class="btn-outline-success btn">Save</button>
+                    <button type="submit" class="btn-outline-success btn btn-save-category">Save</button>
                     <button type="button" class="btn-outline-secondary btn m-2" onclick="cancelForm()">Cancel</button>
                 </form>
             </div>
@@ -30,6 +30,13 @@
         function cancelForm() {
             window.location = "/book-store/admin/category";
         }
+        $('.btn-save-category').click(function (event) {
+            let valName = $('.name-category').val().trim();
+            if(valName == ''){
+                alert('Yêu cầu nhập tên danh mục');
+                event.preventDefault();
+            }
+        });
     </script>
 </div>
 </body>

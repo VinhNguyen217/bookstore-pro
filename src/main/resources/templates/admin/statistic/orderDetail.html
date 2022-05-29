@@ -148,7 +148,7 @@
 
         function confirmOrder(orderId){
             $.ajax({
-                url: "http://13.212.87.195:5000/book-store/api/payment/updateStatus",
+                url: "http://13.127.11.84:8082/book-store/api/payment/updateStatus",
                 type: "PUT",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify({
@@ -158,7 +158,7 @@
                 processData: false,
                 success: function () {
                     alert('Xác nhận đơn hàng thành công');
-                    window.location.href = "http://13.212.87.195:5000/book-store/admin/statistic/order/" + orderId;
+                    window.location.href = "http://13.127.11.84:8082/book-store/admin/statistic/order/" + orderId;
                 }, error: function (err) {
                     console.log(err);
                 }
@@ -167,7 +167,7 @@
 
         function updateDelivered(orderId) {
             $.ajax({
-                url: "http://13.212.87.195:5000/book-store/api/payment/updateStatus",
+                url: "http://13.127.11.84:8082/book-store/api/payment/updateStatus",
                 type: "PUT",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify({
@@ -177,7 +177,7 @@
                 processData: false,
                 success: function () {
                     alert('Cập nhật đơn hàng thành công');
-                    window.location.href = "http://13.212.87.195:5000/book-store/admin/statistic/order/" + orderId;
+                    window.location.href = "http://13.127.11.84:8082/book-store/admin/statistic/order/" + orderId;
                 }, error: function (err) {
                     console.log(err);
                 }

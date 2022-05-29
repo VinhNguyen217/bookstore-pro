@@ -71,30 +71,14 @@ public class BookController {
 
     @PostMapping(value = "/save", consumes = {"multipart/form-data"})
     public String saveOrUpdate(@ModelAttribute(name = "book") Book book, @RequestParam("fileImage") MultipartFile fileImage, RedirectAttributes ra) throws IOException {
-        Date now = new Date();
         if (book.getId() == null) {
-            if (fileImage.isEmpty()) {
-                ra.addFlashAttribute("msg_error", ResponseMessage.IMAGE_NOT_NULL);
-                return "redirect:/admin/book/add";
-            } else {
-                if (now.after(book.getDatePublish())) {
-                    ra.addFlashAttribute("msg_success", ResponseMessage.UPDATE_SUCCESS);
-                    bookService.createBook(book, fileImage);
-                    return "redirect:/admin/book";
-                } else {
-                    ra.addFlashAttribute("msg_error", ResponseMessage.DATE_PUBLISH_ERROR);
-                    return "redirect:/admin/book/add";
-                }
-            }
+            ra.addFlashAttribute("msg_success", ResponseMessage.UPDATE_SUCCESS);
+            bookService.createBook(book, fileImage);
+            return "redirect:/admin/book";
         } else {
-            if (now.after(book.getDatePublish())) {
-                ra.addFlashAttribute("msg_success", ResponseMessage.UPDATE_SUCCESS);
-                bookService.updateBook(book, fileImage);
-                return "redirect:/admin/book";
-            } else {
-                ra.addFlashAttribute("msg_error", ResponseMessage.DATE_PUBLISH_ERROR);
-                return "redirect:/admin/book/"+book.getId();
-            }
+            ra.addFlashAttribute("msg_success", ResponseMessage.UPDATE_SUCCESS);
+            bookService.updateBook(book, fileImage);
+            return "redirect:/admin/book";
         }
     }
 

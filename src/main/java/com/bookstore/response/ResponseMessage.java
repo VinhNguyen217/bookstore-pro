@@ -24,7 +24,4 @@ public class ResponseMessage {
     public static final String DELETE_SUCCESS = "Xóa thành công";
     public static final String UPDATE_SUCCESS = "Cập nhật thành công";
     public static final String SQL_ERROR = "Không thể xóa vì mối quan hệ ràng buộc trong cơ sở dữ liệu";
-    public static final String IMAGE_NOT_NULL = "Ảnh sản phẩm không được để trống";
-
-    public static final String DATE_PUBLISH_ERROR = "Ngày xuất bản không được phép vượt quá ngày hiện tại";
 }

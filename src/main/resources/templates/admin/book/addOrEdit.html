@@ -23,7 +23,7 @@
                     <input type="hidden" th:field="*{id}"/>
 
                     <label>Tên sách</label></br>
-                    <input type="text" th:field="*{name}" class="form-control" required/>
+                    <input type="text" th:field="*{name}" class="form-control name-book" required/>
 
                     <div class="divide"></div>
 
@@ -57,27 +57,27 @@
                     <div class="divide"></div>
 
                     <label>Nhà xuất bản</label></br>
-                    <input type="text" th:field="*{publisher}" class="form-control" required/>
+                    <input type="text" th:field="*{publisher}" class="form-control publisher-book" required/>
 
                     <div class="divide"></div>
 
                     <label>Ngày xuất bản</label></br>
-                    <input type="date" th:field="*{datePublish}" class="form-control" required/>
+                    <input type="date" th:field="*{datePublish}" class="form-control date-publish-book" required/>
 
                     <div class="divide"></div>
 
                     <label>Giá bán</label></br>
-                    <input type="number" th:field="*{price}" class="form-control" required/>
+                    <input type="number" th:field="*{price}" class="form-control price-book" required/>
 
                     <div class="divide"></div>
 
                     <label>Giá nhập</label><br/>
-                    <input type="number" th:field="*{priceImport}" class="form-control" required/>
+                    <input type="number" th:field="*{priceImport}" class="form-control price-import-book" required/>
 
                     <div class="divide"></div>
 
                     <label>Số lượng nhập</label></br>
-                    <input type="number" th:field="*{quantity}" class="form-control" required/>
+                    <input type="number" th:field="*{quantity}" class="form-control quantity-book" required/>
 
                     <div class="divide"></div>
 
@@ -89,7 +89,7 @@
                     <label>Mô tả sản phẩm</label></br>
                     <textarea th:field="*{description}" rows="10" class="form-control"></textarea></br>
 
-                    <button type="submit" class="btn-outline-success btn">Save</button>
+                    <button type="submit" class="btn-outline-success btn btn-save-book">Save</button>
                     <button type="button" class="btn-outline-secondary btn m-2" onclick="cancelForm()">
                         Cancel
                     </button>
@@ -97,12 +97,13 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.tiny.cloud/1/fcxs651ayyon46xrkvum3d16qhqpdojlkc6d35b8e38bavm4/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/fcxs651ayyon46xrkvum3d16qhqpdojlkc6d35b8e38bavm4/tinymce/5/tinymce.min.js"
+            referrerpolicy="origin"></script>
     <script>
         tinymce.init({
             selector: 'textarea',
-            plugins: 'a11ychecker advcode casechange export formatpainter image editimage linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tableofcontents tinycomments tinymcespellchecker',
-            toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter image editimage pageembed permanentpen table tableofcontents',
+            plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+            toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table',
             toolbar_mode: 'floating',
             tinycomments_mode: 'embedded',
             tinycomments_author: 'Author name',
@@ -112,6 +113,73 @@
         function cancelForm() {
             window.location = "/book-store/admin/book";
         }
+
+        $('.btn-save-book').click(function (event) {
+            var today = new Date();
+            let id = $('#id').val();
+            let valName = $('.name-book').val().trim();
+            let valImage = $('#fileImage').val();
+            let valPublisher = $('.publisher-book').val().trim();
+            let valDatePublish = new Date($('.date-publish-book').val());
+            let valPrice = $('.price-book').val();
+            let valPriceImport = $('.price-import-book').val();
+            let valQuantity = $('.quantity-book').val();
+            console.log(valDatePublish);
+            if (valName == '') {
+                alert('Yêu cầu nhập tên sách');
+                event.preventDefault();
+            } else {
+                if (id == '' && valImage == '') {
+                    alert('Yêu cầu nhập ảnh sản phẩm');
+                    event.preventDefault();
+                } else {
+                    if (valPublisher == '') {
+                        alert('Yêu cầu nhập tên nhà xuất bản');
+                        event.preventDefault();
+                    } else {
+                        if (valDatePublish == 'Invalid Date') {
+                            alert('Yêu cầu nhập ngày xuất bản');
+                            event.preventDefault();
+                        } else {
+                            if (valDatePublish > today) {
+                                alert('Yêu cầu ngày xuất bản không được phép vượt quá ngày hiện tại');
+                                event.preventDefault();
+                            } else {
+                                if (valPrice == '') {
+                                    alert('Yêu cầu nhập giá bán');
+                                    event.preventDefault();
+                                } else {
+                                    if (valPrice != '' && valPrice <= 0) {
+                                        alert('Yêu giá bán phải lớn hơn 0');
+                                        event.preventDefault();
+                                    } else {
+                                        if (valPriceImport == '') {
+                                            alert('Yêu cầu nhập giá nhập');
+                                            event.preventDefault();
+                                        } else {
+                                            if (valPriceImport != '' && valPriceImport <= 0) {
+                                                alert('Yêu cầu giá nhập phải lớn hơn 0');
+                                                event.preventDefault();
+                                            } else {
+                                                if (valQuantity == '') {
+                                                    alert('Yêu cầu nhập số lượng');
+                                                    event.preventDefault();
+                                                } else {
+                                                    if (valQuantity != '' && valQuantity <= 0) {
+                                                        alert('Yêu cầu số lượng nhập phải lớn hơn 0');
+                                                        event.preventDefault();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
 
         $(document).ready(function () {
             $('#fileImage').change(function () {

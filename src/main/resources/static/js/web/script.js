@@ -82,24 +82,25 @@ $(function () {
 
 });
 
-function submit(e) {
+function searchBook(e) {
     if (e.keyCode == 13) {
         e.preventDefault();
     }
 }
+
 $(document).ready(function () {
     let option = sessionStorage.getItem('option');
     if (option == 'home') {
-        $('.nav-home').css('background','#8e161a');
+        $('.nav-home').css('background', '#8e161a');
     }
     if (option == 'category') {
-        $('.nav-cate').css('background','#8e161a');
+        $('.nav-cate').css('background', '#8e161a');
     }
     if (option == 'author') {
-        $('.nav-author').css('background','#8e161a');
+        $('.nav-author').css('background', '#8e161a');
     }
     if (option == 'contact') {
-        $('.nav-contact').css('background','#8e161a');
+        $('.nav-contact').css('background', '#8e161a');
     }
 
     $.getJSON('http://13.127.11.84:8082/book-store/api/cart/qty', function (res) {
@@ -109,9 +110,11 @@ $(document).ready(function () {
     });
 
     $('.btn-search').click(function () {
-        let name = $('.name-search').val();
-        if (name.trim() != '') {
-            window.location = "http://13.127.11.84:8082/book-store/search?name=" + name.trim();
+        let name = $('.name-search').val().trim();
+        if (name != '') {
+            window.location = "http://13.127.11.84:8082/book-store/search?name=" + name;
+        } else {
+            alert('Yêu cầu nhập tên sách để tìm kiếm');
         }
     })
 

@@ -82,7 +82,11 @@ $(function () {
 
 });
 
-
+function submit(e) {
+    if (e.keyCode == 13) {
+        e.preventDefault();
+    }
+}
 $(document).ready(function () {
     let option = sessionStorage.getItem('option');
     if (option == 'home') {
@@ -107,7 +111,7 @@ $(document).ready(function () {
     $('.btn-search').click(function () {
         let name = $('.name-search').val();
         if (name.trim() != '') {
-            window.location = "http://13.127.11.84:8082/book-store/search?q=" + name.trim();
+            window.location = "http://13.127.11.84:8082/book-store/search?name=" + name.trim();
         }
     })
 

@@ -42,11 +42,11 @@ public class StatisticController {
             model.addAttribute("utility", utility);
             model.addAttribute("statisticService", statisticService);
             Integer amountInput = 0, amountSold = 0, totalInput = 0;
-            Integer totalSold = statisticService.getTotalRevenue();
+            Integer totalSold = statisticService.getTotalRevenue(); //Tổng tiền bán ra
             for (Book book : bookList) {
-                amountInput += book.getQuantity();
-                amountSold += book.getSold();
-                totalInput += book.getQuantity() * book.getPriceImport();
+                amountInput += book.getQuantity();  //Tổng số sản phẩm nhập vào
+                amountSold += book.getSold();   //Tổng số sản phẩm bán ra
+                totalInput += book.getQuantity() * book.getPriceImport(); // Tổng tiền nhập vào
             }
             model.addAttribute("amountInput", amountInput);
             model.addAttribute("amountSold", amountSold);

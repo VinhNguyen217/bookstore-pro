@@ -31,7 +31,7 @@ public class WebSearchController {
     private FavouriteService favouriteService;
 
     @GetMapping("")
-    public String searchByName(@RequestParam("q") String name,
+    public String searchByName(@RequestParam("name") String name,
                                Model model) {
         List<Book> bookList = bookService.findByName(name);
         model.addAttribute("name",name);

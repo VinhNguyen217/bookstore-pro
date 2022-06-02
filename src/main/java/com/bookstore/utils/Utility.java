@@ -113,17 +113,8 @@ public class Utility {
         else return "";
     }
 
-    public double calculateToUSD(Integer price) throws IOException, JSONException {
-        OkHttpClient client = new OkHttpClient().newBuilder().build();
-
-        Request request = new Request.Builder()
-                .url("https://api.apilayer.com/exchangerates_data/convert?to=USD&from=VND&amount=" + price)
-                .addHeader("apikey", "a0JBUjRGxJ0E1yzzDQufBBNwsOhtBIEB")
-                .method("GET", null)
-                .build();
-        Response response = client.newCall(request).execute();
-        JSONObject res = new JSONObject(response.body().string());
-        String priceRes = res.getString("result");
-        return Math.round(Double.parseDouble(priceRes) * 100.0) / 100.0;
+    public double calculateToUSD(Integer price) {
+        double priceConvert = Double.valueOf(price) / Double.valueOf(23198);
+        return Math.round(priceConvert * 100.0) / 100.0;
     }
 }

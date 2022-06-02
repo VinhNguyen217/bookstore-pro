@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 
 @Controller
@@ -58,7 +59,7 @@ public class WebPaymentController {
     }
 
     @PostMapping("/payment/create_bill")
-    public String payment(Bill bill, HttpServletRequest request, RedirectAttributes ra) throws MessagingException, IOException, JSONException {
+    public String payment(Bill bill, HttpServletRequest request, RedirectAttributes ra) throws MessagingException, IOException {
         if (Bill.Payment.CASH.equals(bill.getPayment())) {
             billService.create(bill);
             ra.addFlashAttribute("createBill", true);

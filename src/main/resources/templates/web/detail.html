@@ -112,9 +112,11 @@
                                             <li>
                                                 Nhà xuất bản : [[${book.publisher}]]
                                             </li>
-                                            <li class="qty-curr" th:data-qty="${book.quantity - book.sold}">Số lượng hiện có : <b
-                                                    style="color: red">[[${book.quantity - book.sold}]]</b></li>
-                                            <li>Ngày xuất bản : <b th:text="${#dates.format(book.datePublish, 'dd/MM/yyyy')}"></b></li>
+                                            <li class="qty-curr" th:data-qty="${book.quantity - book.sold}">Số lượng
+                                                hiện có : <b
+                                                        style="color: red">[[${book.quantity - book.sold}]]</b></li>
+                                            <li>Ngày xuất bản : <b
+                                                    th:text="${#dates.format(book.datePublish, 'dd/MM/yyyy')}"></b></li>
                                             <li>Kích thước : <b>20.5 x 13.5 cm</b></li>
                                             <li>Hình thức bìa : <b>Bìa mềm</b></li>
                                             <li>Số trang : <b>336</b></li>
@@ -180,7 +182,8 @@
                                                 </div>
                                                 <p class="mt-1">[[${comment.content}]]</p>
                                                 <div style="text-align: right" sec:authorize="isAuthenticated()">
-                                                    <th:block th:if="${#authentication.principal.user.getId() == comment.userId}">
+                                                    <th:block
+                                                            th:if="${#authentication.principal.user.getId() == comment.userId}">
                                                         <div class="btn-delete-comment btn btn-outline-danger"
                                                              th:onclick="'deleteComment('+${comment.id}+')'">Xóa
                                                         </div>
@@ -243,37 +246,42 @@
     <script>
         const ADD_CART_SUCCESS = 'Thêm vào giỏ hàng thành công';
         const ALERT_EXCEEDING = 'Số lượng không được phép vượt quá số lượng sản phẩm hiện có';
+        const ALERT_NOT_EXIST = 'Rất tiếc, sản phẩm này hiện không còn trong cửa hàng';
 
         function addToCart(id) {
             let quantity = $('.soluongsp').val();
             let qtyCurr = $('.qty-curr').data('qty');
-            if (quantity > qtyCurr) {
-                alert(ALERT_EXCEEDING);
+            if (qtyCurr == 0) {
+                alert(ALERT_NOT_EXIST)
             } else {
-                $.ajax({
-                    url: 'http://13.127.11.84:8082/book-store/api/cart/add',
-                    dataType: 'json',
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify({
-                        "bookId": id,
-                        "quantity": quantity,
-                    }),
-                    processData: false,
-                    success: function () {
-                        displayNumberOfCart();
-                        alert(ADD_CART_SUCCESS);
-                    },
-                    error: function (err) {
-                        let resErr = err.responseJSON;
-                        if (resErr.status == 403) {
-                            alert(resErr.message);
+                if (quantity > qtyCurr) {
+                    alert(ALERT_EXCEEDING);
+                } else {
+                    $.ajax({
+                        url: 'http://13.127.11.84:8082/book-store/api/cart/add',
+                        dataType: 'json',
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({
+                            "bookId": id,
+                            "quantity": quantity,
+                        }),
+                        processData: false,
+                        success: function () {
+                            displayNumberOfCart();
+                            alert(ADD_CART_SUCCESS);
+                        },
+                        error: function (err) {
+                            let resErr = err.responseJSON;
+                            if (resErr.status == 403) {
+                                alert(resErr.message);
+                            }
+                            if (resErr.status == 400) {
+                                alert(resErr.message);
+                            }
                         }
-                        if (resErr.status == 400) {
-                            alert(resErr.message);
-                        }
-                    }
-                });
+                    });
+                }
             }
         }
 

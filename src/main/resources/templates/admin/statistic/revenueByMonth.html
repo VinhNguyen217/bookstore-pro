@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/_layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Book-Store | Admin</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid px-4">
+        <h4 class="mt-4">Thống Kê Doanh Thu</h4>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a class="link_home nav_home" th:href="@{/admin}"><i class="fas fa-home"></i>
+                Trang Chủ</a></li>
+            <li class="breadcrumb-item"><a class="link_home nav_home" th:href="@{/admin/statistic/revenue}">Thống kê
+                doanh thu theo tháng</a></li>
+            <li class="breadcrumb-item active">Thống kê doanh thu theo tháng</li>
+        </ol>
+
+        <div class="revenue-method">
+            <label>Nhập tháng thống kê</label></br>
+            <input type="month" id="monthSelect" style="cursor: pointer">
+            <button class="btn btn-outline-secondary" id="btn-statistic">Chọn</button>
+        </div>
+        <div class="mt-3 col-md-6">
+            <b>Doanh thu theo tháng</b>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Ngày</th>
+                    <th scope="col">Doanh thu</th>
+                </tr>
+                </thead>
+                <tbody id="resRevenue">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-10">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+    <script>
+        function reverseMonth(str) {
+            if (str === "")
+                return "";
+            else {
+                const monthArr = str.split("-");
+                return monthArr[1] + "-" + monthArr[0];
+            }
+        }
+
+        $('#btn-statistic').click(function () {
+            let month = $('#monthSelect').val();
+            if (month == '') {
+                alert('Yêu cầu nhập tháng để thống kê');
+            } else {
+                let monthReverse = reverseMonth(month);
+                $.getJSON("http://13.127.11.84:8082/book-store/api/statistic/revenueByMonth?month=" + month, function (res) {
+                    let resArr = Object.entries(res.data);
+                    let monthArr = new Array(), totalArr = new Array();
+                    let resTable = '';
+                    for (let i = 0; i < resArr.length; i++) {
+                        monthArr.push(resArr[i][0]);
+                        totalArr.push(resArr[i][1]);
+                        if (resArr[i][1] != 0) {
+                            let resDay = resArr[i][0] + "-" + monthReverse;
+                            let resTotal = resArr[i][1].toLocaleString('it-IT', {style: 'currency', currency: 'VND'});
+                            resTable += `<tr>` +
+                                `<td>` + resDay + `</td>` +
+                                `<td>` + resTotal + `</td>` +
+                                `</tr>`;
+                        }
+                    }
+                    $('#resRevenue').html(resTable);
+                    let myChart = document.getElementById('myChart').getContext('2d');
+                    // Global Options
+                    Chart.defaults.global.defaultFontFamily = 'LATO';
+                    Chart.defaults.global.defaultFontSize = 18;
+                    Chart.defaults.global.defaultFontColor = '#777';
+                    let massPopChart = new Chart(myChart, {
+                        type: 'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+                        data: {
+                            labels: monthArr,
+                            datasets: [{
+                                label: '',
+                                data: totalArr,
+                                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                                borderWidth: 1,
+                                borderColor: '#777',
+                                hoverBorderWidth: 3,
+                                hoverBorderColor: '#000'
+                            }]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Thống kê doanh thu tháng ' + monthReverse,
+                                fontSize: 25
+                            },
+                            legend: {
+                                display: true,
+                                position: 'right',
+                                labels: {
+                                    fontColor: '#000'
+                                }
+                            },
+                            layout: {
+                                padding: {
+                                    left: 50,
+                                    right: 0,
+                                    bottom: 0,
+                                    top: 0
+                                }
+                            },
+                            tooltips: {
+                                enabled: true
+                            }
+                        }
+                    });
+                }).fail(function (err) {
+                    console.log(err);
+                })
+            }
+        })
+    </script>
+</div>
+</body>
+</html>

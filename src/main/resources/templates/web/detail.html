@@ -113,8 +113,14 @@
                                                 Nhà xuất bản : [[${book.publisher}]]
                                             </li>
                                             <li class="qty-curr" th:data-qty="${book.quantity - book.sold}">Số lượng
-                                                hiện có : <b
-                                                        style="color: red">[[${book.quantity - book.sold}]]</b></li>
+                                                hiện có : <b style="color: red">
+                                                    <th:block th:if="${book.quantity - book.sold} == 0">
+                                                        Đã hết
+                                                    </th:block>
+                                                    <th:block th:if="${book.quantity - book.sold} > 0">
+                                                        [[${book.quantity - book.sold}]]
+                                                    </th:block>
+                                                </b></li>
                                             <li>Ngày xuất bản : <b
                                                     th:text="${#dates.format(book.datePublish, 'dd/MM/yyyy')}"></b></li>
                                             <li>Kích thước : <b>20.5 x 13.5 cm</b></li>

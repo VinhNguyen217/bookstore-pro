@@ -35,24 +35,40 @@ public class StatisticController {
     private Utility utility;
 
     @GetMapping("/revenue")
-    public String showFormRevenueStatistics(Model model, HttpSession session) {
+    public String statisticRevenue(HttpSession session) {
+        if (session.getAttribute("admin") != null) {
+            return "admin/statistic/revenue";
+        }
+        return "redirect:/admin/login";
+    }
+
+    @GetMapping("/revenueByProduct")
+    public String statisticRevenueByProduct(Model model, HttpSession session) {
         if (session.getAttribute("admin") != null) {
             List<Book> bookList = bookService.getAll();
             model.addAttribute("bookList", bookList);
             model.addAttribute("utility", utility);
             model.addAttribute("statisticService", statisticService);
             Integer amountInput = 0, amountSold = 0, totalInput = 0;
-            Integer totalSold = statisticService.getTotalRevenue(); //Tổng tiền bán ra
+            Integer totalSold = statisticService.getTotalRevenue();
             for (Book book : bookList) {
-                amountInput += book.getQuantity();  //Tổng số sản phẩm nhập vào
-                amountSold += book.getSold();   //Tổng số sản phẩm bán ra
-                totalInput += book.getQuantity() * book.getPriceImport(); // Tổng tiền nhập vào
+                amountInput += book.getQuantity();
+                amountSold += book.getSold();
+                totalInput += book.getQuantity() * book.getPriceImport();
             }
             model.addAttribute("amountInput", amountInput);
             model.addAttribute("amountSold", amountSold);
             model.addAttribute("totalInput", totalInput);
             model.addAttribute("totalSold", totalSold);
-            return "admin/statistic/revenue";
+            return "admin/statistic/revenueByProduct";
+        }
+        return "redirect:/admin/login";
+    }
+
+    @GetMapping("/revenueByMonth")
+    public String statisticRevenueByMonth(HttpSession session) {
+        if (session.getAttribute("admin") != null) {
+            return "admin/statistic/revenueByMonth";
         }
         return "redirect:/admin/login";
     }

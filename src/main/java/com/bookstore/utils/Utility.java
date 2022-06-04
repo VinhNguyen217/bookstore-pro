@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -116,5 +117,25 @@ public class Utility {
     public double calculateToUSD(Integer price) {
         double priceConvert = Double.valueOf(price) / Double.valueOf(23198);
         return Math.round(priceConvert * 100.0) / 100.0;
+    }
+
+    /**
+     * Trả về số ngày theo tháng
+     *
+     * @param month
+     * @param year
+     * @return
+     */
+    public Integer getNumDaysByMonth(String month, String year) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, Integer.parseInt(year));
+        calendar.set(Calendar.MONTH, Integer.parseInt(month) - 1);
+        return calendar.getActualMaximum(Calendar.DATE);
+    }
+
+    public Integer getDayFromDate(Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        return c.get(Calendar.DAY_OF_MONTH);
     }
 }

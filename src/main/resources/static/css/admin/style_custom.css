@@ -211,3 +211,11 @@ img {
     vertical-align: middle;
     text-align: center;
 }
+.revenue-method label{
+    color: #218CA6;
+    font-size: 16px;
+}
+.revenue-method button a{
+    text-decoration: none;
+    color: unset;
+}

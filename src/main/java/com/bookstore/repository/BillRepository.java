@@ -31,4 +31,7 @@ public interface BillRepository extends JpaRepository<Bill, Integer> {
 
     @Query(value = "SELECT * FROM bill WHERE status = 'DELIVERED'", nativeQuery = true)
     List<Bill> getDeliveredBill();
+
+    @Query(value = "SELECT * FROM bill WHERE status = 'DELIVERED' and MONTH(created_at) = :month and YEAR(created_at) = :year", nativeQuery = true)
+    List<Bill> getDeliveredBillByMonth(String month, String year);
 }

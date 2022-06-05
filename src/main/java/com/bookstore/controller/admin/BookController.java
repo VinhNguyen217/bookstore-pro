@@ -1,6 +1,7 @@
 package com.bookstore.controller.admin;
 
 import com.bookstore.model.Book;
+import com.bookstore.model.Promotion;
 import com.bookstore.response.ResponseMessage;
 import com.bookstore.service.*;
 import com.bookstore.utils.Utility;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/book")
@@ -28,6 +30,9 @@ public class BookController {
 
     @Autowired
     private AuthorService authorService;
+
+    @Autowired
+    private PromotionService promotionService;
 
     @Autowired
     private Utility utility;
@@ -60,9 +65,11 @@ public class BookController {
     public String showBookById(@PathVariable("id") Integer id, Model model, HttpSession session) {
         if (session.getAttribute("admin") != null) {
             Book book = bookService.getById(id);
+            List<Promotion> promotionList = promotionService.getAll();
             model.addAttribute("book", book);
             model.addAttribute("listCategories", categoryService.getAll());
             model.addAttribute("listAuthors", authorService.getAll());
+            model.addAttribute("listPromotions", promotionList);
             model.addAttribute("title", "Sách : " + book.getName());
             return "admin/book/addOrEdit";
         }

@@ -87,7 +87,19 @@
                     <div class="divide"></div>
 
                     <label>Mô tả sản phẩm</label></br>
-                    <textarea th:field="*{description}" rows="10" class="form-control"></textarea></br>
+                    <textarea th:field="*{description}" rows="10" class="form-control"></textarea>
+
+                    <div class="divide"></div>
+
+                    <th:block th:if="${id} != null">
+                        <label>Thêm khuyến mãi</label></br>
+                        <select th:field="*{promotionId}" class="form-select">
+                            <th:block th:each="promotion : ${listPromotions}">
+                                <option th:value="${promotion.id}">[[${promotion.name}]]</option>
+                            </th:block>
+                        </select>
+                        <div class="divide"></div>
+                    </th:block>
 
                     <button type="submit" class="btn-outline-success btn btn-save-book">Save</button>
                     <button type="button" class="btn-outline-secondary btn m-2" onclick="cancelForm()">

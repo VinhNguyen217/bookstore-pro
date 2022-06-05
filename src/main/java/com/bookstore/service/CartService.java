@@ -26,6 +26,9 @@ public class CartService {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private BookService bookService;
+
     /**
      * Tạo 1 item trong giỏ hàng
      *
@@ -121,7 +124,13 @@ public class CartService {
                 for (int i = 0; i < cartItemList.size(); i++) {
                     CartItem cartItem = cartItemList.get(i);
                     Book bookSelected = bookRepository.findById(cartItem.getBookId()).get();
-                    totalPrices += cartItem.getQuantity() * bookSelected.getPrice();
+                    if (bookSelected.getPromotionId() == null) {
+                        totalPrices += cartItem.getQuantity() * bookSelected.getPrice();
+                    } else if (bookSelected.getPromotionId() == 24) {
+                        totalPrices += cartItem.getQuantity() * bookSelected.getPrice();
+                    } else {
+                        totalPrices += cartItem.getQuantity() * bookService.calculatePromotionalMoney(bookSelected);
+                    }
                 }
                 return totalPrices;
             } else

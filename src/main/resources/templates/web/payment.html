@@ -56,9 +56,16 @@
                                     [[${utility.formatPrice(bookService.getById(item.bookId).price)}]]
                                 </td>
                                 <td>[[${item.quantity}]]</td>
-                                <td>
-                                    [[${utility.formatPrice(item.quantity * bookService.getById(item.bookId).price)}]]
-                                </td>
+                                <th:block th:if="${bookService.getById(item.bookId).promotionId != 24 and bookService.getById(item.bookId).promotionId != null}">
+                                    <td>
+                                        [[${utility.formatPrice(item.quantity * bookService.calculatePromotionalMoney(bookService.getById(item.bookId)))}]]
+                                    </td>
+                                </th:block>
+                                <th:block th:if="${bookService.getById(item.bookId).promotionId == 24 or bookService.getById(item.bookId).promotionId == null}">
+                                    <td>
+                                        [[${utility.formatPrice(item.quantity * bookService.getById(item.bookId).price)}]]
+                                    </td>
+                                </th:block>
                             </tr>
                         </th:block>
                         </tbody>

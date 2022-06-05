@@ -21,10 +21,6 @@ public class PromotionService {
         return promotionRepository.getAllDescId();
     }
 
-    public List<Promotion> getAllDisplay() {
-        return promotionRepository.getAllDisplay();
-    }
-
     public Promotion getById(Integer id) {
         Optional<Promotion> promotionOptional = promotionRepository.findById(id);
         if (promotionOptional.isPresent())
@@ -33,7 +29,6 @@ public class PromotionService {
     }
 
     public Promotion saveOrUpdate(Promotion promotion) {
-        promotion.setDisplay(true);
         return promotionRepository.save(promotion);
     }
 
@@ -42,17 +37,6 @@ public class PromotionService {
         if (promotionOptional.isPresent())
             promotionRepository.deleteById(id);
         else throw new HttpClientErrorException(HttpStatus.NOT_FOUND, ResponseMessage.NOT_FOUND);
-    }
-
-    public void updateDisplay(Integer id) {
-        Optional<Promotion> promotionOptional = promotionRepository.findById(id);
-        if (promotionOptional.isPresent()) {
-            Promotion promotion = promotionOptional.get();
-            if (promotion.isDisplay())
-                promotion.setDisplay(false);
-            else promotion.setDisplay(true);
-            promotionRepository.save(promotion);
-        } else throw new HttpClientErrorException(HttpStatus.NOT_FOUND, ResponseMessage.NOT_FOUND);
     }
 
 }

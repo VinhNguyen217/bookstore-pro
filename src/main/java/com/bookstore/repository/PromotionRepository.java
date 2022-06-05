@@ -13,6 +13,4 @@ public interface PromotionRepository extends JpaRepository<Promotion, Integer> {
     @Query(value = "SELECT * FROM promotion ORDER BY id DESC", nativeQuery = true)
     List<Promotion> getAllDescId();
 
-    @Query(value = "SELECT * FROM promotion WHERE display = true ORDER BY id DESC", nativeQuery = true)
-    List<Promotion> getAllDisplay();
 }

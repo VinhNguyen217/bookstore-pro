@@ -46,7 +46,13 @@
             <tr>
                 <td th:text="${bookService.getById(item.bookId).getName()}"></td>
                 <td th:text="${item.quantity}"></td>
-                <td th:text="${utility.formatPrice(bookService.getById(item.bookId).getPrice())}"></td>
+                <th:block th:if="${bookService.getById(item.bookId).promotionId != 24 and bookService.getById(item.bookId).promotionId != null}">
+                    <td th:text="${utility.formatPrice(bookService.calculatePromotionalMoney(bookService.getById(item.bookId)))}"></td>
+                </th:block>
+
+                <th:block th:if="${bookService.getById(item.bookId).promotionId == 24 or bookService.getById(item.bookId).promotionId == null}">
+                    <td th:text="${utility.formatPrice(bookService.getById(item.bookId).price)}"></td>
+                </th:block>
             </tr>
         </th:block>
     </table>

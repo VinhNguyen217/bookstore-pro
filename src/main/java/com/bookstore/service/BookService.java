@@ -2,6 +2,7 @@ package com.bookstore.service;
 
 import com.bookstore.model.Book;
 import com.bookstore.model.Category;
+import com.bookstore.model.Promotion;
 import com.bookstore.repository.BookRepository;
 import com.bookstore.repository.CategoryRepository;
 import com.bookstore.response.ResponseMessage;
@@ -40,6 +41,9 @@ public class BookService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private PromotionService promotionService;
 
     public List<Book> getAll() {
         return bookRepository.findAll();
@@ -200,5 +204,14 @@ public class BookService {
         if (page < 0) throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, ResponseMessage.PAGE_ERROR);
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         return bookRepository.findAllAndPaging(pageable);
+    }
+
+    public Integer calculatePromotionalMoney(Book book) {
+        Integer priceBook = book.getPrice();
+        Promotion promotion = promotionService.getById(book.getPromotionId());
+        if (!promotion.getName().equals("Xóa khuyến mãi")) {
+            priceBook = priceBook - (priceBook / 100 * promotion.getReduceNumber());
+        }
+        return priceBook;
     }
 }

@@ -20,7 +20,8 @@ public class Promotion {
     private Integer id;
 
     @Column(columnDefinition = "TEXT")
-    private String content;
+    private String name;
 
-    private boolean display;
+    @Column(columnDefinition = "INTEGER")
+    private Integer reduceNumber;
 }

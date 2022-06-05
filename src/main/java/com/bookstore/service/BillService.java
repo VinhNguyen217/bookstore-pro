@@ -2,6 +2,7 @@ package com.bookstore.service;
 
 import com.bookstore.model.Bill;
 import com.bookstore.model.BillDetail;
+import com.bookstore.model.Book;
 import com.bookstore.model.CartItem;
 import com.bookstore.model.request.OrderUpdate;
 import com.bookstore.repository.BillRepository;
@@ -84,24 +85,32 @@ public class BillService {
     public void create(Bill bill) throws MessagingException, UnsupportedEncodingException {
         CustomUserDetails customUserDetails = CustomUserDetails.getAuthorizedUser();
         Integer userId = customUserDetails.getUser().getId();
-
-        Integer totalPayment = cartService.getTotalPrices();
-        bill.setTotal(totalPayment);
-        bill.setUserId(userId);
-        bill.setStatus(Bill.Status.WAIT_CONFIRM);
-        bill.setCreatedAt(new Date());
-        Bill billCreated = billRepository.save(bill);
-        List<CartItem> itemSelectedList = cartService.getListSelectedItem();
-        itemSelectedList.stream().forEach((item) -> {
-            BillDetail billDetail = new BillDetail();
-            billDetail.setBillId(billCreated.getId());
-            billDetail.setBookId(item.getBookId());
-            billDetail.setQuantity(item.getQuantity());
-            billDetail.setUnitPrice(bookService.getById(item.getBookId()).getPrice());
-            billDetailService.create(billDetail);
-        });
-        sendEmailBill(bill, itemSelectedList);
-        cartService.deleteCartItemSelected();
+        if (bill != null) {
+            Integer totalPayment = cartService.getTotalPrices();
+            bill.setTotal(totalPayment);
+            bill.setUserId(userId);
+            bill.setStatus(Bill.Status.WAIT_CONFIRM);
+            bill.setCreatedAt(new Date());
+            Bill billCreated = billRepository.save(bill);
+            List<CartItem> itemSelectedList = cartService.getListSelectedItem();
+            itemSelectedList.stream().forEach((item) -> {
+                BillDetail billDetail = new BillDetail();
+                Book book = bookService.getById(item.getBookId());
+                billDetail.setBillId(billCreated.getId());
+                billDetail.setBookId(item.getBookId());
+                billDetail.setQuantity(item.getQuantity());
+                if (book.getPromotionId() == null) {
+                    billDetail.setUnitPrice(bookService.getById(item.getBookId()).getPrice());
+                } else if (book.getPromotionId() == 24) {
+                    billDetail.setUnitPrice(bookService.getById(item.getBookId()).getPrice());
+                } else {
+                    billDetail.setUnitPrice(bookService.calculatePromotionalMoney(book));
+                }
+                billDetailService.create(billDetail);
+            });
+            sendEmailBill(bill, itemSelectedList);
+            cartService.deleteCartItemSelected();
+        }
     }
 
     /**

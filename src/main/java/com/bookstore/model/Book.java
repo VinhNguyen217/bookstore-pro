@@ -57,4 +57,7 @@ public class Book {
 
     @Column(columnDefinition = "INTEGER")
     private Integer numberOfLike = 0;   //Số lượt thích
+
+    @Column(columnDefinition = "INTEGER")
+    private Integer promotionId;
 }

@@ -32,7 +32,7 @@ public class PromotionController {
     }
 
     @GetMapping({"/{id}"})
-    public String showCategoryById(@PathVariable Integer id, Model model, HttpSession session) {
+    public String showPromotionById(@PathVariable Integer id, Model model, HttpSession session) {
         if (session.getAttribute("admin") != null) {
             Promotion promotion = promotionService.getById(id);
             model.addAttribute("promotion", promotion);

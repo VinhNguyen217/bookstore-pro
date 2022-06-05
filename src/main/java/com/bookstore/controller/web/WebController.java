@@ -54,12 +54,17 @@ public class WebController {
         Book book = bookService.getById(id);
         List<Book> bookSimilar = bookService.getSimilar(id);
         List<Comment> commentList = commentService.getByBookId(id);
-        List<Promotion> promotionList = promotionService.getAllDisplay();
-
+        if (book.getPromotionId() != null) {
+            Promotion promotion = promotionService.getById(book.getPromotionId());
+            Integer pricePromotion = bookService.calculatePromotionalMoney(book);
+            model.addAttribute("promotion", promotion);
+            model.addAttribute("pricePromotion", pricePromotion);
+        } else {
+            model.addAttribute("promotion", null);
+        }
         model.addAttribute("book", book);
         model.addAttribute("bookSimilar", bookSimilar);
         model.addAttribute("commentList", commentList);
-        model.addAttribute("promotionList", promotionList);
 
         model.addAttribute("authorService", authorService);
         model.addAttribute("categoryService", categoryService);

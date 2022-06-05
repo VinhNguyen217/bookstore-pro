@@ -10,7 +10,8 @@
     <div class="container-fluid px-4">
         <h4 class="mt-4">Quản Lý Khuyến Mãi</h4>
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a class="nav_home link_home" th:href="@{/admin}"><i class="fas fa-home"></i>Trang Chủ</a></li>
+            <li class="breadcrumb-item"><a class="nav_home link_home" th:href="@{/admin}"><i class="fas fa-home"></i>Trang
+                Chủ</a></li>
             <li class="breadcrumb-item active">Quản Lý Khuyến Mãi</li>
         </ol>
         <div th:if="${msg_success}" class="alert alert-success">
@@ -30,8 +31,8 @@
                     <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Nội dung</th>
-                        <th class="text-center">Hiển thị</th>
+                        <th>Tên khuyến mãi</th>
+                        <th>Số giảm</th>
                         <th style="text-align: center">Hành động</th>
                     </tr>
                     </thead>
@@ -39,22 +40,23 @@
                     <th:block th:each="promotion : ${promotionList}">
                         <tr>
                             <td>[[${promotion.id}]]</td>
-                            <td>[[${promotion.content}]]</td>
-                            <td class="text-center" style="text-transform: capitalize">
-                                <th:block th:if="${promotion.display == true}">
-                                    <input style="cursor:pointer;" th:onclick="'updateDisplay('+${promotion.id}+')'"
-                                           class="check-promotion" type="checkbox" checked>
+                            <td>[[${promotion.name}]]</td>
+                            <td>
+                                <th:block th:if="!${promotion.name.equals('Xóa khuyến mãi')}">
+                                    [[${promotion.reduceNumber}]] %
                                 </th:block>
-                                <th:block th:if="${promotion.display == false}">
-                                    <input style="cursor:pointer;" th:onclick="'updateDisplay('+${promotion.id}+')'"
-                                           class="check-promotion" type="checkbox">
+                                <th:block th:if="${promotion.name.equals('Xóa khuyến mãi')}">
+                                    NULL
                                 </th:block>
                             </td>
                             <td class="action">
-                                <a th:href="@{'/admin/promotion/'+${promotion.id}}"><i
-                                        class="far fa-edit"></i></a> &nbsp;&nbsp;
-                                <a th:href="@{'/admin/promotion/delete/'+${promotion.id}}"
-                                   onclick="return confirm('Bạn có chắc chắn muốn xóa khuyến mãi này ?')"><i class="far fa-trash-alt"></i></a>
+                                <th:block th:if="!${promotion.name.equals('Xóa khuyến mãi')}">
+                                    <a th:href="@{'/admin/promotion/'+${promotion.id}}"><i
+                                            class="far fa-edit"></i></a> &nbsp;&nbsp;
+                                    <a th:href="@{'/admin/promotion/delete/'+${promotion.id}}"
+                                       onclick="return confirm('Bạn có chắc chắn muốn xóa khuyến mãi này ?')"><i
+                                            class="far fa-trash-alt"></i></a>
+                                </th:block>
                             </td>
                         </tr>
                     </th:block>
@@ -63,25 +65,6 @@
             </div>
         </div>
     </div>
-    <script>
-        function updateDisplay(id) {
-            let url = 'http://13.127.11.84:8082/book-store/api/promotion/updateDisplay/' + id;
-            $.ajax({
-                type: "PUT",
-                contentType: "application/json; charset=utf-8",
-                url: url,
-                cache: false,
-                success: function (result) {
-                },
-                error: function (err) {
-                    let resErr = err.responseJSON;
-                    if (resErr.status = 404) {
-                        alert(resErr.message);
-                    }
-                }
-            })
-        }
-    </script>
 </div>
 </body>
 </html>

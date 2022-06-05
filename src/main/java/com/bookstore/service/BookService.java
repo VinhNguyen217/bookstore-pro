@@ -105,6 +105,7 @@ public class BookService {
             bookUpdate.setCategory_id(book.getCategory_id());
             bookUpdate.setPublisher(book.getPublisher());
             bookUpdate.setDatePublish(book.getDatePublish());
+            bookUpdate.setPromotionId(book.getPromotionId());
             bookRepository.save(bookUpdate);
         }
     }

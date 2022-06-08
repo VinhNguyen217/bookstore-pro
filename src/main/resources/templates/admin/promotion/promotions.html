@@ -38,25 +38,18 @@
                     </thead>
                     <tbody>
                     <th:block th:each="promotion : ${promotionList}">
-                        <tr>
+                        <tr th:="!${promotion.name.equals('Xóa khuyến mãi')}">
                             <td>[[${promotion.id}]]</td>
                             <td>[[${promotion.name}]]</td>
                             <td>
-                                <th:block th:if="!${promotion.name.equals('Xóa khuyến mãi')}">
-                                    [[${promotion.reduceNumber}]] %
-                                </th:block>
-                                <th:block th:if="${promotion.name.equals('Xóa khuyến mãi')}">
-                                    NULL
-                                </th:block>
+                                [[${promotion.reduceNumber}]] %
                             </td>
                             <td class="action">
-                                <th:block th:if="!${promotion.name.equals('Xóa khuyến mãi')}">
-                                    <a th:href="@{'/admin/promotion/'+${promotion.id}}"><i
-                                            class="far fa-edit"></i></a> &nbsp;&nbsp;
-                                    <a th:href="@{'/admin/promotion/delete/'+${promotion.id}}"
-                                       onclick="return confirm('Bạn có chắc chắn muốn xóa khuyến mãi này ?')"><i
-                                            class="far fa-trash-alt"></i></a>
-                                </th:block>
+                                <a th:href="@{'/admin/promotion/'+${promotion.id}}"><i
+                                        class="far fa-edit"></i></a> &nbsp;&nbsp;
+                                <a th:href="@{'/admin/promotion/delete/'+${promotion.id}}"
+                                   onclick="return confirm('Bạn có chắc chắn muốn xóa khuyến mãi này ?')"><i
+                                        class="far fa-trash-alt"></i></a>
                             </td>
                         </tr>
                     </th:block>

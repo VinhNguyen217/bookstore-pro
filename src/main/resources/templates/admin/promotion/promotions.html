@@ -38,7 +38,7 @@
                     </thead>
                     <tbody>
                     <th:block th:each="promotion : ${promotionList}">
-                        <tr th:="!${promotion.name.equals('Xóa khuyến mãi')}">
+                        <tr th:if="!${promotion.name.equals('Xóa khuyến mãi')}">
                             <td>[[${promotion.id}]]</td>
                             <td>[[${promotion.name}]]</td>
                             <td>

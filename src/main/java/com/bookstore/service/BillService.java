@@ -158,10 +158,16 @@ public class BillService {
 
             switch (status) {
                 case DELIVERY:
+                    if (Bill.Status.CANCELLED.equals(bill.getStatus())) {
+                        throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, ResponseMessage.UPDATE_ORDER_DELIVERY_ERROR);
+                    }
                     bill.setStatus(status);
                     bill.setConfirmAt(new Date());
                     break;
                 case DELIVERED:
+                    if (Bill.Status.CANCELLED.equals(bill.getStatus())) {
+                        throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, ResponseMessage.UPDATE_ORDER_DELIVERED_ERROR);
+                    }
                     bill.setStatus(status);
                     bill.setUpdatedAt(new Date());
                     List<BillDetail> billDetails = billDetailService.getAllByBillId(orderUpdate.getOrderId());
@@ -172,6 +178,9 @@ public class BillService {
                     });
                     break;
                 case CANCELLED:
+                    if (Bill.Status.DELIVERED.equals(bill.getStatus())) {
+                        throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, ResponseMessage.CANCELLED_ORDER_ERROR);
+                    }
                     bill.setStatus(status);
                     bill.setUpdatedAt(new Date());
             }

@@ -160,7 +160,10 @@
                     alert('Xác nhận đơn hàng thành công');
                     window.location.href = "http://13.127.11.84:8082/book-store/admin/statistic/order/" + orderId;
                 }, error: function (err) {
-                    console.log(err);
+                    let resJson = err.responseJSON;
+                    if (resJson.status == 400) {
+                        alert(resJson.message);
+                    }
                 }
             })
         }
@@ -179,7 +182,10 @@
                     alert('Cập nhật đơn hàng thành công');
                     window.location.href = "http://13.127.11.84:8082/book-store/admin/statistic/order/" + orderId;
                 }, error: function (err) {
-                    console.log(err);
+                    let resJson = err.responseJSON;
+                    if (resJson.status == 400) {
+                        alert(resJson.message);
+                    }
                 }
             })
         }

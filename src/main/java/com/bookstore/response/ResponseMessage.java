@@ -24,4 +24,11 @@ public class ResponseMessage {
     public static final String DELETE_SUCCESS = "Xóa thành công";
     public static final String UPDATE_SUCCESS = "Cập nhật thành công";
     public static final String SQL_ERROR = "Không thể xóa vì mối quan hệ ràng buộc trong cơ sở dữ liệu";
+
+    public static final String UPDATE_ORDER_DELIVERY_ERROR = "Đơn hàng này đã bị hủy,nên không thể xác nhận được.\n" +
+            "Vui lòng tải lại trang để cập nhật trạng thái đơn hàng";
+    public static final String UPDATE_ORDER_DELIVERED_ERROR = "Đơn hàng này đã bị hủy,nên không thể cập nhật được.\n" +
+            "Vui lòng tải lại trang để cập nhật trạng thái đơn hàng";
+    public static final String CANCELLED_ORDER_ERROR = "Đơn hàng đã được giao thành công.\n" +
+            "Vui lòng tải lại trang để cập nhật trạng thái đơn hàng";
 }

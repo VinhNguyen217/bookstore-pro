@@ -348,7 +348,10 @@
                             window.location.reload();
                         }
                     }, error: function (err) {
-                        console.log(err);
+                        let resJson = err.responseJSON;
+                        if (resJson.status == 400) {
+                            alert(resJson.message);
+                        }
                     }
                 })
             }

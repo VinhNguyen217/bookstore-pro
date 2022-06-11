@@ -39,14 +39,12 @@
     <table border="1" cellspacing="0" cellpadding="10" style="width: 100%">
         <tr>
             <th>Sách</th>
-            <th>Hình ảnh</th>
             <th>Số lượng</th>
             <th>Đơn giá</th>
         </tr>
         <th:block th:each="item : ${itemList}">
             <tr>
                 <td th:text="${bookService.getById(item.bookId).getName()}"></td>
-                <td><img th:src="@{'/images/book/'+${item.photo}}"/></td>
                 <td th:text="${item.quantity}"></td>
                 <th:block th:if="${bookService.getById(item.bookId).promotionId != 24 and bookService.getById(item.bookId).promotionId != null}">
                     <td th:text="${utility.formatPrice(bookService.calculatePromotionalMoney(bookService.getById(item.bookId)))}"></td>

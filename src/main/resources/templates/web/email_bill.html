@@ -53,6 +53,7 @@
                 <th:block th:if="${bookService.getById(item.bookId).promotionId == 24 or bookService.getById(item.bookId).promotionId == null}">
                     <td th:text="${utility.formatPrice(bookService.getById(item.bookId).price)}"></td>
                 </th:block>
+
             </tr>
         </th:block>
     </table>

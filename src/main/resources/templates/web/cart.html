@@ -109,6 +109,7 @@
 
                                                     <input readonly type="text" th:value="${item.quantity}"
                                                            class="soluongsp text-center"
+                                                           th:data-qtycur="${bookService.getById(item.bookId).quantity}"
                                                            th:id="${'qty-'+ item.id}">
 
                                                     <div class="input-group-append">
@@ -188,9 +189,14 @@
 
         function incCartItem(itemId) {
             const input = document.getElementById(`qty-${itemId}`);
+            const qtyCur = $(`#qty-${itemId}`).data('qtycur');
             const qtyUpdate = parseInt(input.value) + 1;
-            input.setAttribute('value', qtyUpdate.toString());
-            updateCartItem(itemId, qtyUpdate);
+            if(qtyUpdate > qtyCur){
+                alert('Số lượng không được phép vượt quá số lượng sản phẩm hiện có');
+            }else{
+                input.setAttribute('value', qtyUpdate.toString());
+                updateCartItem(itemId, qtyUpdate);
+            }
         }
 
         function decCartItem(itemId) {

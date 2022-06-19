@@ -126,8 +126,6 @@ public class CartService {
                     Book bookSelected = bookRepository.findById(cartItem.getBookId()).get();
                     if (bookSelected.getPromotionId() == null) {
                         totalPrices += cartItem.getQuantity() * bookSelected.getPrice();
-                    } else if (bookSelected.getPromotionId() == 24) {
-                        totalPrices += cartItem.getQuantity() * bookSelected.getPrice();
                     } else {
                         totalPrices += cartItem.getQuantity() * bookService.calculatePromotionalMoney(bookSelected);
                     }

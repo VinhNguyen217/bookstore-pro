@@ -86,14 +86,14 @@
 
                                             </td>
 
-                                            <th:block th:if="${bookService.getById(item.bookId).promotionId != 24 and bookService.getById(item.bookId).promotionId != null}">
+                                            <th:block th:if="${bookService.getById(item.bookId).promotionId != null}">
                                                 <td th:id="${'unit-price-'+item.id}"
                                                     th:data-price="${bookService.calculatePromotionalMoney(bookService.getById(item.bookId))}">
                                                     [[${utility.formatPrice(bookService.calculatePromotionalMoney(bookService.getById(item.bookId)))}]]
                                                 </td>
                                             </th:block>
 
-                                            <th:block th:if="${bookService.getById(item.bookId).promotionId == 24 or bookService.getById(item.bookId).promotionId == null}">
+                                            <th:block th:if="${bookService.getById(item.bookId).promotionId == null}">
                                                 <td th:id="${'unit-price-'+item.id}"
                                                     th:data-price="${bookService.getById(item.bookId).price}">
                                                     [[${utility.formatPrice(bookService.getById(item.bookId).price)}]]
@@ -118,14 +118,14 @@
                                                 </div>
                                             </td>
 
-                                            <th:block th:if="${bookService.getById(item.bookId).promotionId != 24 and bookService.getById(item.bookId).promotionId != null}">
+                                            <th:block th:if="${bookService.getById(item.bookId).promotionId != null}">
                                                 <td th:id="${'final-prices-'+item.id}">
                                                     [[${utility.formatPrice(item.quantity *
                                                     bookService.calculatePromotionalMoney(bookService.getById(item.bookId)))}]]
                                                 </td>
                                             </th:block>
 
-                                            <th:block th:if="${bookService.getById(item.bookId).promotionId == 24 or bookService.getById(item.bookId).promotionId == null}">
+                                            <th:block th:if="${bookService.getById(item.bookId).promotionId == null}">
                                                 <td th:id="${'final-prices-'+item.id}">
                                                     [[${utility.formatPrice(item.quantity *
                                                     bookService.getById(item.bookId).price)}]]

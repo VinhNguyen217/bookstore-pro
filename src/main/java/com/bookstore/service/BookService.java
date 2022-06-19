@@ -112,12 +112,11 @@ public class BookService {
 
     public void delete(Integer id) throws IOException {
         Optional<Book> bookOptional = bookRepository.findById(id);
-        if (bookOptional.isPresent()){
+        if (bookOptional.isPresent()) {
             String fileImage = bookOptional.get().getPhoto();
             bookRepository.deleteById(id);
             storageService.deleteImage(fileImage, CommonStringUtil.PATH_IMAGE_BOOK);
-        }
-        else throw new HttpClientErrorException(HttpStatus.NOT_FOUND, ResponseMessage.NOT_FOUND);
+        } else throw new HttpClientErrorException(HttpStatus.NOT_FOUND, ResponseMessage.NOT_FOUND);
     }
 
     /**
@@ -177,7 +176,7 @@ public class BookService {
      * @return
      */
     public List<Book> findByCategoryAndPaging(Integer catId, Integer page) {
-        if(page < 0) throw new HttpClientErrorException(HttpStatus.BAD_REQUEST,ResponseMessage.PAGE_ERROR);
+        if (page < 0) throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, ResponseMessage.PAGE_ERROR);
         Optional<Category> categoryOptional = categoryRepository.findById(catId);
         if (categoryOptional.isPresent()) {
             Pageable pageable = PageRequest.of(page, PAGE_SIZE);
@@ -210,7 +209,7 @@ public class BookService {
     public Integer calculatePromotionalMoney(Book book) {
         Integer priceBook = book.getPrice();
         Promotion promotion = promotionService.getById(book.getPromotionId());
-        if (!promotion.getName().equals("Xóa khuyến mãi")) {
+        if (promotion != null) {
             priceBook = priceBook - (priceBook / 100 * promotion.getReduceNumber());
         }
         return priceBook;

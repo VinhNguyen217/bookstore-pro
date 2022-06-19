@@ -58,15 +58,7 @@
                                             <li>Bao sách miễn phí (theo yêu cầu)</li>
                                         </div>
                                     </th:block>
-                                    <th:block th:if="${promotion} != null and ${promotion.name.equals('Xóa khuyến mãi')}">
-                                        <div class="uudai my-3" style="height: 170px">
-                                            <h6 class="header font-weight-bold">Khuyến mãi & Ưu đãi tại BookStore:</h6>
-                                            <li>Miễn phí giao hàng</li>
-                                            <li>Tặng Bookmark cho mỗi đơn hàng</li>
-                                            <li>Bao sách miễn phí (theo yêu cầu)</li>
-                                        </div>
-                                    </th:block>
-                                    <th:block th:if="${promotion} != null and !${promotion.name.equals('Xóa khuyến mãi')}">
+                                    <th:block th:if="${promotion} != null">
                                         <div class="uudai my-3">
                                             <h6 class="header font-weight-bold">Khuyến mãi & Ưu đãi tại BookStore:</h6>
                                             <li><b>Sự kiện khuyến mãi : [[${promotion.name}]]</b></li>

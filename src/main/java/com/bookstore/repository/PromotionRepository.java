@@ -13,4 +13,6 @@ public interface PromotionRepository extends JpaRepository<Promotion, Integer> {
     @Query(value = "SELECT * FROM promotion ORDER BY id DESC", nativeQuery = true)
     List<Promotion> getAllDescId();
 
+    @Query(value = "SELECT * FROM promotion WHERE end_date < :currentDate ",nativeQuery = true)
+    List<Promotion> getPromotionExpired(String currentDate);
 }

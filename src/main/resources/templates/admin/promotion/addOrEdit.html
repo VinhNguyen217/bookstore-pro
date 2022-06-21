@@ -26,6 +26,14 @@
                     <input type="number" th:field="*{reduceNumber}" class="form-control reduceNumber"/>
                     <div class="divide"></div>
 
+                    <label>Ngày bắt đầu</label></br>
+                    <input type="date" th:field="*{startDate}" class="form-control start-date" required/>
+                    <div class="divide"></div>
+
+                    <label>Ngày kết thúc</label></br>
+                    <input type="date" th:field="*{endDate}" class="form-control end-date" required/>
+                    <div class="divide"></div>
+
                     <button type="submit" class="btn-outline-success btn btn-save-promotion">Save</button>
                     <button type="button" class="btn-outline-secondary btn m-2" onclick="cancelForm()">Cancel</button>
                 </form>
@@ -33,9 +41,12 @@
         </div>
     </div>
     <script type="text/javascript" th:inline="javascript">
+
         $('.btn-save-promotion').click(function () {
             let name = $('.name-promotion').val().trim();
             let reduceNumber = $('.reduceNumber').val().trim();
+            let startDate = new Date($('.start-date').val());
+            let endDate = new Date($('.end-date').val());
 
             if (name == '') {
                 alert('Yêu cầu nhập tên khuyến mãi');
@@ -48,6 +59,21 @@
                     if (reduceNumber <= 0 || reduceNumber >= 100) {
                         alert('Yêu cầu số giảm phải lớn hơn 0 và nhỏ hơn 100');
                         event.preventDefault();
+                    } else {
+                        if (startDate == 'Invalid Date') {
+                            alert('Yêu cầu nhập ngày bắt đầu');
+                            event.preventDefault();
+                        } else {
+                            if (endDate == 'Invalid Date') {
+                                alert('Yêu cầu nhập ngày kết thúc');
+                                event.preventDefault();
+                            } else {
+                                if (startDate > endDate) {
+                                    alert('Yêu cầu ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu');
+                                    event.preventDefault();
+                                }
+                            }
+                        }
                     }
                 }
             }

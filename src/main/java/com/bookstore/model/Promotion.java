@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.With;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @With
@@ -23,5 +25,11 @@ public class Promotion {
     private String name;
 
     @Column(columnDefinition = "INTEGER")
-    private Integer reduceNumber;
+    private Integer reduceNumber;   //Số lượng giảm
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date startDate;   //ngày bắt đầu
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date endDate;   //ngày kết thúc
 }

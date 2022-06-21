@@ -2,6 +2,7 @@ package com.bookstore.controller.admin;
 
 import com.bookstore.model.Promotion;
 import com.bookstore.response.ResponseMessage;
+import com.bookstore.service.BookService;
 import com.bookstore.service.PromotionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 
 @Controller
 @RequestMapping("/admin/promotion")
@@ -53,7 +55,7 @@ public class PromotionController {
     }
 
     @PostMapping("/save")
-    public String saveOrEdit(Promotion promotion, RedirectAttributes ra) {
+    public String saveOrEdit(Promotion promotion, RedirectAttributes ra) throws ParseException {
         promotionService.saveOrUpdate(promotion);
         ra.addFlashAttribute("msg_success", ResponseMessage.UPDATE_SUCCESS);
         return "redirect:/admin/promotion";

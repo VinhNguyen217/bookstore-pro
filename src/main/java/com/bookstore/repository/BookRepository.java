@@ -50,4 +50,9 @@ public interface BookRepository extends JpaRepository<Book, Integer>, BookCustom
     @Transactional
     @Query(value = "UPDATE book SET sold = :sold WHERE id = :id", nativeQuery = true)
     void updateSold(Integer id, Integer sold);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE book SET promotion_id = null WHERE promotion_id = :promotionId", nativeQuery = true)
+    void updateBookByPromotionExpired(Integer promotionId);
 }
